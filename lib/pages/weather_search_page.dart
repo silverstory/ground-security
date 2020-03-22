@@ -47,6 +47,32 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
+        CircleAvatar(
+          radius: 108,
+          backgroundColor: Color(0xffFDCF09),
+          child: CircleAvatar(
+            radius: 100,
+            child: ClipRRect(
+              borderRadius: new BorderRadius.circular(100),
+              child: FadeInImage(
+                fadeInDuration: const Duration(seconds: 1),
+                fadeInCurve: Curves.bounceIn,
+                placeholder: AssetImage(
+                  'assets/placeholder/${weather.placeholder}',
+                ),
+                image: NetworkImage(
+                  "${weather.facepic}",
+                ),
+                fit: BoxFit.cover,
+                height: 300.0,
+                width: 300.0,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
         Text(
           weather.cityName,
           style: TextStyle(
@@ -55,6 +81,9 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
             color: Colors.white,
           ),
         ),
+        SizedBox(
+          height: 10.0,
+        ),
         Text(
           // Display the temperature with 1 decimal place
           "${weather.temperatureCelsius.toStringAsFixed(1)} °C",
@@ -62,6 +91,9 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
             fontSize: 80,
             color: Colors.white,
           ),
+        ),
+        SizedBox(
+          height: 20.0,
         ),
         CityInputField(),
       ],
@@ -78,6 +110,8 @@ class CityInputField extends StatelessWidget {
         onSubmitted: (value) => submitCityName(context, value),
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
           hintText: "Enter a city",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           suffixIcon: Icon(Icons.search),
