@@ -31,10 +31,10 @@ class FakeWeatherRepository implements WeatherRepository {
       () {
         final random = Random();
 
-        // Simulate some network error
-        if (random.nextBool()) {
-          throw NetworkError();
-        }
+        // // Simulate some network error
+        // if (random.nextBool()) {
+        //   throw NetworkError();
+        // }
 
         // Since we're inside a fake repository, we need to cache the temperature
         // in order to have the same one returned in for the detailed weather
