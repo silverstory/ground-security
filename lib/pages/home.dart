@@ -10,36 +10,21 @@ class Home extends StatefulWidget {
 }
 
 // https://api.flutter.dev/flutter/material/Colors-class.html
+
 class _HomeState extends State<Home> {
   // Map data = {};
 
   @override
   Widget build(BuildContext context) {
-    // Scaffold(
-    //   body: SafeArea(
-    //           child: Container(
-    //       child: SingleChildScrollView(
-    //         child: Injector(
-    //           inject: [
-    //             Inject<WeatherStore>(() => WeatherStore(FakeWeatherRepository())),
-    //           ],
-    //           builder: (_) => WeatherSearchPage(),
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // );
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.blueGrey[900],
-      // Colors.grey[900]
       body: SafeArea(
         child: Container(
           child: Center(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
+                padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 20.0),
                 child: Column(
                   children: <Widget>[
                     Injector(

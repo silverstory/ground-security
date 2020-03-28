@@ -52,7 +52,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
           color: Colors.amber[900],
           child: AvatarGlow(
             startDelay: Duration(milliseconds: 1000),
-            glowColor: Colors.white,
+            glowColor: Colors.brown[900],
             endRadius: 170.0,
             duration: Duration(milliseconds: 2000),
             repeat: true,
@@ -88,14 +88,17 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
           ),
         ),
         SizedBox(
-          height: 16.0,
+          height: 10.0,
         ),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // Row(
+        //   mainAxisSize: MainAxisSize.min,
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Wrap(
+          direction: Axis.horizontal,
+          alignment: WrapAlignment.spaceEvenly,
           children: <Widget>[
             AvatarGlow(
-              glowColor: Colors.blue,
+              glowColor: Colors.lightBlueAccent,
               endRadius: 90.0,
               duration: Duration(milliseconds: 2000),
               repeat: true,
@@ -105,17 +108,39 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                 elevation: 8.0,
                 shape: CircleBorder(),
                 child: CircleAvatar(
-                  backgroundColor: Colors.grey[100],
-                  child: Image.asset(
-                    'assets/images/flutter.png',
-                    height: 60,
+                  backgroundColor: Colors.greenAccent[400],
+                  child: Icon(
+                    Icons.filter_1,
+                    color: Colors.pink,
+                    size: 36.0,
                   ),
                   radius: 40.0,
                 ),
               ),
             ),
             AvatarGlow(
-              glowColor: Colors.red,
+              glowColor: Colors.yellowAccent,
+              endRadius: 90.0,
+              duration: Duration(milliseconds: 2000),
+              repeat: true,
+              showTwoGlows: true,
+              repeatPauseDuration: Duration(milliseconds: 100),
+              child: Material(
+                elevation: 8.0,
+                shape: CircleBorder(),
+                child: CircleAvatar(
+                  backgroundColor: Colors.redAccent[100],
+                  child: Icon(
+                    Icons.filter_2,
+                    color: Colors.pink,
+                    size: 36.0,
+                  ),
+                  radius: 40.0,
+                ),
+              ),
+            ),
+            AvatarGlow(
+              glowColor: Colors.purpleAccent,
               endRadius: 90.0,
               duration: Duration(milliseconds: 2000),
               repeat: true,
@@ -126,35 +151,37 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                 shape: CircleBorder(),
                 child: CircleAvatar(
                   backgroundColor: Colors.grey[100],
-                  child: Image.asset(
-                    'assets/images/love.png',
-                    height: 60,
+                  child: Icon(
+                    Icons.filter_3,
+                    color: Colors.pink,
+                    size: 36.0,
+                  ),
+                  radius: 40.0,
+                ),
+              ),
+            ),
+            AvatarGlow(
+              glowColor: Colors.tealAccent,
+              endRadius: 90.0,
+              duration: Duration(milliseconds: 2000),
+              repeat: true,
+              showTwoGlows: true,
+              repeatPauseDuration: Duration(milliseconds: 100),
+              child: Material(
+                elevation: 8.0,
+                shape: CircleBorder(),
+                child: CircleAvatar(
+                  backgroundColor: Colors.blue[400],
+                  child: Icon(
+                    Icons.filter_4,
+                    color: Colors.pink,
+                    size: 36.0,
                   ),
                   radius: 40.0,
                 ),
               ),
             ),
           ],
-        ),
-        AvatarGlow(
-          glowColor: Colors.cyan,
-          endRadius: 60.0,
-          duration: Duration(milliseconds: 2000),
-          repeat: true,
-          showTwoGlows: true,
-          repeatPauseDuration: Duration(milliseconds: 100),
-          child: Material(
-            elevation: 8.0,
-            shape: CircleBorder(),
-            child: CircleAvatar(
-              backgroundColor: Colors.grey[100],
-              child: Image.asset(
-                'assets/images/dart.png',
-                height: 50,
-              ),
-              radius: 30.0,
-            ),
-          ),
         ),
         SizedBox(
           height: 10.0,
@@ -184,63 +211,6 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
         CityInputField(),
       ],
     );
-
-
-
-    // return Column(
-    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //   children: <Widget>[
-    //     CircleAvatar(
-    //       radius: 108,
-    //       backgroundColor: Color(0xffFDCF09),
-    //       child: CircleAvatar(
-    //         radius: 100,
-    //         child: ClipRRect(
-    //           borderRadius: new BorderRadius.circular(100),
-    //           child: FadeInImage(
-    //             fadeInDuration: const Duration(seconds: 1),
-    //             fadeInCurve: Curves.easeInOutCirc,
-    //             placeholder: AssetImage(
-    //               'assets/placeholder/${weather.placeholder}',
-    //             ),
-    //             image: NetworkImage(
-    //               "${weather.facepic}",
-    //             ),
-    //             fit: BoxFit.cover,
-    //             height: 300.0,
-    //             width: 300.0,
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //     SizedBox(
-    //       height: 10.0,
-    //     ),
-    //     Text(
-    //       weather.cityName,
-    //       style: TextStyle(
-    //         fontSize: 40,
-    //         fontWeight: FontWeight.w700,
-    //         color: Colors.white,
-    //       ),
-    //     ),
-    //     SizedBox(
-    //       height: 10.0,
-    //     ),
-    //     Text(
-    //       // Display the temperature with 1 decimal place
-    //       "${weather.temperatureCelsius.toStringAsFixed(1)} °C",
-    //       style: TextStyle(
-    //         fontSize: 80,
-    //         color: Colors.white,
-    //       ),
-    //     ),
-    //     SizedBox(
-    //       height: 20.0,
-    //     ),
-    //     CityInputField(),
-    //   ],
-    // );
   }
 }
 

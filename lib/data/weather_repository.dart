@@ -11,7 +11,11 @@ class FakeWeatherRepository implements WeatherRepository {
     'male': 'male.jpeg',
     'female': 'female.jpeg'
   };
-  Map<int, String> genderMap = {1: 'male', 2: 'female', 3: 'male'};
+  Map<int, String> genderMap = {
+    1: 'male',
+    2: 'female',
+    3: 'male'
+  };
   Map<int, String> maleMap = {
     1: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
     2: 'https://images.pexels.com/photos/732425/pexels-photo-732425.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
