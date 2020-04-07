@@ -8,23 +8,21 @@ abstract class WeatherRepository {
 class FakeWeatherRepository implements WeatherRepository {
   double cachedTempCelsius;
   Map<String, String> placeholderMap = {
-    'male': 'male.jpeg',
-    'female': 'female.jpeg'
+    'male': 'male.jpg',
+    'female': 'female.jpg'
   };
-  Map<int, String> genderMap = {
-    1: 'male',
-    2: 'female',
-    3: 'male'
-  };
+  Map<int, String> genderMap = {1: 'male', 2: 'female'};
   Map<int, String> maleMap = {
     1: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-    2: 'https://images.pexels.com/photos/732425/pexels-photo-732425.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-    3: 'https://images.pexels.com/photos/938642/pexels-photo-938642.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+    2: 'https://images.pexels.com/photos/2473581/pexels-photo-2473581.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+    3: 'https://images.pexels.com/photos/938642/pexels-photo-938642.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+    4: 'https://images.pexels.com/photos/2589650/pexels-photo-2589650.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
   };
   Map<int, String> femaleMap = {
     1: 'https://images.pexels.com/photos/3891820/pexels-photo-3891820.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-    2: 'https://images.pexels.com/photos/1727273/pexels-photo-1727273.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-    3: 'https://images.pexels.com/photos/2135135/pexels-photo-2135135.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+    2: 'https://images.pexels.com/photos/2135135/pexels-photo-2135135.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+    3: 'https://images.pexels.com/photos/1727273/pexels-photo-1727273.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+    4: 'https://images.pexels.com/photos/247120/pexels-photo-247120.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
   };
 
   @override
@@ -51,10 +49,11 @@ class FakeWeatherRepository implements WeatherRepository {
          */
         int next(int min, int max) => min + _random.nextInt(max - min);
 
-        int intNow = next(1, 4);
+        int intNow = next(1, 3);
         String genderNow = genderMap[intNow];
+        int picRand = next(1, 5);
         String picNow =
-            genderNow == 'male' ? maleMap[intNow] : femaleMap[intNow];
+            genderNow == 'male' ? maleMap[picRand] : femaleMap[picRand];
         String placeholderNow = placeholderMap[genderNow];
         // Return "fetched" weather
         return Weather(

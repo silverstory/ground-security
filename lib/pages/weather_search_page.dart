@@ -12,6 +12,7 @@ class WeatherSearchPage extends StatefulWidget {
 }
 
 class _WeatherSearchPageState extends State<WeatherSearchPage> {
+  Color accessFont = Colors.grey[900];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,45 +51,218 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
         Container(
           width: double.infinity,
           color: Colors.amber[900],
-          child: AvatarGlow(
-            startDelay: Duration(milliseconds: 1000),
-            glowColor: Colors.brown[900],
-            endRadius: 170.0,
-            duration: Duration(milliseconds: 2000),
-            repeat: true,
-            showTwoGlows: true,
-            repeatPauseDuration: Duration(milliseconds: 100),
-            child: Material(
-              elevation: 8.0,
-              shape: CircleBorder(),
-              color: Colors.transparent,
-              child: CircleAvatar(
-                radius: 100.0,
-                child: ClipRRect(
-                  borderRadius: new BorderRadius.circular(100),
-                  child: FadeInImage(
-                    fadeInDuration: const Duration(seconds: 1),
-                    fadeInCurve: Curves.easeInOutCirc,
-                    placeholder: AssetImage(
-                      'assets/placeholder/${weather.placeholder}',
+          child: Stack(
+            alignment: Alignment.topCenter,
+            fit: StackFit.loose,
+            overflow: Overflow.visible,
+            children: <Widget>[
+              AvatarGlow(
+                startDelay: Duration(milliseconds: 1000),
+                glowColor: Colors.brown[900],
+                endRadius: 170.0,
+                duration: Duration(milliseconds: 2000),
+                repeat: true,
+                showTwoGlows: true,
+                repeatPauseDuration: Duration(milliseconds: 100),
+                child: Material(
+                  elevation: 8.0,
+                  shape: CircleBorder(),
+                  color: Colors.transparent,
+                  child: CircleAvatar(
+                    radius: 100.0,
+                    child: ClipRRect(
+                      borderRadius: new BorderRadius.circular(100),
+                      child: FadeInImage(
+                        fadeInDuration: const Duration(seconds: 1),
+                        fadeInCurve: Curves.easeInOutCirc,
+                        placeholder: AssetImage(
+                          'assets/placeholder/${weather.placeholder}',
+                        ),
+                        image: NetworkImage(
+                          "${weather.facepic}",
+                        ),
+                        fit: BoxFit.cover,
+                        height: 200.0,
+                        width: 200.0,
+                      ),
                     ),
-                    image: NetworkImage(
-                      "${weather.facepic}",
+                  ),
+                ),
+                shape: BoxShape.circle,
+                animate: true,
+                curve: Curves.fastOutSlowIn,
+              ),
+              Positioned(
+                top: -6.0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.purple,
+                    gradient: LinearGradient(
+                      colors: [Colors.red, Colors.cyan],
+                      begin: Alignment.centerRight,
+                      end: Alignment(-1.0, -1.0),
                     ),
-                    fit: BoxFit.cover,
-                    height: 200.0,
-                    width: 200.0,
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 3.0,
+                      style: BorderStyle.solid,
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.elliptical(40.0, 10.0),
+                      bottomLeft: Radius.circular(20.0),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.red,
+                        offset: Offset(4.0, 2.0),
+                        blurRadius: 20.0,
+                        spreadRadius: 5.0,
+                      ),
+                      BoxShadow(
+                        color: Colors.yellow,
+                        offset: Offset(4.0, 2.0),
+                        blurRadius: 20.0,
+                        spreadRadius: 3.0,
+                      ),
+                      BoxShadow(
+                        color: Colors.green,
+                        offset: Offset(2.0, 1.0),
+                        blurRadius: 20.0,
+                        spreadRadius: 1.0,
+                      )
+                    ],
+                  ),
+                  // decoration: new BoxDecoration(
+                  //   color: Colors.purple,
+                  //   gradient: new LinearGradient(
+                  //     colors: [Colors.red, Colors.cyan],
+                  //     begin: Alignment.centerRight,
+                  //     end: Alignment.centerLeft,
+                  //   ),
+                  // ),
+                  height: 45.0,
+                  width: MediaQuery.of(context).size.width * 0.80,
+                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Center(
+                    child: Text(
+                      'OP OFFICIAL',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        wordSpacing: 6.0,
+                        letterSpacing: 6.0,
+                        fontSize: 30,
+                        color: Colors.black,
+                        shadows: [
+                          Shadow(
+                              // bottomLeft
+                              offset: Offset(-1.0, -1.0),
+                              color: Colors.white),
+                          Shadow(
+                              // bottomRight
+                              offset: Offset(1.0, -1.0),
+                              color: Colors.white),
+                          Shadow(
+                              // topRight
+                              offset: Offset(1.0, 1.0),
+                              color: Colors.white),
+                          Shadow(
+                              // topLeft
+                              offset: Offset(-1.0, 1.0),
+                              color: Colors.white),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-            shape: BoxShape.circle,
-            animate: true,
-            curve: Curves.fastOutSlowIn,
+              Positioned(
+                bottom: -16.0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.purple,
+                    gradient: LinearGradient(
+                      colors: [Colors.cyan, Colors.red],
+                      begin: Alignment.centerRight,
+                      end: Alignment(-1.0, -1.0),
+                    ),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 3.0,
+                      style: BorderStyle.solid,
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.elliptical(40.0, 10.0),
+                      bottomRight: Radius.circular(20.0),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.red,
+                        offset: Offset(4.0, 2.0),
+                        blurRadius: 20.0,
+                        spreadRadius: 5.0,
+                      ),
+                      BoxShadow(
+                        color: Colors.yellow,
+                        offset: Offset(4.0, 2.0),
+                        blurRadius: 20.0,
+                        spreadRadius: 3.0,
+                      ),
+                      BoxShadow(
+                        color: Colors.green,
+                        offset: Offset(2.0, 1.0),
+                        blurRadius: 20.0,
+                        spreadRadius: 1.0,
+                      )
+                    ],
+                  ),
+                  // decoration: new BoxDecoration(
+                  //   color: Colors.purple,
+                  //   gradient: new LinearGradient(
+                  //     colors: [Colors.red, Colors.cyan],
+                  //     begin: Alignment.centerRight,
+                  //     end: Alignment.centerLeft,
+                  //   ),
+                  // ),
+                  height: 45.0,
+                  width: MediaQuery.of(context).size.width * 0.80,
+                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Center(
+                    child: Text(
+                      weather.cityName,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        wordSpacing: 6.0,
+                        letterSpacing: 6.0,
+                        fontSize: 30,
+                        color: Colors.black,
+                        shadows: [
+                          Shadow(
+                              // bottomLeft
+                              offset: Offset(-1.0, -1.0),
+                              color: Colors.white),
+                          Shadow(
+                              // bottomRight
+                              offset: Offset(1.0, -1.0),
+                              color: Colors.white),
+                          Shadow(
+                              // topRight
+                              offset: Offset(1.0, 1.0),
+                              color: Colors.white),
+                          Shadow(
+                              // topLeft
+                              offset: Offset(-1.0, 1.0),
+                              color: Colors.white),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         SizedBox(
-          height: 10.0,
+          height: 20.0,
         ),
         // Row(
         //   mainAxisSize: MainAxisSize.min,
@@ -111,7 +285,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                   backgroundColor: Colors.greenAccent[400],
                   child: Icon(
                     Icons.filter_1,
-                    color: Colors.pink,
+                    color: accessFont,
                     size: 36.0,
                   ),
                   radius: 40.0,
@@ -132,7 +306,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                   backgroundColor: Colors.redAccent[100],
                   child: Icon(
                     Icons.filter_2,
-                    color: Colors.pink,
+                    color: accessFont,
                     size: 36.0,
                   ),
                   radius: 40.0,
@@ -153,7 +327,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                   backgroundColor: Colors.grey[100],
                   child: Icon(
                     Icons.filter_3,
-                    color: Colors.pink,
+                    color: accessFont,
                     size: 36.0,
                   ),
                   radius: 40.0,
@@ -174,7 +348,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                   backgroundColor: Colors.blue[400],
                   child: Icon(
                     Icons.filter_4,
-                    color: Colors.pink,
+                    color: accessFont,
                     size: 36.0,
                   ),
                   radius: 40.0,
@@ -183,30 +357,30 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
             ),
           ],
         ),
+        // SizedBox(
+        //   height: 10.0,
+        // ),
+        // Text(
+        //   weather.cityName,
+        //   style: TextStyle(
+        //     fontSize: 40,
+        //     fontWeight: FontWeight.w700,
+        //     color: Colors.white,
+        //   ),
+        // ),
+        // SizedBox(
+        //   height: 10.0,
+        // ),
+        // Text(
+        //   // Display the temperature with 1 decimal place
+        //   "${weather.temperatureCelsius.toStringAsFixed(1)} °C",
+        //   style: TextStyle(
+        //     fontSize: 80,
+        //     color: Colors.white,
+        //   ),
+        // ),
         SizedBox(
-          height: 10.0,
-        ),
-        Text(
-          weather.cityName,
-          style: TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
-        ),
-        SizedBox(
-          height: 10.0,
-        ),
-        Text(
-          // Display the temperature with 1 decimal place
-          "${weather.temperatureCelsius.toStringAsFixed(1)} °C",
-          style: TextStyle(
-            fontSize: 80,
-            color: Colors.white,
-          ),
-        ),
-        SizedBox(
-          height: 20.0,
+          height: 30.0,
         ),
         CityInputField(),
       ],
@@ -225,7 +399,7 @@ class CityInputField extends StatelessWidget {
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
-          hintText: "Enter a city",
+          hintText: "Enter a name",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           suffixIcon: Icon(Icons.search),
         ),
