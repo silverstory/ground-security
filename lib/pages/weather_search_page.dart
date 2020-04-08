@@ -5,6 +5,7 @@ import 'package:groundsecurity/state/weather_store.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:progressive_image/progressive_image.dart';
 
 class WeatherSearchPage extends StatefulWidget {
   @override
@@ -72,19 +73,30 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                     radius: 100.0,
                     child: ClipRRect(
                       borderRadius: new BorderRadius.circular(100),
-                      child: FadeInImage(
-                        fadeInDuration: const Duration(seconds: 1),
-                        fadeInCurve: Curves.easeInOutCirc,
-                        placeholder: AssetImage(
-                          'assets/placeholder/${weather.placeholder}',
-                        ),
-                        image: NetworkImage(
-                          "${weather.facepic}",
-                        ),
-                        fit: BoxFit.cover,
+                      child: ProgressiveImage(
+                        placeholder:
+                            AssetImage('assets/placeholder/placeholder.gif'),
+                        thumbnail: AssetImage(
+                            'assets/placeholder/${weather.placeholder}'), // 64x43 recommended
+                        image: NetworkImage('${weather.facepic}'),
                         height: 200.0,
                         width: 200.0,
+                        fit: BoxFit.cover,
                       ),
+                      // below is recent image holder
+                      // child: FadeInImage(
+                      //   fadeInDuration: const Duration(seconds: 1),
+                      //   fadeInCurve: Curves.easeInOutCirc,
+                      //   placeholder: AssetImage(
+                      //     'assets/placeholder/${weather.placeholder}',
+                      //   ),
+                      //   image: NetworkImage(
+                      //     '${weather.facepic}',
+                      //   ),
+                      //   fit: BoxFit.cover,
+                      //   height: 200.0,
+                      //   width: 200.0,
+                      // ),
                     ),
                   ),
                 ),
@@ -98,7 +110,16 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                   decoration: BoxDecoration(
                     color: Colors.purple,
                     gradient: LinearGradient(
-                      colors: [Colors.red, Colors.cyan],
+                      // colors: [Colors.red, Colors.cyan],
+                      colors: [
+                        Colors.blue[50],
+                        Colors.lightBlue[50],
+                        Colors.blueGrey[50],
+                        Colors.grey[50],
+                        Colors.blueGrey[50],
+                        Colors.lightBlue[50],
+                        Colors.blue[50],
+                      ],
                       begin: Alignment.centerRight,
                       end: Alignment(-1.0, -1.0),
                     ),
@@ -181,7 +202,16 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                   decoration: BoxDecoration(
                     color: Colors.purple,
                     gradient: LinearGradient(
-                      colors: [Colors.cyan, Colors.red],
+                      // colors: [Colors.cyan, Colors.red],
+                      colors: [
+                        Colors.red[50],
+                        Colors.pink[50],
+                        Colors.grey[50],
+                        Colors.grey[50],
+                        Colors.grey[50],
+                        Colors.pink[50],
+                        Colors.red[50],
+                      ],
                       begin: Alignment.centerRight,
                       end: Alignment(-1.0, -1.0),
                     ),
