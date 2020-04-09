@@ -20,12 +20,12 @@ class _HomeState extends State<Home> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.blueGrey[900],
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.cyan[100],
+        backgroundColor: Colors.black,
         elevation: 8.0,
-        foregroundColor: Colors.black,
+        foregroundColor: Colors.cyan,
         child: Icon(
           Icons.add_a_photo,
-          color: Colors.black,
+          color: Colors.cyan[200],
         ),
         onPressed: () {},
       ),

@@ -51,7 +51,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
       children: <Widget>[
         Container(
           width: double.infinity,
-          color: Colors.amber[900],
+          color: Colors.amber[50],
           child: Stack(
             alignment: Alignment.topCenter,
             fit: StackFit.loose,
@@ -83,7 +83,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                         width: 200.0,
                         fit: BoxFit.cover,
                       ),
-                      // below is recent image holder
+                      // below is the recent image holder
                       // child: FadeInImage(
                       //   fadeInDuration: const Duration(seconds: 1),
                       //   fadeInCurve: Curves.easeInOutCirc,
@@ -105,20 +105,34 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                 curve: Curves.fastOutSlowIn,
               ),
               Positioned(
-                top: -6.0,
+                top: -22.0,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.purple,
                     gradient: LinearGradient(
                       // colors: [Colors.red, Colors.cyan],
                       colors: [
+                        Colors.blue[900],
+                        Colors.blue[100],
+                        Colors.blue[100],
+                        Colors.blue[50],
                         Colors.blue[50],
                         Colors.lightBlue[50],
-                        Colors.blueGrey[50],
+                        Colors.lightBlue[50],
                         Colors.grey[50],
-                        Colors.blueGrey[50],
+                        Colors.grey[50],
+                        Colors.grey[50],
+                        Colors.white,
+                        Colors.grey[50],
+                        Colors.grey[50],
+                        Colors.grey[50],
+                        Colors.lightBlue[50],
                         Colors.lightBlue[50],
                         Colors.blue[50],
+                        Colors.blue[50],
+                        Colors.blue[100],
+                        Colors.blue[100],
+                        Colors.blue[900],
                       ],
                       begin: Alignment.centerRight,
                       end: Alignment(-1.0, -1.0),
@@ -197,20 +211,34 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                 ),
               ),
               Positioned(
-                bottom: -16.0,
+                bottom: -23.0,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.purple,
                     gradient: LinearGradient(
                       // colors: [Colors.cyan, Colors.red],
                       colors: [
+                        Colors.red[900],
+                        Colors.red[100],
+                        Colors.red[100],
                         Colors.red[50],
+                        Colors.red[50],
+                        Colors.pink[50],
                         Colors.pink[50],
                         Colors.grey[50],
                         Colors.grey[50],
                         Colors.grey[50],
+                        Colors.white,
+                        Colors.grey[50],
+                        Colors.grey[50],
+                        Colors.grey[50],
+                        Colors.pink[50],
                         Colors.pink[50],
                         Colors.red[50],
+                        Colors.red[50],
+                        Colors.red[100],
+                        Colors.red[100],
+                        Colors.red[900],
                       ],
                       begin: Alignment.centerRight,
                       end: Alignment(-1.0, -1.0),
@@ -292,7 +320,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
           ),
         ),
         SizedBox(
-          height: 20.0,
+          height: 40.0,
         ),
         // Row(
         //   mainAxisSize: MainAxisSize.min,
@@ -422,7 +450,7 @@ class CityInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50),
+      padding: const EdgeInsets.symmetric(horizontal: 100),
       child: TextField(
         onSubmitted: (value) => submitCityName(context, value),
         textInputAction: TextInputAction.search,
