@@ -13,7 +13,7 @@ class WeatherSearchPage extends StatefulWidget {
 }
 
 class _WeatherSearchPageState extends State<WeatherSearchPage> {
-  Color accessFont = Colors.grey[900];
+  Color accessFont = Colors.white;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -108,37 +108,38 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                 top: -22.0,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.purple,
+                    color: Colors.black,
                     gradient: LinearGradient(
-                      // colors: [Colors.red, Colors.cyan],
                       colors: [
-                        Colors.blue[900],
-                        Colors.blue[100],
-                        Colors.blue[100],
-                        Colors.blue[50],
-                        Colors.blue[50],
-                        Colors.lightBlue[50],
-                        Colors.lightBlue[50],
-                        Colors.grey[50],
-                        Colors.grey[50],
-                        Colors.grey[50],
-                        Colors.white,
-                        Colors.grey[50],
-                        Colors.grey[50],
-                        Colors.grey[50],
-                        Colors.lightBlue[50],
-                        Colors.lightBlue[50],
-                        Colors.blue[50],
-                        Colors.blue[50],
-                        Colors.blue[100],
-                        Colors.blue[100],
-                        Colors.blue[900],
+                        Colors.black,
+                        Colors.black,
                       ],
+                      // colors: [
+                      //   Colors.blue[900],
+                      //   Colors.blue[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.white,
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.blue[50],
+                      //   Colors.blue[900],
+                      // ],
                       begin: Alignment.centerRight,
                       end: Alignment(-1.0, -1.0),
                     ),
                     border: Border.all(
-                      color: Colors.black,
+                      color: Colors.cyan[200],
                       width: 3.0,
                       style: BorderStyle.solid,
                     ),
@@ -146,26 +147,26 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                       topLeft: Radius.elliptical(40.0, 10.0),
                       bottomLeft: Radius.circular(20.0),
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.red,
-                        offset: Offset(4.0, 2.0),
-                        blurRadius: 20.0,
-                        spreadRadius: 5.0,
-                      ),
-                      BoxShadow(
-                        color: Colors.yellow,
-                        offset: Offset(4.0, 2.0),
-                        blurRadius: 20.0,
-                        spreadRadius: 3.0,
-                      ),
-                      BoxShadow(
-                        color: Colors.green,
-                        offset: Offset(2.0, 1.0),
-                        blurRadius: 20.0,
-                        spreadRadius: 1.0,
-                      )
-                    ],
+                    // boxShadow: [
+                    //   // BoxShadow(
+                    //   //   color: Colors.blue[50],
+                    //   //   offset: Offset(4.0, 2.0),
+                    //   //   blurRadius: 20.0,
+                    //   //   spreadRadius: 3.0,
+                    //   // ),
+                    //   // BoxShadow(
+                    //   //   color: Colors.blue[300],
+                    //   //   offset: Offset(4.0, 2.0),
+                    //   //   blurRadius: 20.0,
+                    //   //   spreadRadius: 2.0,
+                    //   // ),
+                    //   BoxShadow(
+                    //     color: Colors.blue[300],
+                    //     offset: Offset(2.0, 1.0),
+                    //     blurRadius: 15,
+                    //     spreadRadius: 3,
+                    //   )
+                    // ],
                   ),
                   // decoration: new BoxDecoration(
                   //   color: Colors.purple,
@@ -186,25 +187,25 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                         wordSpacing: 6.0,
                         letterSpacing: 6.0,
                         fontSize: 30,
-                        color: Colors.black,
-                        shadows: [
-                          Shadow(
-                              // bottomLeft
-                              offset: Offset(-1.0, -1.0),
-                              color: Colors.white),
-                          Shadow(
-                              // bottomRight
-                              offset: Offset(1.0, -1.0),
-                              color: Colors.white),
-                          Shadow(
-                              // topRight
-                              offset: Offset(1.0, 1.0),
-                              color: Colors.white),
-                          Shadow(
-                              // topLeft
-                              offset: Offset(-1.0, 1.0),
-                              color: Colors.white),
-                        ],
+                        color: Colors.cyan[100],
+                        // shadows: [
+                        //   Shadow(
+                        //       // bottomLeft
+                        //       offset: Offset(-1.0, -1.0),
+                        //       color: Colors.black),
+                        //   Shadow(
+                        //       // bottomRight
+                        //       offset: Offset(1.0, -1.0),
+                        //       color: Colors.black),
+                        //   Shadow(
+                        //       // topRight
+                        //       offset: Offset(1.0, 1.0),
+                        //       color: Colors.black),
+                        //   Shadow(
+                        //       // topLeft
+                        //       offset: Offset(-1.0, 1.0),
+                        //       color: Colors.black),
+                        // ],
                       ),
                     ),
                   ),
@@ -214,37 +215,38 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                 bottom: -23.0,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.purple,
+                    color: Colors.black,
                     gradient: LinearGradient(
-                      // colors: [Colors.cyan, Colors.red],
                       colors: [
-                        Colors.red[900],
-                        Colors.red[100],
-                        Colors.red[100],
-                        Colors.red[50],
-                        Colors.red[50],
-                        Colors.pink[50],
-                        Colors.pink[50],
-                        Colors.grey[50],
-                        Colors.grey[50],
-                        Colors.grey[50],
-                        Colors.white,
-                        Colors.grey[50],
-                        Colors.grey[50],
-                        Colors.grey[50],
-                        Colors.pink[50],
-                        Colors.pink[50],
-                        Colors.red[50],
-                        Colors.red[50],
-                        Colors.red[100],
-                        Colors.red[100],
-                        Colors.red[900],
+                        Colors.black,
+                        Colors.black,
                       ],
+                      // colors: [
+                      //   Colors.red[900],
+                      //   Colors.red[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.white,
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.grey[50],
+                      //   Colors.red[50],
+                      //   Colors.red[900],
+                      // ],
                       begin: Alignment.centerRight,
                       end: Alignment(-1.0, -1.0),
                     ),
                     border: Border.all(
-                      color: Colors.black,
+                      color: Colors.cyan[200],
                       width: 3.0,
                       style: BorderStyle.solid,
                     ),
@@ -252,26 +254,26 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                       topRight: Radius.elliptical(40.0, 10.0),
                       bottomRight: Radius.circular(20.0),
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.red,
-                        offset: Offset(4.0, 2.0),
-                        blurRadius: 20.0,
-                        spreadRadius: 5.0,
-                      ),
-                      BoxShadow(
-                        color: Colors.yellow,
-                        offset: Offset(4.0, 2.0),
-                        blurRadius: 20.0,
-                        spreadRadius: 3.0,
-                      ),
-                      BoxShadow(
-                        color: Colors.green,
-                        offset: Offset(2.0, 1.0),
-                        blurRadius: 20.0,
-                        spreadRadius: 1.0,
-                      )
-                    ],
+                    // boxShadow: [
+                    //   // BoxShadow(
+                    //   //   color: Colors.red[50],
+                    //   //   offset: Offset(4.0, 2.0),
+                    //   //   blurRadius: 20.0,
+                    //   //   spreadRadius: 3.0,
+                    //   // ),
+                    //   // BoxShadow(
+                    //   //   color: Colors.red[300],
+                    //   //   offset: Offset(4.0, 2.0),
+                    //   //   blurRadius: 20.0,
+                    //   //   spreadRadius: 2.0,
+                    //   // ),
+                    //   BoxShadow(
+                    //     color: Colors.red[300],
+                    //     offset: Offset(2.0, 1.0),
+                    //     blurRadius: 15.0,
+                    //     spreadRadius: 3.0,
+                    //   )
+                    // ],
                   ),
                   // decoration: new BoxDecoration(
                   //   color: Colors.purple,
@@ -292,25 +294,25 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                         wordSpacing: 6.0,
                         letterSpacing: 6.0,
                         fontSize: 30,
-                        color: Colors.black,
-                        shadows: [
-                          Shadow(
-                              // bottomLeft
-                              offset: Offset(-1.0, -1.0),
-                              color: Colors.white),
-                          Shadow(
-                              // bottomRight
-                              offset: Offset(1.0, -1.0),
-                              color: Colors.white),
-                          Shadow(
-                              // topRight
-                              offset: Offset(1.0, 1.0),
-                              color: Colors.white),
-                          Shadow(
-                              // topLeft
-                              offset: Offset(-1.0, 1.0),
-                              color: Colors.white),
-                        ],
+                        color: Colors.cyan[100],
+                        // shadows: [
+                        //   Shadow(
+                        //       // bottomLeft
+                        //       offset: Offset(-1.0, -1.0),
+                        //       color: Colors.black),
+                        //   Shadow(
+                        //       // bottomRight
+                        //       offset: Offset(1.0, -1.0),
+                        //       color: Colors.black),
+                        //   Shadow(
+                        //       // topRight
+                        //       offset: Offset(1.0, 1.0),
+                        //       color: Colors.black),
+                        //   Shadow(
+                        //       // topLeft
+                        //       offset: Offset(-1.0, 1.0),
+                        //       color: Colors.black),
+                        // ],
                       ),
                     ),
                   ),
@@ -330,9 +332,9 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
           alignment: WrapAlignment.spaceEvenly,
           children: <Widget>[
             AvatarGlow(
-              glowColor: Colors.lightBlueAccent,
-              endRadius: 90.0,
-              duration: Duration(milliseconds: 2000),
+              glowColor: Colors.white,
+              endRadius: 70.0,
+              duration: Duration(milliseconds: 4000),
               repeat: true,
               showTwoGlows: true,
               repeatPauseDuration: Duration(milliseconds: 100),
@@ -351,9 +353,9 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
               ),
             ),
             AvatarGlow(
-              glowColor: Colors.yellowAccent,
-              endRadius: 90.0,
-              duration: Duration(milliseconds: 2000),
+              glowColor: Colors.white,
+              endRadius: 70.0,
+              duration: Duration(milliseconds: 4000),
               repeat: true,
               showTwoGlows: true,
               repeatPauseDuration: Duration(milliseconds: 100),
@@ -372,9 +374,9 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
               ),
             ),
             AvatarGlow(
-              glowColor: Colors.purpleAccent,
-              endRadius: 90.0,
-              duration: Duration(milliseconds: 2000),
+              glowColor: Colors.white,
+              endRadius: 70.0,
+              duration: Duration(milliseconds: 4000),
               repeat: true,
               showTwoGlows: true,
               repeatPauseDuration: Duration(milliseconds: 100),
@@ -385,7 +387,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                   backgroundColor: Colors.grey[100],
                   child: Icon(
                     Icons.filter_3,
-                    color: accessFont,
+                    color: Colors.black,
                     size: 36.0,
                   ),
                   radius: 40.0,
@@ -393,9 +395,9 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
               ),
             ),
             AvatarGlow(
-              glowColor: Colors.tealAccent,
-              endRadius: 90.0,
-              duration: Duration(milliseconds: 2000),
+              glowColor: Colors.white,
+              endRadius: 70.0,
+              duration: Duration(milliseconds: 4000),
               repeat: true,
               showTwoGlows: true,
               repeatPauseDuration: Duration(milliseconds: 100),
