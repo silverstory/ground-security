@@ -17,15 +17,18 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.blueGrey[900],
+      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomPadding: true,
+      backgroundColor: Color.fromARGB(255, 102, 18, 222),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         elevation: 8.0,
-        foregroundColor: Colors.cyan,
+        foregroundColor: Color.fromARGB(255, 102, 18, 222),
+        mini: false,
         child: Icon(
           Icons.add_a_photo,
-          color: Colors.cyan[200],
+          color: Color.fromARGB(255, 102, 18, 222),
+          size: 30.0,
         ),
         onPressed: () {},
       ),
