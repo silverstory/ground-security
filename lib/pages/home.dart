@@ -19,19 +19,47 @@ class _HomeState extends State<Home> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       resizeToAvoidBottomPadding: true,
-      backgroundColor: Color.fromARGB(255, 102, 18, 222),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
-        elevation: 8.0,
-        foregroundColor: Color.fromARGB(255, 102, 18, 222),
-        mini: false,
-        child: Icon(
-          Icons.add_a_photo,
-          color: Color.fromARGB(255, 102, 18, 222),
-          size: 30.0,
+      backgroundColor: Color.fromARGB(255, 3, 54, 255),
+      floatingActionButton: Material(
+        color: Colors.transparent,
+        child: Ink(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.white,
+              width: 3.0,
+            ),
+            color: Color.fromARGB(255, 3, 54, 255),
+            shape: BoxShape.circle,
+          ),
+          child: InkWell(
+            //This keeps the splash effect within the circle
+            borderRadius: BorderRadius.circular(
+                1000.0), //Something large to ensure a circle
+            onTap: () {},
+            child: Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Icon(
+                Icons.add_a_photo,
+                size: 30.0,
+                color: Colors.white, //Color.fromARGB(255, 255, 222, 3),
+              ),
+            ),
+          ),
         ),
-        onPressed: () {},
       ),
+      // FloatingActionButton(
+      //   backgroundColor: Color.fromARGB(255, 3, 54, 255),
+      //   elevation: 8.0,
+      //   foregroundColor: Color.fromARGB(255, 255, 222, 3),
+      //   mini: false,
+      //   child: Icon(
+      //     Icons.add_a_photo,
+      //     color: Color.fromARGB(
+      //         255, 255, 222, 3), // Color.fromARGB(255, 102, 18, 222),
+      //     // size: 28.0,
+      //   ),
+      //   onPressed: () {},
+      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: SafeArea(
         child: Container(

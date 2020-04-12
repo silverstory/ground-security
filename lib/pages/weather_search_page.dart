@@ -51,103 +51,61 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
     return Column(
       children: <Widget>[
         Container(
-          width: double.infinity,
-          color: Color.fromARGB(255, 102, 18, 222), // Colors.amber[50],
+          width: MediaQuery.of(context).size.width * 0.90, // double.infinity,
+          color: Colors.white, // Color.fromARGB(255, 102, 18, 222),
           child: Stack(
             alignment: Alignment.topCenter,
             fit: StackFit.loose,
             overflow: Overflow.visible,
             children: <Widget>[
-              AvatarGlow(
-                startDelay: Duration(milliseconds: 1000),
-                glowColor: Colors.white,
-                endRadius: 170.0,
-                duration: Duration(milliseconds: 2000),
-                repeat: true,
-                showTwoGlows: true,
-                repeatPauseDuration: Duration(milliseconds: 100),
-                child: Material(
-                  elevation: 8.0,
-                  shape: CircleBorder(),
-                  color: Colors.transparent,
-                  child: CircleAvatar(
-                    radius: 100.0,
-                    child: ClipRRect(
-                      borderRadius: new BorderRadius.circular(100),
-                      child: ProgressiveImage(
-                        placeholder:
-                            AssetImage('assets/placeholder/placeholder.gif'),
-                        thumbnail: AssetImage(
-                            'assets/placeholder/${weather.placeholder}'), // 64x43 recommended
-                        image: NetworkImage('${weather.facepic}'),
-                        height: 200.0,
-                        width: 200.0,
-                        fit: BoxFit.cover,
-                      ),
-                      // below is the recent image holder
-                      // child: FadeInImage(
-                      //   fadeInDuration: const Duration(seconds: 1),
-                      //   fadeInCurve: Curves.easeInOutCirc,
-                      //   placeholder: AssetImage(
-                      //     'assets/placeholder/${weather.placeholder}',
-                      //   ),
-                      //   image: NetworkImage(
-                      //     '${weather.facepic}',
-                      //   ),
-                      //   fit: BoxFit.cover,
-                      //   height: 200.0,
-                      //   width: 200.0,
-                      // ),
-                    ),
-                  ),
-                ),
-                shape: BoxShape.circle,
-                animate: true,
-                curve: Curves.fastOutSlowIn,
-              ),
               Positioned(
-                top: 5.0,
+                top: 0.0,
+                height: 170.0,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.white,
-                        Colors.white,
-                      ],
-                      // colors: [
-                      //   Colors.blue[900],
-                      //   Colors.blue[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.white,
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.blue[50],
-                      //   Colors.blue[900],
-                      // ],
-                      begin: Alignment.centerRight,
-                      end: Alignment(-1.0, -1.0),
+                    image: DecorationImage(
+                      image: AssetImage('assets/placeholder/male.jpg'),
+                      fit: BoxFit.cover,
                     ),
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 2.0,
-                      style: BorderStyle.solid,
-                    ),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.elliptical(40.0, 10.0),
-                      bottomLeft: Radius.circular(20.0),
-                    ),
+                    color: Color.fromARGB(255, 3, 54, 255),
+                    // gradient: LinearGradient(
+                    //   colors: [
+                    //     Color.fromARGB(255, 102, 18, 222),
+                    //     Color.fromARGB(255, 102, 18, 222),
+                    //   ],
+                    //   // colors: [
+                    //   //   Colors.blue[900],
+                    //   //   Colors.blue[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.white,
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.blue[50],
+                    //   //   Colors.blue[900],
+                    //   // ],
+                    //   begin: Alignment.centerRight,
+                    //   end: Alignment(-1.0, -1.0),
+                    // ),
+                    // border: Border.all(
+                    //   color: Colors.yellowAccent,
+                    //   width: 2.0,
+                    //   style: BorderStyle.solid,
+                    // ),
+                    // borderRadius: BorderRadius.only(
+                    //   topLeft: Radius.elliptical(40.0, 10.0),
+                    //   bottomLeft: Radius.circular(20.0),
+                    // ),
                     // boxShadow: [
                     //   // BoxShadow(
                     //   //   color: Colors.blue[50],
@@ -181,80 +139,87 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                   width: MediaQuery.of(context).size.width * 0.90,
                   margin: EdgeInsets.symmetric(horizontal: 5.0),
                   child: Center(
-                    child: Text(
-                      'OP OFFICIAL',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        wordSpacing: 6.0,
-                        letterSpacing: 6.0,
-                        fontSize: 30,
-                        color: Colors.black,
-                        // shadows: [
-                        //   Shadow(
-                        //       // bottomLeft
-                        //       offset: Offset(-1.0, -1.0),
-                        //       color: Colors.black),
-                        //   Shadow(
-                        //       // bottomRight
-                        //       offset: Offset(1.0, -1.0),
-                        //       color: Colors.black),
-                        //   Shadow(
-                        //       // topRight
-                        //       offset: Offset(1.0, 1.0),
-                        //       color: Colors.black),
-                        //   Shadow(
-                        //       // topLeft
-                        //       offset: Offset(-1.0, 1.0),
-                        //       color: Colors.black),
-                        // ],
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: Text(
+                          'OP OFFICIAL',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            wordSpacing: 6.0,
+                            letterSpacing: 6.0,
+                            fontSize: 30,
+                            color: Colors.white,
+                            // shadows: [
+                            //   Shadow(
+                            //       // bottomLeft
+                            //       offset: Offset(-1.0, -1.0),
+                            //       color: Colors.black),
+                            //   Shadow(
+                            //       // bottomRight
+                            //       offset: Offset(1.0, -1.0),
+                            //       color: Colors.black),
+                            //   Shadow(
+                            //       // topRight
+                            //       offset: Offset(1.0, 1.0),
+                            //       color: Colors.black),
+                            //   Shadow(
+                            //       // topLeft
+                            //       offset: Offset(-1.0, 1.0),
+                            //       color: Colors.black),
+                            // ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
               Positioned(
-                bottom: 5.0,
+                bottom: 0.0,
+                height: 170.0,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.white,
-                        Colors.white,
-                      ],
-                      // colors: [
-                      //   Colors.red[900],
-                      //   Colors.red[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.white,
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.grey[50],
-                      //   Colors.red[50],
-                      //   Colors.red[900],
-                      // ],
-                      begin: Alignment.centerRight,
-                      end: Alignment(-1.0, -1.0),
-                    ),
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 2.0,
-                      style: BorderStyle.solid,
-                    ),
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.elliptical(40.0, 10.0),
-                      bottomRight: Radius.circular(20.0),
-                    ),
+                    color: Colors.white, // Color.fromARGB(255, 102, 18, 222),
+                    // gradient: LinearGradient(
+                    //   colors: [
+                    //     Color.fromARGB(255, 102, 18, 222),
+                    //     Color.fromARGB(255, 102, 18, 222),
+                    //   ],
+                    //   // colors: [
+                    //   //   Colors.red[900],
+                    //   //   Colors.red[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.white,
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.grey[50],
+                    //   //   Colors.red[50],
+                    //   //   Colors.red[900],
+                    //   // ],
+                    //   begin: Alignment.centerRight,
+                    //   end: Alignment(-1.0, -1.0),
+                    // ),
+                    // border: Border.all(
+                    //   color: Colors.yellowAccent,
+                    //   width: 2.0,
+                    //   style: BorderStyle.solid,
+                    // ),
+                    // borderRadius: BorderRadius.only(
+                    //   topRight: Radius.elliptical(40.0, 10.0),
+                    //   bottomRight: Radius.circular(20.0),
+                    // ),
                     // boxShadow: [
                     //   // BoxShadow(
                     //   //   color: Colors.red[50],
@@ -288,36 +253,95 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                   width: MediaQuery.of(context).size.width * 0.90,
                   margin: EdgeInsets.symmetric(horizontal: 5.0),
                   child: Center(
-                    child: Text(
-                      weather.cityName,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        wordSpacing: 6.0,
-                        letterSpacing: 6.0,
-                        fontSize: 30,
-                        color: Colors.black, // Colors.cyan[100],
-                        // shadows: [
-                        //   Shadow(
-                        //       // bottomLeft
-                        //       offset: Offset(-1.0, -1.0),
-                        //       color: Colors.black),
-                        //   Shadow(
-                        //       // bottomRight
-                        //       offset: Offset(1.0, -1.0),
-                        //       color: Colors.black),
-                        //   Shadow(
-                        //       // topRight
-                        //       offset: Offset(1.0, 1.0),
-                        //       color: Colors.black),
-                        //   Shadow(
-                        //       // topLeft
-                        //       offset: Offset(-1.0, 1.0),
-                        //       color: Colors.black),
-                        // ],
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: Text(
+                          weather.cityName,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            wordSpacing: 6.0,
+                            letterSpacing: 6.0,
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: Colors
+                                .grey[900], // Color.fromARGB(255, 3, 54, 255),
+                            // shadows: [
+                            //   Shadow(
+                            //       // bottomLeft
+                            //       offset: Offset(-1.0, -1.0),
+                            //       color: Colors.black),
+                            //   Shadow(
+                            //       // bottomRight
+                            //       offset: Offset(1.0, -1.0),
+                            //       color: Colors.black),
+                            //   Shadow(
+                            //       // topRight
+                            //       offset: Offset(1.0, 1.0),
+                            //       color: Colors.black),
+                            //   Shadow(
+                            //       // topLeft
+                            //       offset: Offset(-1.0, 1.0),
+                            //       color: Colors.black),
+                            // ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
+              ),
+              AvatarGlow(
+                startDelay: Duration(milliseconds: 1000),
+                glowColor: Color.fromARGB(255, 3, 54, 255),
+                endRadius: 170.0,
+                duration: Duration(milliseconds: 2000),
+                repeat: true,
+                showTwoGlows: true,
+                repeatPauseDuration: Duration(milliseconds: 100),
+                child: Material(
+                  elevation: 8.0,
+                  shape: CircleBorder(),
+                  color: Color.fromARGB(255, 3, 54, 255),
+                  child: CircleAvatar(
+                    radius: 105,
+                    backgroundColor: Colors.white,
+                    child: CircleAvatar(
+                      radius: 100.0,
+                      child: ClipRRect(
+                        borderRadius: new BorderRadius.circular(100),
+                        child: ProgressiveImage(
+                          placeholder:
+                              AssetImage('assets/placeholder/placeholder.gif'),
+                          thumbnail: AssetImage(
+                              'assets/placeholder/${weather.placeholder}'), // 64x43 recommended
+                          image: NetworkImage('${weather.facepic}'),
+                          height: 200.0,
+                          width: 200.0,
+                          fit: BoxFit.cover,
+                        ),
+                        // below is the recent image holder
+                        // child: FadeInImage(
+                        //   fadeInDuration: const Duration(seconds: 1),
+                        //   fadeInCurve: Curves.easeInOutCirc,
+                        //   placeholder: AssetImage(
+                        //     'assets/placeholder/${weather.placeholder}',
+                        //   ),
+                        //   image: NetworkImage(
+                        //     '${weather.facepic}',
+                        //   ),
+                        //   fit: BoxFit.cover,
+                        //   height: 200.0,
+                        //   width: 200.0,
+                        // ),
+                      ),
+                    ),
+                  ),
+                ),
+                shape: BoxShape.circle,
+                animate: true,
+                curve: Curves.fastOutSlowIn,
               ),
             ],
           ),
@@ -327,10 +351,10 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
         // ),
         Divider(
           height: 70.0,
-          thickness: 10.0,
-          color: Color.fromARGB(255, 52, 0, 172),
-          indent: 40.0,
-          endIndent: 40.0,
+          thickness: 12.0,
+          color: Color.fromARGB(255, 255, 222, 3),
+          indent: 60.0,
+          endIndent: 60.0,
         ),
         // Row(
         //   mainAxisSize: MainAxisSize.min,
