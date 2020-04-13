@@ -25,10 +25,10 @@ class _HomeState extends State<Home> {
         child: Ink(
           decoration: BoxDecoration(
             border: Border.all(
-              color: Colors.white,
+              color: Color.fromARGB(255, 255, 2, 102),
               width: 3.0,
             ),
-            color: Color.fromARGB(255, 3, 54, 255),
+            color: Color.fromARGB(255, 255, 2, 102),
             shape: BoxShape.circle,
           ),
           child: InkWell(
@@ -41,7 +41,7 @@ class _HomeState extends State<Home> {
               child: Icon(
                 Icons.add_a_photo,
                 size: 30.0,
-                color: Colors.white, //Color.fromARGB(255, 255, 222, 3),
+                color: Colors.white,
               ),
             ),
           ),

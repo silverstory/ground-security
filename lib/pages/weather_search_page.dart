@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:groundsecurity/data/model/weather.dart';
@@ -52,7 +54,8 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
       children: <Widget>[
         Container(
           width: MediaQuery.of(context).size.width * 0.90, // double.infinity,
-          color: Colors.white, // Color.fromARGB(255, 102, 18, 222),
+          height: 650.0, // 530.0,
+          color: Colors.white,
           child: Stack(
             alignment: Alignment.topCenter,
             fit: StackFit.loose,
@@ -60,7 +63,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
             children: <Widget>[
               Positioned(
                 top: 0.0,
-                height: 170.0,
+                height: 290.0, //170.0,
                 child: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
@@ -68,73 +71,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                       fit: BoxFit.cover,
                     ),
                     color: Color.fromARGB(255, 3, 54, 255),
-                    // gradient: LinearGradient(
-                    //   colors: [
-                    //     Color.fromARGB(255, 102, 18, 222),
-                    //     Color.fromARGB(255, 102, 18, 222),
-                    //   ],
-                    //   // colors: [
-                    //   //   Colors.blue[900],
-                    //   //   Colors.blue[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.white,
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.blue[50],
-                    //   //   Colors.blue[900],
-                    //   // ],
-                    //   begin: Alignment.centerRight,
-                    //   end: Alignment(-1.0, -1.0),
-                    // ),
-                    // border: Border.all(
-                    //   color: Colors.yellowAccent,
-                    //   width: 2.0,
-                    //   style: BorderStyle.solid,
-                    // ),
-                    // borderRadius: BorderRadius.only(
-                    //   topLeft: Radius.elliptical(40.0, 10.0),
-                    //   bottomLeft: Radius.circular(20.0),
-                    // ),
-                    // boxShadow: [
-                    //   // BoxShadow(
-                    //   //   color: Colors.blue[50],
-                    //   //   offset: Offset(4.0, 2.0),
-                    //   //   blurRadius: 20.0,
-                    //   //   spreadRadius: 3.0,
-                    //   // ),
-                    //   // BoxShadow(
-                    //   //   color: Colors.blue[300],
-                    //   //   offset: Offset(4.0, 2.0),
-                    //   //   blurRadius: 20.0,
-                    //   //   spreadRadius: 2.0,
-                    //   // ),
-                    //   BoxShadow(
-                    //     color: Colors.blue[300],
-                    //     offset: Offset(2.0, 1.0),
-                    //     blurRadius: 15,
-                    //     spreadRadius: 3,
-                    //   )
-                    // ],
                   ),
-                  // decoration: new BoxDecoration(
-                  //   color: Colors.purple,
-                  //   gradient: new LinearGradient(
-                  //     colors: [Colors.red, Colors.cyan],
-                  //     begin: Alignment.centerRight,
-                  //     end: Alignment.centerLeft,
-                  //   ),
-                  // ),
                   height: 45.0,
                   width: MediaQuery.of(context).size.width * 0.90,
                   margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -142,7 +79,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                     child: Align(
                       alignment: Alignment.topCenter,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
+                        padding: const EdgeInsets.only(top: 40.0),
                         child: Text(
                           'OP OFFICIAL',
                           textAlign: TextAlign.center,
@@ -151,24 +88,6 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                             letterSpacing: 6.0,
                             fontSize: 30,
                             color: Colors.white,
-                            // shadows: [
-                            //   Shadow(
-                            //       // bottomLeft
-                            //       offset: Offset(-1.0, -1.0),
-                            //       color: Colors.black),
-                            //   Shadow(
-                            //       // bottomRight
-                            //       offset: Offset(1.0, -1.0),
-                            //       color: Colors.black),
-                            //   Shadow(
-                            //       // topRight
-                            //       offset: Offset(1.0, 1.0),
-                            //       color: Colors.black),
-                            //   Shadow(
-                            //       // topLeft
-                            //       offset: Offset(-1.0, 1.0),
-                            //       color: Colors.black),
-                            // ],
                           ),
                         ),
                       ),
@@ -178,77 +97,11 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
               ),
               Positioned(
                 bottom: 0.0,
-                height: 170.0,
+                height: 360.0,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white, // Color.fromARGB(255, 102, 18, 222),
-                    // gradient: LinearGradient(
-                    //   colors: [
-                    //     Color.fromARGB(255, 102, 18, 222),
-                    //     Color.fromARGB(255, 102, 18, 222),
-                    //   ],
-                    //   // colors: [
-                    //   //   Colors.red[900],
-                    //   //   Colors.red[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.white,
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.grey[50],
-                    //   //   Colors.red[50],
-                    //   //   Colors.red[900],
-                    //   // ],
-                    //   begin: Alignment.centerRight,
-                    //   end: Alignment(-1.0, -1.0),
-                    // ),
-                    // border: Border.all(
-                    //   color: Colors.yellowAccent,
-                    //   width: 2.0,
-                    //   style: BorderStyle.solid,
-                    // ),
-                    // borderRadius: BorderRadius.only(
-                    //   topRight: Radius.elliptical(40.0, 10.0),
-                    //   bottomRight: Radius.circular(20.0),
-                    // ),
-                    // boxShadow: [
-                    //   // BoxShadow(
-                    //   //   color: Colors.red[50],
-                    //   //   offset: Offset(4.0, 2.0),
-                    //   //   blurRadius: 20.0,
-                    //   //   spreadRadius: 3.0,
-                    //   // ),
-                    //   // BoxShadow(
-                    //   //   color: Colors.red[300],
-                    //   //   offset: Offset(4.0, 2.0),
-                    //   //   blurRadius: 20.0,
-                    //   //   spreadRadius: 2.0,
-                    //   // ),
-                    //   BoxShadow(
-                    //     color: Colors.red[300],
-                    //     offset: Offset(2.0, 1.0),
-                    //     blurRadius: 15.0,
-                    //     spreadRadius: 3.0,
-                    //   )
-                    // ],
+                    color: Colors.white,
                   ),
-                  // decoration: new BoxDecoration(
-                  //   color: Colors.purple,
-                  //   gradient: new LinearGradient(
-                  //     colors: [Colors.red, Colors.cyan],
-                  //     begin: Alignment.centerRight,
-                  //     end: Alignment.centerLeft,
-                  //   ),
-                  // ),
                   height: 45.0,
                   width: MediaQuery.of(context).size.width * 0.90,
                   margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -256,99 +109,102 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
-                        padding: const EdgeInsets.only(bottom: 16.0),
-                        child: Text(
-                          weather.cityName,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            wordSpacing: 6.0,
-                            letterSpacing: 6.0,
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Colors
-                                .grey[900], // Color.fromARGB(255, 3, 54, 255),
-                            // shadows: [
-                            //   Shadow(
-                            //       // bottomLeft
-                            //       offset: Offset(-1.0, -1.0),
-                            //       color: Colors.black),
-                            //   Shadow(
-                            //       // bottomRight
-                            //       offset: Offset(1.0, -1.0),
-                            //       color: Colors.black),
-                            //   Shadow(
-                            //       // topRight
-                            //       offset: Offset(1.0, 1.0),
-                            //       color: Colors.black),
-                            //   Shadow(
-                            //       // topLeft
-                            //       offset: Offset(-1.0, 1.0),
-                            //       color: Colors.black),
-                            // ],
+                        padding: const EdgeInsets.only(bottom: 54.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text(
+                              'DIRECTOR XCVIII',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                wordSpacing: 6.0,
+                                letterSpacing: 6.0,
+                                fontSize: 22,
+                                color: Color.fromARGB(255, 3, 54, 255),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 23.0,
+                            ),
+                            Text(
+                              weather.cityName,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                wordSpacing: 6.0,
+                                letterSpacing: 6.0,
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 35.0,
+                            ),
+                            Text(
+                              'ODESFA',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                wordSpacing: 6.0,
+                                letterSpacing: 6.0,
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 2, 53, 255),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 120.0,
+                ),
+                child: AvatarGlow(
+                  startDelay: Duration(milliseconds: 1000),
+                  glowColor: Color.fromARGB(255, 102, 18, 222),
+                  endRadius: 170.0,
+                  duration: Duration(milliseconds: 2000),
+                  repeat: true,
+                  showTwoGlows: true,
+                  repeatPauseDuration: Duration(milliseconds: 100),
+                  child: Material(
+                    elevation: 8.0,
+                    shape: CircleBorder(),
+                    color: Color.fromARGB(255, 3, 54, 255),
+                    child: CircleAvatar(
+                      radius: 108,
+                      backgroundColor: Colors.white,
+                      child: CircleAvatar(
+                        radius: 100.0,
+                        child: ClipRRect(
+                          borderRadius: new BorderRadius.circular(100),
+                          child: ProgressiveImage(
+                            placeholder: AssetImage(
+                                'assets/placeholder/placeholder.gif'),
+                            thumbnail: AssetImage(
+                                'assets/placeholder/${weather.placeholder}'), // 64x43 recommended
+                            image: NetworkImage('${weather.facepic}'),
+                            height: 200.0,
+                            width: 200.0,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
                     ),
                   ),
+                  shape: BoxShape.circle,
+                  animate: true,
+                  curve: Curves.fastOutSlowIn,
                 ),
-              ),
-              AvatarGlow(
-                startDelay: Duration(milliseconds: 1000),
-                glowColor: Color.fromARGB(255, 3, 54, 255),
-                endRadius: 170.0,
-                duration: Duration(milliseconds: 2000),
-                repeat: true,
-                showTwoGlows: true,
-                repeatPauseDuration: Duration(milliseconds: 100),
-                child: Material(
-                  elevation: 8.0,
-                  shape: CircleBorder(),
-                  color: Color.fromARGB(255, 3, 54, 255),
-                  child: CircleAvatar(
-                    radius: 105,
-                    backgroundColor: Colors.white,
-                    child: CircleAvatar(
-                      radius: 100.0,
-                      child: ClipRRect(
-                        borderRadius: new BorderRadius.circular(100),
-                        child: ProgressiveImage(
-                          placeholder:
-                              AssetImage('assets/placeholder/placeholder.gif'),
-                          thumbnail: AssetImage(
-                              'assets/placeholder/${weather.placeholder}'), // 64x43 recommended
-                          image: NetworkImage('${weather.facepic}'),
-                          height: 200.0,
-                          width: 200.0,
-                          fit: BoxFit.cover,
-                        ),
-                        // below is the recent image holder
-                        // child: FadeInImage(
-                        //   fadeInDuration: const Duration(seconds: 1),
-                        //   fadeInCurve: Curves.easeInOutCirc,
-                        //   placeholder: AssetImage(
-                        //     'assets/placeholder/${weather.placeholder}',
-                        //   ),
-                        //   image: NetworkImage(
-                        //     '${weather.facepic}',
-                        //   ),
-                        //   fit: BoxFit.cover,
-                        //   height: 200.0,
-                        //   width: 200.0,
-                        // ),
-                      ),
-                    ),
-                  ),
-                ),
-                shape: BoxShape.circle,
-                animate: true,
-                curve: Curves.fastOutSlowIn,
               ),
             ],
           ),
         ),
-        // SizedBox(
-        //   height: 10.0,
-        // ),
         Divider(
           height: 70.0,
           thickness: 12.0,
@@ -356,16 +212,13 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
           indent: 60.0,
           endIndent: 60.0,
         ),
-        // Row(
-        //   mainAxisSize: MainAxisSize.min,
-        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
         Wrap(
           direction: Axis.horizontal,
           alignment: WrapAlignment.spaceEvenly,
           children: <Widget>[
             AvatarGlow(
               glowColor: Colors.green[200],
-              endRadius: 60.0,
+              endRadius: 55.0,
               duration: Duration(milliseconds: 2000),
               repeat: true,
               showTwoGlows: true,
@@ -387,7 +240,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
             ),
             AvatarGlow(
               glowColor: Colors.blue[400],
-              endRadius: 60.0,
+              endRadius: 55.0,
               duration: Duration(milliseconds: 2000),
               repeat: true,
               showTwoGlows: true,
@@ -409,7 +262,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
             ),
             AvatarGlow(
               glowColor: Colors.white,
-              endRadius: 60.0,
+              endRadius: 55.0,
               duration: Duration(milliseconds: 2000),
               repeat: true,
               showTwoGlows: true,
@@ -431,7 +284,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
             ),
             AvatarGlow(
               glowColor: Colors.red,
-              endRadius: 60.0,
+              endRadius: 55.0,
               duration: Duration(milliseconds: 2000),
               repeat: true,
               showTwoGlows: true,
@@ -441,7 +294,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                 elevation: 8.0,
                 shape: CircleBorder(),
                 child: CircleAvatar(
-                  backgroundColor: Colors.white, // Colors.redAccent[100],
+                  backgroundColor: Colors.white,
                   child: Icon(
                     Icons.filter_4,
                     color: Colors.red,
@@ -453,28 +306,6 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
             ),
           ],
         ),
-        // SizedBox(
-        //   height: 10.0,
-        // ),
-        // Text(
-        //   weather.cityName,
-        //   style: TextStyle(
-        //     fontSize: 40,
-        //     fontWeight: FontWeight.w700,
-        //     color: Colors.white,
-        //   ),
-        // ),
-        // SizedBox(
-        //   height: 10.0,
-        // ),
-        // Text(
-        //   // Display the temperature with 1 decimal place
-        //   "${weather.temperatureCelsius.toStringAsFixed(1)} °C",
-        //   style: TextStyle(
-        //     fontSize: 80,
-        //     color: Colors.white,
-        //   ),
-        // ),
         SizedBox(
           height: 10.0,
         ),
