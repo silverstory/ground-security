@@ -121,37 +121,50 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                               style: TextStyle(
                                 wordSpacing: 6.0,
                                 letterSpacing: 6.0,
-                                fontSize: 22,
+                                fontSize: 21.0,
                                 color: Color.fromARGB(255, 3, 54, 255),
                               ),
                             ),
                             SizedBox(
-                              height: 23.0,
+                              height: 22.0,
                             ),
                             Text(
                               weather.cityName,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 wordSpacing: 6.0,
-                                letterSpacing: 6.0,
+                                letterSpacing: 3.0,
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                                color: Color.fromARGB(255, 30, 30, 30),
                               ),
                             ),
                             SizedBox(
-                              height: 35.0,
+                              height: 40.0,
                             ),
-                            Text(
-                              'ODESFA',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                wordSpacing: 6.0,
-                                letterSpacing: 6.0,
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 2, 53, 255),
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.pin_drop,
+                                  size: 37.0,
+                                  color: Color.fromARGB(255, 2, 53, 255),
+                                ),
+                                SizedBox(
+                                  width: 10.0,
+                                ),
+                                Text(
+                                  'ODESFA',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    wordSpacing: 6.0,
+                                    letterSpacing: 6.0,
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 2, 53, 255),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),

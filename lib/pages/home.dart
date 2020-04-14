@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
             child: Padding(
               padding: EdgeInsets.all(20.0),
               child: Icon(
-                Icons.add_a_photo,
+                Icons.local_see,
                 size: 30.0,
                 color: Colors.white,
               ),
