@@ -21,8 +21,8 @@ class WeatherSearchPage extends StatefulWidget {
 class _WeatherSearchPageState extends State<WeatherSearchPage> {
   Color accessFont = Colors.black;
   final asset = AssetFlare(
-      bundle: rootBundle, name: "assets/flare/perfect_loading_eprel.flr");
-  final asset_pin = AssetFlare(
+      bundle: rootBundle, name: "assets/flare/meteor_loading_eprel.flr");
+  final pin_asset = AssetFlare(
       bundle: rootBundle, name: "assets/flare/pin_location_eprel.flr");
   @override
   Widget build(BuildContext context) {
@@ -52,8 +52,8 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
   Widget buildLoading() {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxHeight: 250.0,
-        maxWidth: 250.0,
+        maxHeight: 350.0,
+        maxWidth: 350.0,
       ),
       child: FlareCacheBuilder(
         [asset],
@@ -62,7 +62,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
             asset,
             alignment: Alignment.center,
             fit: BoxFit.contain,
-            animation: 'active',
+            animation: 'Idle',
           );
         },
       ),
@@ -165,30 +165,13 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                // ConstrainedBox(
-                                //   constraints: BoxConstraints(
-                                //     maxHeight: 100.0,
-                                //     maxWidth: 100.0,
-                                //   ),
-                                //   child: FlareCacheBuilder(
-                                //     [asset],
-                                //     builder: (BuildContext context, bool _) {
-                                //       return FlareActor.asset(
-                                //         asset_pin,
-                                //         alignment: Alignment.center,
-                                //         fit: BoxFit.cover,
-                                //         animation: 'Search location',
-                                //       );
-                                //     },
-                                //   ),
-                                // ),
                                 Icon(
                                   Icons.pin_drop,
-                                  size: 37.0,
+                                  size: 35.0,
                                   color: Color.fromARGB(255, 2, 53, 255),
                                 ),
                                 SizedBox(
-                                  width: 10.0,
+                                  width: 15.0,
                                 ),
                                 Text(
                                   'ODESFA',

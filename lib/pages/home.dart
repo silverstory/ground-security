@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:groundsecurity/data/weather_repository.dart';
 import 'package:groundsecurity/pages/weather_search_page.dart';
 import 'package:groundsecurity/state/weather_store.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import "package:flare_flutter/flare_cache_builder.dart";
+import 'package:flare_flutter/provider/asset_flare.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -13,6 +17,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Map data = {};
+  final asset =
+      AssetFlare(bundle: rootBundle, name: "assets/flare/qrcode_eprel.flr");
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +38,7 @@ class _HomeState extends State<Home> {
           decoration: BoxDecoration(
             border: Border.all(
               color: Color.fromARGB(255, 255, 2, 102),
-              width: 3.0,
+              width: 2.0,
             ),
             color: Color.fromARGB(255, 255, 2, 102),
             shape: BoxShape.circle,
@@ -43,12 +49,29 @@ class _HomeState extends State<Home> {
                 1000.0), //Something large to ensure a circle
             onTap: () {},
             child: Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Icon(
-                Icons.local_see,
-                size: 30.0,
-                color: Colors.white,
+              padding: EdgeInsets.all(15.0),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: 50.0,
+                  maxWidth: 50.0,
+                ),
+                child: FlareCacheBuilder(
+                  [asset],
+                  builder: (BuildContext context, bool _) {
+                    return FlareActor.asset(
+                      asset,
+                      alignment: Alignment.center,
+                      fit: BoxFit.contain,
+                      animation: 'show',
+                    );
+                  },
+                ),
               ),
+              // Icon(
+              //   Icons.local_see,
+              //   size: 30.0,
+              //   color: Colors.white,
+              // ),
             ),
           ),
         ),
