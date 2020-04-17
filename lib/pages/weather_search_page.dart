@@ -6,9 +6,12 @@ import 'package:groundsecurity/data/model/weather.dart';
 import 'package:groundsecurity/data/weather_repository.dart';
 import 'package:groundsecurity/state/weather_store.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+// import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:progressive_image/progressive_image.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import "package:flare_flutter/flare_cache_builder.dart";
+import 'package:flare_flutter/provider/asset_flare.dart';
 
 class WeatherSearchPage extends StatefulWidget {
   @override
@@ -17,6 +20,10 @@ class WeatherSearchPage extends StatefulWidget {
 
 class _WeatherSearchPageState extends State<WeatherSearchPage> {
   Color accessFont = Colors.black;
+  final asset = AssetFlare(
+      bundle: rootBundle, name: "assets/flare/perfect_loading_eprel.flr");
+  final asset_pin = AssetFlare(
+      bundle: rootBundle, name: "assets/flare/pin_location_eprel.flr");
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,9 +50,22 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
   }
 
   Widget buildLoading() {
-    return SpinKitFadingCube(
-      color: Colors.white,
-      size: 80.0,
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: 250.0,
+        maxWidth: 250.0,
+      ),
+      child: FlareCacheBuilder(
+        [asset],
+        builder: (BuildContext context, bool _) {
+          return FlareActor.asset(
+            asset,
+            alignment: Alignment.center,
+            fit: BoxFit.contain,
+            animation: 'active',
+          );
+        },
+      ),
     );
   }
 
@@ -145,6 +165,23 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
+                                // ConstrainedBox(
+                                //   constraints: BoxConstraints(
+                                //     maxHeight: 100.0,
+                                //     maxWidth: 100.0,
+                                //   ),
+                                //   child: FlareCacheBuilder(
+                                //     [asset],
+                                //     builder: (BuildContext context, bool _) {
+                                //       return FlareActor.asset(
+                                //         asset_pin,
+                                //         alignment: Alignment.center,
+                                //         fit: BoxFit.cover,
+                                //         animation: 'Search location',
+                                //       );
+                                //     },
+                                //   ),
+                                // ),
                                 Icon(
                                   Icons.pin_drop,
                                   size: 37.0,
