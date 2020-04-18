@@ -69,6 +69,252 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
     );
   }
 
+  Widget buildBasicInfo(Weather weather) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+      ),
+      height: 45.0,
+      width: MediaQuery.of(context).size.width * 0.90,
+      margin: EdgeInsets.symmetric(horizontal: 5.0),
+      child: Center(
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 54.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Text(
+                  'DIRECTOR XCVIII',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    wordSpacing: 6.0,
+                    letterSpacing: 6.0,
+                    fontSize: 21.0,
+                    color: Color.fromARGB(255, 3, 54, 255),
+                  ),
+                ),
+                SizedBox(
+                  height: 22.0,
+                ),
+                Text(
+                  weather.cityName,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    wordSpacing: 6.0,
+                    letterSpacing: 3.0,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 30, 30, 30),
+                  ),
+                ),
+                SizedBox(
+                  height: 40.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.pin_drop,
+                      size: 35.0,
+                      color: Color.fromARGB(255, 2, 53, 255),
+                    ),
+                    SizedBox(
+                      width: 15.0,
+                    ),
+                    Text(
+                      'ODESFA',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        wordSpacing: 6.0,
+                        letterSpacing: 6.0,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 2, 53, 255),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildClassInfo(Weather weather) {
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/placeholder/male.jpg'),
+          fit: BoxFit.cover,
+        ),
+        color: Color.fromARGB(255, 3, 54, 255),
+      ),
+      height: 45.0,
+      width: MediaQuery.of(context).size.width * 0.90,
+      margin: EdgeInsets.symmetric(horizontal: 5.0),
+      child: Center(
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 40.0),
+            child: Text(
+              'OP OFFICIAL',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                wordSpacing: 6.0,
+                letterSpacing: 6.0,
+                fontSize: 30,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildFaceImage(Weather weather) {
+    return AvatarGlow(
+      startDelay: Duration(milliseconds: 1000),
+      glowColor: Color.fromARGB(255, 102, 18, 222),
+      endRadius: 170.0,
+      duration: Duration(milliseconds: 2000),
+      repeat: true,
+      showTwoGlows: true,
+      repeatPauseDuration: Duration(milliseconds: 100),
+      child: Material(
+        elevation: 8.0,
+        shape: CircleBorder(),
+        color: Color.fromARGB(255, 3, 54, 255),
+        child: CircleAvatar(
+          radius: 108,
+          backgroundColor: Colors.white,
+          child: CircleAvatar(
+            radius: 100.0,
+            child: ClipRRect(
+              borderRadius: new BorderRadius.circular(100),
+              child: ProgressiveImage(
+                placeholder: AssetImage('assets/placeholder/placeholder.gif'),
+                thumbnail: AssetImage(
+                    'assets/placeholder/${weather.placeholder}'), // 64x43 recommended
+                image: NetworkImage('${weather.facepic}'),
+                height: 200.0,
+                width: 200.0,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+      ),
+      shape: BoxShape.circle,
+      animate: true,
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+
+  Widget buildAccessBadge(Weather weather) {
+    return Wrap(
+      direction: Axis.horizontal,
+      alignment: WrapAlignment.spaceEvenly,
+      children: <Widget>[
+        AvatarGlow(
+          glowColor: Colors.green[200],
+          endRadius: 55.0,
+          duration: Duration(milliseconds: 2000),
+          repeat: true,
+          showTwoGlows: true,
+          curve: Curves.fastLinearToSlowEaseIn,
+          repeatPauseDuration: Duration(milliseconds: 100),
+          child: Material(
+            elevation: 8.0,
+            shape: CircleBorder(),
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              child: Icon(
+                Icons.filter_1,
+                color: Colors.green,
+                size: 36.0,
+              ),
+              radius: 40.0,
+            ),
+          ),
+        ),
+        AvatarGlow(
+          glowColor: Colors.blue[400],
+          endRadius: 55.0,
+          duration: Duration(milliseconds: 2000),
+          repeat: true,
+          showTwoGlows: true,
+          curve: Curves.fastLinearToSlowEaseIn,
+          repeatPauseDuration: Duration(milliseconds: 100),
+          child: Material(
+            elevation: 8.0,
+            shape: CircleBorder(),
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              child: Icon(
+                Icons.filter_2,
+                color: Colors.blue,
+                size: 36.0,
+              ),
+              radius: 40.0,
+            ),
+          ),
+        ),
+        AvatarGlow(
+          glowColor: Colors.white,
+          endRadius: 55.0,
+          duration: Duration(milliseconds: 2000),
+          repeat: true,
+          showTwoGlows: true,
+          curve: Curves.fastLinearToSlowEaseIn,
+          repeatPauseDuration: Duration(milliseconds: 100),
+          child: Material(
+            elevation: 8.0,
+            shape: CircleBorder(),
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              child: Icon(
+                Icons.filter_3,
+                color: accessFont,
+                size: 36.0,
+              ),
+              radius: 40.0,
+            ),
+          ),
+        ),
+        AvatarGlow(
+          glowColor: Colors.red,
+          endRadius: 55.0,
+          duration: Duration(milliseconds: 2000),
+          repeat: true,
+          showTwoGlows: true,
+          curve: Curves.fastLinearToSlowEaseIn,
+          repeatPauseDuration: Duration(milliseconds: 100),
+          child: Material(
+            elevation: 8.0,
+            shape: CircleBorder(),
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              child: Icon(
+                Icons.filter_4,
+                color: Colors.red,
+                size: 36.0,
+              ),
+              radius: 40.0,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Column buildColumnWithData(Weather weather) {
     return Column(
       children: <Widget>[
@@ -84,156 +330,18 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
               Positioned(
                 top: 0.0,
                 height: 290.0, //170.0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/placeholder/male.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                    color: Color.fromARGB(255, 3, 54, 255),
-                  ),
-                  height: 45.0,
-                  width: MediaQuery.of(context).size.width * 0.90,
-                  margin: EdgeInsets.symmetric(horizontal: 5.0),
-                  child: Center(
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 40.0),
-                        child: Text(
-                          'OP OFFICIAL',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            wordSpacing: 6.0,
-                            letterSpacing: 6.0,
-                            fontSize: 30,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                child: buildClassInfo(weather),
               ),
               Positioned(
                 bottom: 0.0,
                 height: 360.0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  height: 45.0,
-                  width: MediaQuery.of(context).size.width * 0.90,
-                  margin: EdgeInsets.symmetric(horizontal: 5.0),
-                  child: Center(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 54.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              'DIRECTOR XCVIII',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                wordSpacing: 6.0,
-                                letterSpacing: 6.0,
-                                fontSize: 21.0,
-                                color: Color.fromARGB(255, 3, 54, 255),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 22.0,
-                            ),
-                            Text(
-                              weather.cityName,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                wordSpacing: 6.0,
-                                letterSpacing: 3.0,
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 30, 30, 30),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 40.0,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.pin_drop,
-                                  size: 35.0,
-                                  color: Color.fromARGB(255, 2, 53, 255),
-                                ),
-                                SizedBox(
-                                  width: 15.0,
-                                ),
-                                Text(
-                                  'ODESFA',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    wordSpacing: 6.0,
-                                    letterSpacing: 6.0,
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 2, 53, 255),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                child: buildBasicInfo(weather),
               ),
               Padding(
                 padding: const EdgeInsets.only(
                   top: 120.0,
                 ),
-                child: AvatarGlow(
-                  startDelay: Duration(milliseconds: 1000),
-                  glowColor: Color.fromARGB(255, 102, 18, 222),
-                  endRadius: 170.0,
-                  duration: Duration(milliseconds: 2000),
-                  repeat: true,
-                  showTwoGlows: true,
-                  repeatPauseDuration: Duration(milliseconds: 100),
-                  child: Material(
-                    elevation: 8.0,
-                    shape: CircleBorder(),
-                    color: Color.fromARGB(255, 3, 54, 255),
-                    child: CircleAvatar(
-                      radius: 108,
-                      backgroundColor: Colors.white,
-                      child: CircleAvatar(
-                        radius: 100.0,
-                        child: ClipRRect(
-                          borderRadius: new BorderRadius.circular(100),
-                          child: ProgressiveImage(
-                            placeholder: AssetImage(
-                                'assets/placeholder/placeholder.gif'),
-                            thumbnail: AssetImage(
-                                'assets/placeholder/${weather.placeholder}'), // 64x43 recommended
-                            image: NetworkImage('${weather.facepic}'),
-                            height: 200.0,
-                            width: 200.0,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  shape: BoxShape.circle,
-                  animate: true,
-                  curve: Curves.fastOutSlowIn,
-                ),
+                child: buildFaceImage(weather),
               ),
             ],
           ),
@@ -245,100 +353,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
           indent: 60.0,
           endIndent: 60.0,
         ),
-        Wrap(
-          direction: Axis.horizontal,
-          alignment: WrapAlignment.spaceEvenly,
-          children: <Widget>[
-            AvatarGlow(
-              glowColor: Colors.green[200],
-              endRadius: 55.0,
-              duration: Duration(milliseconds: 2000),
-              repeat: true,
-              showTwoGlows: true,
-              curve: Curves.fastLinearToSlowEaseIn,
-              repeatPauseDuration: Duration(milliseconds: 100),
-              child: Material(
-                elevation: 8.0,
-                shape: CircleBorder(),
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.filter_1,
-                    color: Colors.green,
-                    size: 36.0,
-                  ),
-                  radius: 40.0,
-                ),
-              ),
-            ),
-            AvatarGlow(
-              glowColor: Colors.blue[400],
-              endRadius: 55.0,
-              duration: Duration(milliseconds: 2000),
-              repeat: true,
-              showTwoGlows: true,
-              curve: Curves.fastLinearToSlowEaseIn,
-              repeatPauseDuration: Duration(milliseconds: 100),
-              child: Material(
-                elevation: 8.0,
-                shape: CircleBorder(),
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.filter_2,
-                    color: Colors.blue,
-                    size: 36.0,
-                  ),
-                  radius: 40.0,
-                ),
-              ),
-            ),
-            AvatarGlow(
-              glowColor: Colors.white,
-              endRadius: 55.0,
-              duration: Duration(milliseconds: 2000),
-              repeat: true,
-              showTwoGlows: true,
-              curve: Curves.fastLinearToSlowEaseIn,
-              repeatPauseDuration: Duration(milliseconds: 100),
-              child: Material(
-                elevation: 8.0,
-                shape: CircleBorder(),
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.filter_3,
-                    color: accessFont,
-                    size: 36.0,
-                  ),
-                  radius: 40.0,
-                ),
-              ),
-            ),
-            AvatarGlow(
-              glowColor: Colors.red,
-              endRadius: 55.0,
-              duration: Duration(milliseconds: 2000),
-              repeat: true,
-              showTwoGlows: true,
-              curve: Curves.fastLinearToSlowEaseIn,
-              repeatPauseDuration: Duration(milliseconds: 100),
-              child: Material(
-                elevation: 8.0,
-                shape: CircleBorder(),
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.filter_4,
-                    color: Colors.red,
-                    size: 36.0,
-                  ),
-                  radius: 40.0,
-                ),
-              ),
-            ),
-          ],
-        ),
+        buildAccessBadge(weather),
         SizedBox(
           height: 10.0,
         ),

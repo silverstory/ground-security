@@ -67,28 +67,10 @@ class _HomeState extends State<Home> {
                   },
                 ),
               ),
-              // Icon(
-              //   Icons.local_see,
-              //   size: 30.0,
-              //   color: Colors.white,
-              // ),
             ),
           ),
         ),
       ),
-      // FloatingActionButton(
-      //   backgroundColor: Color.fromARGB(255, 3, 54, 255),
-      //   elevation: 8.0,
-      //   foregroundColor: Color.fromARGB(255, 255, 222, 3),
-      //   mini: false,
-      //   child: Icon(
-      //     Icons.add_a_photo,
-      //     color: Color.fromARGB(
-      //         255, 255, 222, 3), // Color.fromARGB(255, 102, 18, 222),
-      //     // size: 28.0,
-      //   ),
-      //   onPressed: () {},
-      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: SafeArea(
         child: Container(
