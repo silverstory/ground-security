@@ -375,10 +375,17 @@ class CityInputField extends StatelessWidget {
         inputFormatters: <TextInputFormatter>[
           WhitelistingTextInputFormatter.digitsOnly
         ], // Only numbers can be entered
+        textAlign: TextAlign.center,
+        style: new TextStyle(
+          color: Colors.orange,
+          fontWeight: FontWeight.bold,
+          fontSize: 18.0,
+          letterSpacing: 3.0,
+        ),
         decoration: InputDecoration(
           filled: true,
-          fillColor: Colors.white,
-          hintText: "8-digit token",
+          fillColor: Color.fromARGB(255, 20, 20, 20),
+          hintText: "s-code",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           suffixIcon: Icon(Icons.search),
         ),

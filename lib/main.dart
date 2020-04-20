@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // theme: ThemeData.dark(),
       initialRoute: '/',
       routes: {
         '/': (context) => Loading(),
@@ -32,6 +31,20 @@ class MyApp extends StatelessWidget {
         '/location': (context) => ChooseLocation()
       },
       title: 'Ground Security',
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.dark,
+      // theme: ThemeData(
+      //   brightness: Brightness.light,
+      //   primarySwatch: Colors.blue,
+      //   primaryColor: Colors.red,
+      // ),
+      // darkTheme: ThemeData(
+      //   brightness: Brightness.dark,
+      //   primarySwatch: Colors.orange,
+      //   primaryColor: Colors.yellow,
+      // ),
+      // themeMode: ThemeMode.dark,
     );
   }
 }
