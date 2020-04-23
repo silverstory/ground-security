@@ -11,10 +11,6 @@ class FakeWeatherRepository implements WeatherRepository {
     'male': 'male.jpg',
     'female': 'female.jpg'
   };
-  // Map<String, String> placeholderMap = {
-  //   'male': 'placeholder.gif',
-  //   'female': 'placeholder.gif'
-  // };
   Map<int, String> genderMap = {1: 'male', 2: 'female'};
   Map<int, String> maleMap = {
     1: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
@@ -33,7 +29,7 @@ class FakeWeatherRepository implements WeatherRepository {
   Future<Weather> fetchWeather(String cityName) {
     // Simulate network delay
     return Future.delayed(
-      Duration(seconds: 2),
+      Duration(seconds: 4),
       () {
         final random = Random();
 

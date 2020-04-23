@@ -7,6 +7,7 @@ import 'package:states_rebuilder/states_rebuilder.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import "package:flare_flutter/flare_cache_builder.dart";
 import 'package:flare_flutter/provider/asset_flare.dart';
+// import 'package:groundsecurity/services/world_time.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -19,6 +20,19 @@ class _HomeState extends State<Home> {
   Map data = {};
   final asset =
       AssetFlare(bundle: rootBundle, name: "assets/flare/qrcode_eprel.flr");
+
+  // void setupWorldTimeDio() {
+  //   // fakeFetchWeather();
+  //   WorldTime instance =
+  //       WorldTime(location: 'Manila', flag: 'ph.png', url: 'Asia/Manila');
+  //   instance.initDio();
+  // }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   setupWorldTimeDio();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -93,13 +107,15 @@ class _HomeState extends State<Home> {
                       onPressed: () async {
                         dynamic result =
                             await Navigator.pushNamed(context, '/location');
-                        setState(() {
-                          data = {
-                            'time': result['time'],
-                            'location': result['location'],
-                            'isDaytime': result['isDaytime'],
-                          };
-                        });
+                        if (result != null) {
+                          setState(() {
+                            data = {
+                              'time': result['time'],
+                              'location': result['location'],
+                              'isDaytime': result['isDaytime'],
+                            };
+                          });
+                        }
                       },
                       icon: Icon(
                         Icons.edit_location,

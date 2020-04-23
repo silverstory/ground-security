@@ -1,8 +1,13 @@
-import 'package:http/http.dart';
-import 'dart:convert';
+// import 'package:http/http.dart';
+// import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:dio/dio.dart';
+import 'package:groundsecurity/interceptor/dio_connectivity_request_retrier.dart';
+import 'package:groundsecurity/interceptor/retry_interceptor.dart';
 
 class WorldTime {
+  Dio dio;
   String location; // location name for the UI
   String time; // the time in that location
   String flag; // a url to an asset flag icon
@@ -12,9 +17,24 @@ class WorldTime {
   WorldTime({this.location, this.flag, this.url});
   WorldTime.empty();
 
+  void initDio() {
+    dio = Dio();
+
+    dio.interceptors.add(
+      RetryOnConnectionChangeInterceptor(
+        requestRetrier: DioConnectivityRequestRetrier(
+          dio: Dio(),
+          connectivity: Connectivity(),
+        ),
+      ),
+    );
+  }
+
   Future<void> getTimeByIp() async {
     try {
-      Response response = await get("http://worldtimeapi.org/api/ip");
+      // using og http pkg
+      // Response response = await get("http://worldtimeapi.org/api/ip");
+      Response response = await dio.get('http://worldtimeapi.org/api/ip');
       _parseData(response);
     } catch (error) {
       print('error: $error');
@@ -24,8 +44,11 @@ class WorldTime {
 
   Future<String> getTimeByCity() async {
     try {
+      // usin og http pkg
+      // Response response =
+      //     await get('http://worldtimeapi.org/api/timezone/$url');
       Response response =
-          await get('http://worldtimeapi.org/api/timezone/$url');
+          await dio.get('http://worldtimeapi.org/api/timezone/$url');
       _parseData(response);
     } catch (error) {
       print('error: $error');
@@ -36,7 +59,15 @@ class WorldTime {
   }
 
   void _parseData(Response response) {
-    Map data = jsonDecode(response.body);
+    // using og http pkg
+    // Map data = jsonDecode(response.body);
+
+    Map data = response.data;
+
+    // return UserResponse.fromJson(response.data);
+
+    // get field for first rec sample
+    // firstPostTitle = response.data[0]['title'] as String;
 
     // find the location for initial loading
     if (location == null) {

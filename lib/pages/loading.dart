@@ -15,11 +15,14 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
   final asset = AssetFlare(
-      bundle: rootBundle, name: "assets/flare/perfect_loading_eprel.flr");
+    bundle: rootBundle,
+    name: "assets/flare/perfect_loading_eprel.flr",
+  );
   void setupWorldTime() async {
     // fakeFetchWeather();
     WorldTime instance =
         WorldTime(location: 'Manila', flag: 'ph.png', url: 'Asia/Manila');
+    instance.initDio();
     await instance.getTimeByIp();
     Navigator.pushReplacementNamed(context, '/home', arguments: {
       'location': instance.location,

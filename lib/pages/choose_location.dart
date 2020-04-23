@@ -12,7 +12,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
 
   void updateTime(index) async {
     var instance = locations[index];
-
+    instance.initDio();
     await instance.getTimeByCity();
     // navigate to home screen
     Navigator.pop(context, {
@@ -29,7 +29,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 3, 54, 255),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.blue[900],
         title: Text('Choose a Location'),
         elevation: 0,
         titleSpacing: 2.0,
