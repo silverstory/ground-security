@@ -1,11 +1,17 @@
 import 'dart:math';
 import 'model/weather.dart';
 
+import 'package:connectivity/connectivity.dart';
+import 'package:dio/dio.dart';
+import 'package:groundsecurity/interceptor/dio_connectivity_request_retrier.dart';
+import 'package:groundsecurity/interceptor/retry_interceptor.dart';
+
 abstract class WeatherRepository {
   Future<Weather> fetchWeather(String cityName);
 }
 
 class FakeWeatherRepository implements WeatherRepository {
+  Dio dio;
   double cachedTempCelsius;
   Map<String, String> placeholderMap = {
     'male': 'male.jpg',
@@ -29,8 +35,8 @@ class FakeWeatherRepository implements WeatherRepository {
   Future<Weather> fetchWeather(String cityName) {
     // Simulate network delay
     return Future.delayed(
-      Duration(seconds: 4),
-      () {
+      Duration(seconds: 3),
+      () async {
         final random = Random();
 
         // // Simulate some network error
@@ -55,7 +61,23 @@ class FakeWeatherRepository implements WeatherRepository {
         String picNow =
             genderNow == 'male' ? maleMap[picRand] : femaleMap[picRand];
         String placeholderNow = placeholderMap[genderNow];
-        // Return "fetched" weather
+
+        dio = Dio();
+
+        dio.interceptors.add(
+          RetryOnConnectionChangeInterceptor(
+            requestRetrier: DioConnectivityRequestRetrier(
+              dio: Dio(),
+              connectivity: Connectivity(),
+            ),
+          ),
+        );
+        Response response = await dio.get('http://worldtimeapi.org/api/ip');
+
+        dio.interceptors.removeLast();
+        dio = null;
+
+        // // Return "fetched" weather
         return Weather(
           facepic: picNow,
           gender: genderNow,

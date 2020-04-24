@@ -22,7 +22,7 @@ class _LoadingState extends State<Loading> {
     // fakeFetchWeather();
     WorldTime instance =
         WorldTime(location: 'Manila', flag: 'ph.png', url: 'Asia/Manila');
-    instance.initDio();
+    // instance.initDio();
     await instance.getTimeByIp();
     Navigator.pushReplacementNamed(context, '/home', arguments: {
       'location': instance.location,

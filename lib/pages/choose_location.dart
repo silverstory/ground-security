@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:groundsecurity/data/location.dart';
 import 'package:groundsecurity/services/world_time.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import "package:flare_flutter/flare_cache_builder.dart";
+import 'package:flare_flutter/provider/asset_flare.dart';
 
 class ChooseLocation extends StatefulWidget {
   @override
@@ -8,18 +12,95 @@ class ChooseLocation extends StatefulWidget {
 }
 
 class _ChooseLocationState extends State<ChooseLocation> {
+  final asset = AssetFlare(
+    bundle: rootBundle,
+    name: "assets/flare/perfect_loading_eprel.flr",
+  );
   List<WorldTime> locations = Location().supported;
+  bool isLoading;
+
+  @override
+  void initState() {
+    super.initState();
+    isLoading = false;
+  }
 
   void updateTime(index) async {
-    var instance = locations[index];
-    instance.initDio();
-    await instance.getTimeByCity();
-    // navigate to home screen
-    Navigator.pop(context, {
-      'location': instance.location,
-      'time': instance.time,
-      'isDaytime': instance.isDaytime,
+    setState(() {
+      isLoading = true;
     });
+    var instance = locations[index];
+    // instance.initDio();
+    await instance.getTimeByCity();
+    setState(() {
+      // navigate to home screen
+      Navigator.pop(context, {
+        'location': instance.location,
+        'time': instance.time,
+        'isDaytime': instance.isDaytime,
+      });
+      isLoading = false;
+    });
+
+    // var instance = locations[index];
+    // instance.initDio();
+    // await instance.getTimeByCity();
+    // // navigate to home screen
+    // Navigator.pop(context, {
+    //   'location': instance.location,
+    //   'time': instance.time,
+    //   'isDaytime': instance.isDaytime,
+    // });
+  }
+
+  Widget buildContent() {
+    if (isLoading)
+      return Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: 250.0,
+            maxWidth: 250.0,
+          ),
+          child: FlareCacheBuilder(
+            [asset],
+            builder: (BuildContext context, bool _) {
+              return FlareActor.asset(
+                asset,
+                alignment: Alignment.center,
+                fit: BoxFit.contain,
+                animation: 'active',
+              );
+            },
+          ),
+        ),
+      );
+    else
+      return buildList();
+  }
+
+  Widget buildList() {
+    return ListView.builder(
+      itemCount: locations.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
+          child: Card(
+            child: ListTile(
+              onTap: () {
+                updateTime(index);
+              },
+              title: Text(
+                locations[index].location,
+              ),
+              leading: CircleAvatar(
+                backgroundImage:
+                    AssetImage('assets/flags/${locations[index].flag}'),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -35,28 +116,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
         titleSpacing: 2.0,
         centerTitle: true,
       ),
-      body: ListView.builder(
-        itemCount: locations.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
-            child: Card(
-              child: ListTile(
-                onTap: () {
-                  updateTime(index);
-                },
-                title: Text(
-                  locations[index].location,
-                ),
-                leading: CircleAvatar(
-                  backgroundImage:
-                      AssetImage('assets/flags/${locations[index].flag}'),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+      body: buildContent(),
     );
   }
 }

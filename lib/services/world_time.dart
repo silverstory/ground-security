@@ -17,24 +17,22 @@ class WorldTime {
   WorldTime({this.location, this.flag, this.url});
   WorldTime.empty();
 
-  void initDio() {
-    dio = Dio();
-
-    dio.interceptors.add(
-      RetryOnConnectionChangeInterceptor(
-        requestRetrier: DioConnectivityRequestRetrier(
-          dio: Dio(),
-          connectivity: Connectivity(),
-        ),
-      ),
-    );
-  }
-
   Future<void> getTimeByIp() async {
     try {
       // using og http pkg
       // Response response = await get("http://worldtimeapi.org/api/ip");
+      dio = Dio();
+      dio.interceptors.add(
+        RetryOnConnectionChangeInterceptor(
+          requestRetrier: DioConnectivityRequestRetrier(
+            dio: Dio(),
+            connectivity: Connectivity(),
+          ),
+        ),
+      );
       Response response = await dio.get('http://worldtimeapi.org/api/ip');
+      dio.interceptors.removeLast();
+      dio = null;
       _parseData(response);
     } catch (error) {
       print('error: $error');
@@ -47,8 +45,19 @@ class WorldTime {
       // usin og http pkg
       // Response response =
       //     await get('http://worldtimeapi.org/api/timezone/$url');
+      dio = Dio();
+      dio.interceptors.add(
+        RetryOnConnectionChangeInterceptor(
+          requestRetrier: DioConnectivityRequestRetrier(
+            dio: Dio(),
+            connectivity: Connectivity(),
+          ),
+        ),
+      );
       Response response =
           await dio.get('http://worldtimeapi.org/api/timezone/$url');
+      dio.interceptors.removeLast();
+      dio = null;
       _parseData(response);
     } catch (error) {
       print('error: $error');
