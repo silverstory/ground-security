@@ -83,11 +83,27 @@ class _ChooseLocationState extends State<ChooseLocation> {
       itemCount: locations.length,
       itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
+          padding: const EdgeInsets.symmetric(
+            vertical: 1.0,
+            horizontal: 4.0,
+          ),
           child: Card(
             child: ListTile(
-              onTap: () {
-                updateTime(index);
+              onTap: () async {
+                dynamic result = await Navigator.pushNamed(
+                  context,
+                  '/verify',
+                );
+                if (result != null && result['success'] == true) {
+                  updateTime(index);
+                  // setState(() {
+                  //   data = {
+                  //     'time': result['time'],
+                  //     'location': result['location'],
+                  //     'isDaytime': result['isDaytime'],
+                  //   };
+                  // });
+                }
               },
               title: Text(
                 locations[index].location,

@@ -6,6 +6,7 @@ import 'package:groundsecurity/pages/loading.dart';
 
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:groundsecurity/pages/verify.dart';
 
 // Sets a platform override for desktop to avoid exceptions. See
 // https://flutter.dev/desktop#target-platform-override for more info.
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => Loading(),
         '/home': (context) => Home(),
-        '/location': (context) => ChooseLocation()
+        '/location': (context) => ChooseLocation(),
+        '/verify': (context) => PinCodeVerificationScreen(),
       },
       title: 'Ground Security',
       theme: ThemeData.light(),
