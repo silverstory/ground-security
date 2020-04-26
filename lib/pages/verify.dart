@@ -41,8 +41,17 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade50,
+      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomPadding: true,
+      // Colors.blue.shade50,
+      backgroundColor: Color.fromARGB(255, 18, 18, 18),
       key: scaffoldKey,
+      appBar: AppBar(
+        // backgroundColor: Color.fromRGBO(255, 255, 255, 40.0),
+        title: Text('Verify using Pin'),
+        elevation: 8.0,
+        titleSpacing: 2.0,
+      ),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
@@ -71,7 +80,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
-                  'Phone Number Verification',
+                  'Pin Number Verification',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   textAlign: TextAlign.center,
                 ),
@@ -86,11 +95,14 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         TextSpan(
                             text: '0927XXXXXXX',
                             style: TextStyle(
-                                color: Colors.black,
+                                // color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15)),
                       ],
-                      style: TextStyle(color: Colors.black54, fontSize: 15)),
+                      style: TextStyle(
+                        // color: Colors.black54,
+                        fontSize: 15,
+                      )),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -108,9 +120,20 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     animationDuration: Duration(milliseconds: 300),
                     borderRadius: BorderRadius.circular(5),
                     fieldHeight: 50,
-                    backgroundColor: Colors.blue.shade50,
+                    // Colors.blue.shade50,
+                    backgroundColor: Color.fromARGB(255, 18, 18, 18),
                     fieldWidth: 40,
-                    activeFillColor: Colors.white,
+                    // Colors.white,
+                    activeFillColor: Color.fromARGB(255, 18, 18, 18),
+                    activeColor: Color.fromRGBO(255, 255, 255, 0.38),
+                    inactiveFillColor: Color.fromARGB(255, 18, 18, 18),
+                    inactiveColor: Color.fromRGBO(255, 255, 255, 0.38),
+                    selectedFillColor: Color.fromARGB(255, 18, 18, 18),
+                    selectedColor: Color.fromARGB(255, 3, 218, 197),
+                    textStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                    ),
                     enableActiveFill: true,
                     errorAnimationController: errorController,
                     controller: textEditingController,
@@ -128,7 +151,11 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: Text(
                   hasError ? "*Please fill up all the cells properly" : "",
-                  style: TextStyle(color: Colors.red.shade300, fontSize: 15),
+                  style: TextStyle(
+                    // Colors.red.shade300,
+                    // color: Colors.red.shade300,
+                    fontSize: 15,
+                  ),
                 ),
               ),
               SizedBox(
@@ -138,13 +165,17 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 textAlign: TextAlign.center,
                 text: TextSpan(
                     text: "Didn't receive the code? ",
-                    style: TextStyle(color: Colors.black54, fontSize: 15),
+                    style: TextStyle(
+                      // color: Colors.black54,
+                      fontSize: 15,
+                    ),
                     children: [
                       TextSpan(
                           text: " RESEND",
                           recognizer: onTapRecognizer,
                           style: TextStyle(
-                              color: Color(0xFF91D3B3),
+                              // Color(0xFF91D3B3),
+                              color: Color.fromARGB(255, 3, 218, 197),
                               fontWeight: FontWeight.bold,
                               fontSize: 16))
                     ]),
@@ -184,25 +215,27 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         child: Text(
                       "VERIFY".toUpperCase(),
                       style: TextStyle(
-                          color: Colors.white,
+                          // color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold),
                     )),
                   ),
                 ),
                 decoration: BoxDecoration(
-                    color: Colors.green.shade300,
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.green.shade200,
-                          offset: Offset(1, -2),
-                          blurRadius: 5),
-                      BoxShadow(
-                          color: Colors.green.shade200,
-                          offset: Offset(-1, 2),
-                          blurRadius: 5)
-                    ]),
+                  // Colors.green.shade300,
+                  color: Color.fromARGB(255, 3, 218, 197),
+                  borderRadius: BorderRadius.circular(5),
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //       color: Colors.green.shade200,
+                  //       offset: Offset(1, -2),
+                  //       blurRadius: 5),
+                  //   BoxShadow(
+                  //       color: Colors.green.shade200,
+                  //       offset: Offset(-1, 2),
+                  //       blurRadius: 5)
+                  // ],
+                ),
               ),
               SizedBox(
                 height: 16,

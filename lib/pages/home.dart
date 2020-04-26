@@ -45,7 +45,8 @@ class _HomeState extends State<Home> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       resizeToAvoidBottomPadding: true,
-      backgroundColor: Color.fromARGB(255, 3, 54, 255),
+      // Color.fromARGB(255, 3, 54, 255),
+      backgroundColor: Color.fromARGB(255, 18, 18, 18),
       // Color.fromARGB(255, 20, 20, 20),
       floatingActionButton: Material(
         color: Colors.transparent,

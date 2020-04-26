@@ -194,7 +194,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
         color: Color.fromARGB(255, 3, 54, 255),
         child: CircleAvatar(
           radius: 108,
-          backgroundColor: Colors.white,
+          backgroundColor: Color.fromRGBO(255, 255, 255, 0.87),
           child: CircleAvatar(
             radius: 100.0,
             child: ClipRRect(

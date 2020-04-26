@@ -41,8 +41,8 @@ class _LoadingState extends State<Loading> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.blueGrey[900], // dark
-      backgroundColor: Color.fromARGB(255, 3, 54, 255),
+      // Color.fromARGB(255, 3, 54, 255),
+      backgroundColor: Color.fromARGB(255, 18, 18, 18),
       body: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(

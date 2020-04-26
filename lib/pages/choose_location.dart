@@ -124,13 +124,15 @@ class _ChooseLocationState extends State<ChooseLocation> {
     locations.sort((a, b) => a.location.compareTo(b.location));
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 3, 54, 255),
+      backgroundColor: Color.fromARGB(255, 18, 18, 18),
+      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomPadding: true,
       appBar: AppBar(
-        backgroundColor: Colors.blue[900],
+        // backgroundColor: Color.fromRGBO(255, 255, 255, 40.0),
         title: Text('Choose a Location'),
-        elevation: 0,
+        elevation: 8.0,
         titleSpacing: 2.0,
-        centerTitle: true,
+        // centerTitle: true,
       ),
       body: buildContent(),
     );
