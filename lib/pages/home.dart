@@ -53,10 +53,12 @@ class _HomeState extends State<Home> {
         child: Ink(
           decoration: BoxDecoration(
             border: Border.all(
-              color: Color.fromARGB(255, 255, 2, 102),
+              // Color.fromARGB(255, 255, 2, 102),
+              color: Color.fromARGB(255, 3, 218, 197),
               width: 2.0,
             ),
-            color: Color.fromARGB(255, 255, 2, 102),
+            // Color.fromARGB(255, 255, 2, 102),
+            color: Color.fromARGB(255, 3, 218, 197),
             shape: BoxShape.circle,
           ),
           child: InkWell(
