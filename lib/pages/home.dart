@@ -105,7 +105,7 @@ class _HomeState extends State<Home> {
                       ],
                       builder: (_) => WeatherSearchPage(),
                     ),
-                    SizedBox(height: 20.0),
+                    SizedBox(height: 30.0),
                     FlatButton.icon(
                       onPressed: () async {
                         dynamic result =
@@ -122,12 +122,12 @@ class _HomeState extends State<Home> {
                       },
                       icon: Icon(
                         Icons.edit_location,
-                        color: Colors.grey[300],
+                        color: Color.fromARGB(255, 234, 128, 252),
                       ),
                       label: Text(
                         'Edit Location',
                         style: TextStyle(
-                          color: Colors.grey[300],
+                          color: Color.fromARGB(255, 234, 128, 252),
                         ),
                       ),
                     ),

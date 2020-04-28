@@ -74,7 +74,7 @@ class BasicInfo extends StatelessWidget {
                       width: 15.0,
                     ),
                     Text(
-                      'ODESFA',
+                      'MOTORPOOL',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         wordSpacing: 6.0,
@@ -82,7 +82,7 @@ class BasicInfo extends StatelessWidget {
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         // Color.fromARGB(255, 2, 53, 255),
-                        color: Color.fromRGBO(255, 255, 255, 0.6),
+                        color: Color.fromRGBO(255, 255, 255, 0.38),
                       ),
                     ),
                   ],

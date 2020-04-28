@@ -77,6 +77,9 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
         Material(
           elevation: 2.0,
           type: MaterialType.card,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(7.0),
+          ),
           color: Color.fromRGBO(255, 255, 255, 0.07),
           child: Container(
             width: MediaQuery.of(context).size.width * 0.90, // double.infinity,
@@ -85,7 +88,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
             child: Stack(
               alignment: Alignment.topCenter,
               fit: StackFit.loose,
-              overflow: Overflow.visible,
+              overflow: Overflow.clip,
               children: <Widget>[
                 Positioned(
                   top: 0.0,
@@ -113,13 +116,13 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
           // Color.fromARGB(255, 255, 222, 3),
           // Color.fromARGB(255, 255, 2, 102),
           // Color.fromARGB(255, 187, 134, 252),
-          color: Color.fromRGBO(255, 255, 255, 0.38),
+          color: Color.fromRGBO(255, 255, 255, 0.07),
           indent: 60.0,
           endIndent: 60.0,
         ),
         AccessBadge(accessFont: accessFont, weather: weather),
         SizedBox(
-          height: 10.0,
+          height: 30.0,
         ),
         CityInputField(),
       ],

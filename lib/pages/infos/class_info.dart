@@ -22,6 +22,10 @@ class ClassInfo extends StatelessWidget {
           fit: BoxFit.cover,
         ),
         color: Color.fromARGB(255, 3, 54, 255),
+        borderRadius: BorderRadius.only(
+          topLeft: const Radius.circular(7.0),
+          topRight: Radius.circular(7.0),
+        ),
       ),
       height: 45.0,
       width: MediaQuery.of(context).size.width * 0.90,
