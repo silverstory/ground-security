@@ -18,14 +18,18 @@ class AccessBadge extends StatelessWidget {
       direction: Axis.horizontal,
       alignment: WrapAlignment.spaceEvenly,
       children: <Widget>[
-        AvatarGlow(
-          glowColor: Colors.green[200],
-          endRadius: 55.0,
-          duration: Duration(milliseconds: 2000),
-          repeat: true,
-          showTwoGlows: true,
-          curve: Curves.fastLinearToSlowEaseIn,
-          repeatPauseDuration: Duration(milliseconds: 100),
+        // AvatarGlow(
+        //   glowColor: Colors.green,
+        //   endRadius: 55.0,
+        //   duration: Duration(milliseconds: 2000),
+        //   repeat: false,
+        //   animate: false,
+        //   showTwoGlows: true,
+        //   curve: Curves.fastLinearToSlowEaseIn,
+        //   repeatPauseDuration: Duration(milliseconds: 100),
+        CircleAvatar(
+          radius: 55.0,
+          backgroundColor: Colors.transparent,
           child: Material(
             elevation: 3.0,
             shape: CircleBorder(),
@@ -40,14 +44,18 @@ class AccessBadge extends StatelessWidget {
             ),
           ),
         ),
-        AvatarGlow(
-          glowColor: Colors.blue[400],
-          endRadius: 55.0,
-          duration: Duration(milliseconds: 2000),
-          repeat: true,
-          showTwoGlows: true,
-          curve: Curves.fastLinearToSlowEaseIn,
-          repeatPauseDuration: Duration(milliseconds: 100),
+        // AvatarGlow(
+        //   glowColor: Colors.blue,
+        //   endRadius: 55.0,
+        //   duration: Duration(milliseconds: 2000),
+        //   repeat: false,
+        //   animate: false,
+        //   showTwoGlows: true,
+        //   curve: Curves.fastLinearToSlowEaseIn,
+        //   repeatPauseDuration: Duration(milliseconds: 100),
+        CircleAvatar(
+          radius: 55.0,
+          backgroundColor: Colors.transparent,
           child: Material(
             elevation: 3.0,
             shape: CircleBorder(),
@@ -62,14 +70,18 @@ class AccessBadge extends StatelessWidget {
             ),
           ),
         ),
-        AvatarGlow(
-          glowColor: Colors.white,
-          endRadius: 55.0,
-          duration: Duration(milliseconds: 2000),
-          repeat: true,
-          showTwoGlows: true,
-          curve: Curves.fastLinearToSlowEaseIn,
-          repeatPauseDuration: Duration(milliseconds: 100),
+        // AvatarGlow(
+        //   glowColor: Color.fromRGBO(255, 255, 255, 0.87),
+        //   endRadius: 55.0,
+        //   duration: Duration(milliseconds: 2000),
+        //   repeat: false,
+        //   animate: false,
+        //   showTwoGlows: true,
+        //   curve: Curves.fastLinearToSlowEaseIn,
+        //   repeatPauseDuration: Duration(milliseconds: 100),
+        CircleAvatar(
+          radius: 55.0,
+          backgroundColor: Colors.transparent,
           child: Material(
             elevation: 3.0,
             shape: CircleBorder(),
@@ -84,14 +96,18 @@ class AccessBadge extends StatelessWidget {
             ),
           ),
         ),
-        AvatarGlow(
-          glowColor: Colors.red,
-          endRadius: 55.0,
-          duration: Duration(milliseconds: 2000),
-          repeat: true,
-          showTwoGlows: true,
-          curve: Curves.fastLinearToSlowEaseIn,
-          repeatPauseDuration: Duration(milliseconds: 100),
+        // AvatarGlow(
+        //   glowColor: Colors.red,
+        //   endRadius: 55.0,
+        //   duration: Duration(milliseconds: 2000),
+        //   repeat: false,
+        //   animate: false,
+        //   showTwoGlows: true,
+        //   curve: Curves.fastLinearToSlowEaseIn,
+        //   repeatPauseDuration: Duration(milliseconds: 100),
+        CircleAvatar(
+          radius: 55.0,
+          backgroundColor: Colors.transparent,
           child: Material(
             elevation: 3.0,
             shape: CircleBorder(),

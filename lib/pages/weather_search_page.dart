@@ -24,7 +24,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
   Color accessFont = Colors.black;
   final asset = AssetFlare(
       bundle: rootBundle, name: "assets/flare/meteor_loading_eprel.flr");
-  final pin_asset = AssetFlare(
+  final pinAsset = AssetFlare(
       bundle: rootBundle, name: "assets/flare/pin_location_eprel.flr");
   @override
   Widget build(BuildContext context) {
@@ -110,15 +110,18 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
             ),
           ),
         ),
-        Divider(
-          height: 70.0,
-          thickness: 12.0,
-          // Color.fromARGB(255, 255, 222, 3),
-          // Color.fromARGB(255, 255, 2, 102),
-          // Color.fromARGB(255, 187, 134, 252),
-          color: Color.fromRGBO(255, 255, 255, 0.07),
-          indent: 60.0,
-          endIndent: 60.0,
+        FractionallySizedBox(
+          widthFactor: 0.7,
+          child: Divider(
+            height: 70.0,
+            thickness: 12.0,
+            // Color.fromARGB(255, 255, 222, 3),
+            // Color.fromARGB(255, 255, 2, 102),
+            // Color.fromARGB(255, 187, 134, 252),
+            color: Color.fromRGBO(255, 255, 255, 0.07),
+            // indent: 60.0,
+            // endIndent: 60.0,
+          ),
         ),
         AccessBadge(accessFont: accessFont, weather: weather),
         SizedBox(

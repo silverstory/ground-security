@@ -39,8 +39,8 @@ class _HomeState extends State<Home> {
     data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
 
     // for background image - old design
-    String bgImage = data['isDaytime'] ? 'day.png' : 'night.png';
-    Color bgColor = data['isDaytime'] ? Colors.blue : Colors.indigo[700];
+    // String bgImage = data['isDaytime'] ? 'day.png' : 'night.png';
+    // Color bgColor = data['isDaytime'] ? Colors.blue : Colors.indigo[700];
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -140,7 +140,7 @@ class _HomeState extends State<Home> {
                           style: TextStyle(
                             fontSize: 28.0,
                             letterSpacing: 2.0,
-                            color: Colors.white,
+                            color: Color.fromRGBO(255, 255, 255, 0.6),
                           ),
                         ),
                       ],
@@ -150,7 +150,7 @@ class _HomeState extends State<Home> {
                       data['time'],
                       style: TextStyle(
                         fontSize: 66.0,
-                        color: Colors.white,
+                        color: Color.fromRGBO(255, 255, 255, 0.87),
                       ),
                     ),
                   ],

@@ -27,7 +27,9 @@ class FaceImage extends StatelessWidget {
         color: Colors.transparent,
         child: CircleAvatar(
           radius: 103,
-          backgroundColor: Color.fromARGB(255, 187, 134, 252),
+          // Color.fromARGB(255, 187, 134, 252),
+          // Color.fromRGBO(255, 255, 255, 0.87),
+          backgroundColor: Color.fromRGBO(255, 255, 255, 0.6),
           child: CircleAvatar(
             radius: 100.0,
             child: ClipRRect(
