@@ -37,8 +37,8 @@ class FaceImage extends StatelessWidget {
               child: ProgressiveImage(
                 placeholder: AssetImage('assets/placeholder/placeholder.gif'),
                 thumbnail: AssetImage(
-                    'assets/placeholder/${weather.placeholder}'), // 64x43 recommended
-                image: NetworkImage('${weather.facepic}'),
+                    'assets/placeholder/${weather.placeHolder}'), // 64x43 recommended
+                image: NetworkImage('${weather.facePic}'),
                 height: 200.0,
                 width: 200.0,
                 fit: BoxFit.cover,

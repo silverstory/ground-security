@@ -37,7 +37,7 @@ class AccessBadge extends StatelessWidget {
               backgroundColor: Colors.transparent,
               child: Icon(
                 Icons.filter_1,
-                color: Colors.green,
+                color: weather.one,
                 size: 36.0,
               ),
               radius: 40.0,
@@ -63,7 +63,7 @@ class AccessBadge extends StatelessWidget {
               backgroundColor: Colors.transparent,
               child: Icon(
                 Icons.filter_2,
-                color: Colors.blue,
+                color: weather.two,
                 size: 36.0,
               ),
               radius: 40.0,
@@ -89,7 +89,7 @@ class AccessBadge extends StatelessWidget {
               backgroundColor: Colors.transparent,
               child: Icon(
                 Icons.filter_3,
-                color: Color.fromRGBO(255, 255, 255, 0.87),
+                color: weather.three,
                 size: 36.0,
               ),
               radius: 40.0,
@@ -115,7 +115,7 @@ class AccessBadge extends StatelessWidget {
               backgroundColor: Colors.transparent,
               child: Icon(
                 Icons.filter_4,
-                color: Colors.red,
+                color: weather.four,
                 size: 36.0,
               ),
               radius: 40.0,

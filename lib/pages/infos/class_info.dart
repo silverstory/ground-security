@@ -36,7 +36,7 @@ class ClassInfo extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(top: 40.0),
             child: Text(
-              'OP OFFICIAL',
+              weather.classGroup,
               textAlign: TextAlign.center,
               style: TextStyle(
                 wordSpacing: 6.0,

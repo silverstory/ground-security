@@ -1,10 +1,14 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
+
 import 'model/weather.dart';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:groundsecurity/interceptor/dio_connectivity_request_retrier.dart';
 import 'package:groundsecurity/interceptor/retry_interceptor.dart';
+
+import 'package:faker/faker.dart';
 
 abstract class WeatherRepository {
   Future<Weather> fetchWeather(String cityName);
@@ -32,27 +36,52 @@ class FakeWeatherRepository implements WeatherRepository {
   };
 
   @override
-  Future<Weather> fetchWeather(String cityName) {
+  Future<Weather> fetchWeather(String sCode) {
     // Simulate network delay
     return Future.delayed(
       Duration(seconds: 3),
       () async {
+        /*
+        * start to get data from api
+        */
+
+        String fullName;
+        String position;
+        String office;
+        String classGroup;
+        String facePic;
+        String placeHolder;
+        String gender;
+
+        /*
+        * use enum to transform colorN
+        * to a color object below
+        */
+        String color1;
+        String color2; // data coming from api
+        String color3; // as hex color value
+        String color4;
+
         final random = Random();
 
-        // // Simulate some network error
+        // Simulate some network error
         // if (random.nextBool()) {
         //   throw NetworkError();
         // }
 
-        // Since we're inside a fake repository, we need to cache the temperature
-        // in order to have the same one returned in for the detailed weather
-        cachedTempCelsius = 20 + random.nextInt(15) + random.nextDouble();
+        /*
+        * Since we're inside a fake repository, we need to cache the temperature
+        * in order to have the same one returned in for the detailed weather
+        * cachedTempCelsius = 20 + random.nextInt(15) + random.nextDouble();
+        */
 
         final _random = new Random();
-        /**
-         * Generates a positive random integer uniformly distributed on the range
-         * from [min], inclusive, to [max], exclusive.
-         */
+
+        /*
+        * Generates a positive random integer uniformly distributed on the range
+        * from [min], inclusive, to [max], exclusive.
+        */
+
         int next(int min, int max) => min + _random.nextInt(max - min);
 
         int intNow = next(1, 3);
@@ -61,6 +90,8 @@ class FakeWeatherRepository implements WeatherRepository {
         String picNow =
             genderNow == 'male' ? maleMap[picRand] : femaleMap[picRand];
         String placeholderNow = placeholderMap[genderNow];
+
+        const faker = Faker();
 
         dio = Dio();
 
@@ -77,14 +108,36 @@ class FakeWeatherRepository implements WeatherRepository {
         dio.interceptors.removeLast();
         dio = null;
 
+        fullName = faker.person.name();
+        position = faker.job.title();
+        office = faker.company.name();
+        classGroup = faker.sport.name();
+        facePic = picNow;
+        placeHolder = placeholderNow;
+        gender = genderNow;
+        /*
+        * colors values should come from
+        * colorN's equivalent enum value
+        */
+        Color one = Colors.green;
+        Color two = Colors.blue;
+        Color three = Color.fromRGBO(255, 255, 255, 0.87);
+        Color four = Colors.red;
+
         // // Return "fetched" weather
         return Weather(
-          facepic: picNow,
-          gender: genderNow,
-          placeholder: placeholderNow,
-          cityName: cityName,
-          // Temperature between 20 and 35.99
-          temperatureCelsius: cachedTempCelsius,
+          sCode: sCode,
+          fullName: fullName,
+          position: position,
+          office: office,
+          classGroup: classGroup,
+          facePic: facePic,
+          placeHolder: placeHolder,
+          gender: gender,
+          one: one,
+          two: two,
+          three: three,
+          four: four,
         );
       },
     );

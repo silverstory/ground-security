@@ -33,7 +33,7 @@ class BasicInfo extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Text(
-                  'DIRECTOR XCVIII',
+                  weather.position,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     wordSpacing: 6.0,
@@ -47,7 +47,7 @@ class BasicInfo extends StatelessWidget {
                   height: 22.0,
                 ),
                 Text(
-                  weather.cityName,
+                  weather.fullName,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     wordSpacing: 6.0,
@@ -74,7 +74,7 @@ class BasicInfo extends StatelessWidget {
                       width: 15.0,
                     ),
                     Text(
-                      'MOTORPOOL',
+                      weather.office,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         wordSpacing: 6.0,
