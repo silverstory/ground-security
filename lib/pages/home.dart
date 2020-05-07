@@ -136,7 +136,8 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          data['location'],
+                          // data['location'],
+                          data['time'],
                           style: TextStyle(
                             fontSize: 28.0,
                             letterSpacing: 2.0,
@@ -147,7 +148,8 @@ class _HomeState extends State<Home> {
                     ),
                     SizedBox(height: 20.0),
                     Text(
-                      data['time'],
+                      // data['time'],
+                      data['location'],
                       style: TextStyle(
                         fontSize: 66.0,
                         color: Color.fromRGBO(255, 255, 255, 0.87),

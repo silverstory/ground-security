@@ -5,11 +5,9 @@ import 'package:groundsecurity/data/model/weather.dart';
 class AccessBadge extends StatelessWidget {
   const AccessBadge({
     Key key,
-    @required this.accessFont,
     @required this.weather,
   }) : super(key: key);
 
-  final Color accessFont;
   final Weather weather;
 
   @override

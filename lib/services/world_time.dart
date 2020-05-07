@@ -91,6 +91,11 @@ class WorldTime {
     now = now.add(Duration(hours: offset));
 
     isDaytime = now.hour > 6 && now.hour < 20 ? true : false;
+    /*
+    * this is the original
+    * time value
     time = DateFormat.jm().format(now);
+    */
+    time = 'Ground Security 🛡️';
   }
 }

@@ -18,7 +18,7 @@ class _LoadingState extends State<Loading> {
   void setupWorldTime() async {
     // fakeFetchWeather();
     WorldTime instance =
-        WorldTime(location: 'Manila', flag: 'ph.png', url: 'Asia/Manila');
+        WorldTime(location: 'GATE 7', flag: 'ph.png', url: 'Asia/Manila');
     // instance.initDio();
     await instance.getTimeByIp();
     Navigator.pushReplacementNamed(context, '/home', arguments: {

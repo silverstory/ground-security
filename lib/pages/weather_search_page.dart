@@ -123,7 +123,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
             // endIndent: 60.0,
           ),
         ),
-        AccessBadge(accessFont: accessFont, weather: weather),
+        AccessBadge(weather: weather),
         SizedBox(
           height: 30.0,
         ),
