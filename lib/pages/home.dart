@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:groundsecurity/data/weather_repository.dart';
@@ -7,6 +8,7 @@ import 'package:states_rebuilder/states_rebuilder.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import "package:flare_flutter/flare_cache_builder.dart";
 import 'package:flare_flutter/provider/asset_flare.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:groundsecurity/services/world_time.dart';
 
 class Home extends StatefulWidget {
@@ -18,6 +20,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Map data = {};
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  // Future<String> _location;
   final asset =
       AssetFlare(bundle: rootBundle, name: "assets/flare/qrcode_eprel.flr");
 
@@ -33,6 +37,14 @@ class _HomeState extends State<Home> {
   //   super.initState();
   //   setupWorldTimeDio();
   // }
+
+  Future<void> _changeLocation(String location) async {
+    final SharedPreferences prefs = await _prefs;
+    // final String location = (prefs.getString('location') ?? 'GATE 7');
+    await prefs.setString("location", location).then(
+          (bool success) => success,
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,6 +123,7 @@ class _HomeState extends State<Home> {
                         dynamic result =
                             await Navigator.pushNamed(context, '/location');
                         if (result != null) {
+                          await _changeLocation(result['location']);
                           setState(() {
                             data = {
                               'time': result['time'],

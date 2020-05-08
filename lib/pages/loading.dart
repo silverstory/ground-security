@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:groundsecurity/services/world_time.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import "package:flare_flutter/flare_cache_builder.dart";
 import 'package:flare_flutter/provider/asset_flare.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Loading extends StatefulWidget {
   @override
@@ -11,14 +13,17 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  Future<String> _location;
+
   final asset = AssetFlare(
     bundle: rootBundle,
     name: "assets/flare/perfect_loading_eprel.flr",
   );
-  void setupWorldTime() async {
+  void setupWorldTime(String location) async {
     // fakeFetchWeather();
     WorldTime instance =
-        WorldTime(location: 'GATE 7', flag: 'ph.png', url: 'Asia/Manila');
+        WorldTime(location: location, flag: 'ph.png', url: 'Asia/Manila');
     // instance.initDio();
     await instance.getTimeByIp();
     Navigator.pushReplacementNamed(context, '/home', arguments: {
@@ -32,7 +37,16 @@ class _LoadingState extends State<Loading> {
   @override
   void initState() {
     super.initState();
-    setupWorldTime();
+    /*
+    * read location from storage
+    */
+    _location = _prefs.then((SharedPreferences prefs) {
+      return (prefs.getString('location') ?? 'GATE 7');
+    });
+    /*
+    * setup location
+    */
+    _location.then((value) => setupWorldTime(value));
   }
 
   @override
