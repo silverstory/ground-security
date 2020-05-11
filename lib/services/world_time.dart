@@ -96,6 +96,7 @@ class WorldTime {
     * time value
     time = DateFormat.jm().format(now);
     */
-    time = 'Ground Security 🛡️';
+    // time = 'Ground Security 🛡️';
+    time = 'Ground Security';
   }
 }

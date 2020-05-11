@@ -4,6 +4,8 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:flushbar/flushbar.dart';
+import 'package:flushbar/flushbar_helper.dart';
 
 class PinCodeVerificationScreen extends StatefulWidget {
   @override
@@ -197,14 +199,17 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                             .shake); // Triggering error shake animation
                         setState(() {
                           hasError = true;
+                          showInfoFlushbar(context);
+                          // showErrorFlushbarHelper(context);
+                          // showFloatingFlushbar(context);
                         });
                       } else {
                         setState(() {
                           hasError = false;
-                          scaffoldKey.currentState.showSnackBar(SnackBar(
-                            content: Text("Aye!!"),
-                            duration: Duration(seconds: 2),
-                          ));
+                          // scaffoldKey.currentState.showSnackBar(SnackBar(
+                          //   content: Text("Aye!!"),
+                          //   duration: Duration(seconds: 2),
+                          // ));
                           // navigate to previous screen
                           Navigator.pop(context, {
                             'success': true,
@@ -254,5 +259,52 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
         ),
       ),
     );
+  }
+
+  void showInfoFlushbar(BuildContext context) {
+    Flushbar(
+      title: 'This action is prohibited',
+      message: 'You entered an invalid pin',
+      icon: Icon(
+        Icons.info_outline,
+        size: 28,
+        color: Colors.blue.shade300,
+      ),
+      leftBarIndicatorColor: Colors.blue.shade300,
+      duration: Duration(seconds: 3),
+    )..show(context);
+  }
+
+  void showErrorFlushbarHelper(BuildContext context) {
+    FlushbarHelper.createError(
+      title: 'Oops! Wrong PIN',
+      message: 'That is an incorrect pin',
+    ).show(context);
+  }
+
+  void showFloatingFlushbar(BuildContext context) {
+    Flushbar(
+      padding: EdgeInsets.all(10),
+      borderRadius: 8,
+      backgroundGradient: LinearGradient(
+        colors: [Colors.green.shade800, Colors.greenAccent.shade700],
+        stops: [0.6, 1],
+      ),
+      boxShadows: [
+        BoxShadow(
+          color: Colors.black45,
+          offset: Offset(3, 3),
+          blurRadius: 3,
+        ),
+      ],
+      // reverseAnimationCurve: Curves.linearToEaseOut,
+      // All of the previous Flushbars could be dismissed by swiping down
+      // now we want to swipe to the sides
+      dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+      // The default curve is Curves.easeOut
+      forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+      title: 'Got it!',
+      message: 'You nailed it!',
+    )..show(context);
   }
 }
