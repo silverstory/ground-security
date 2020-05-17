@@ -103,10 +103,8 @@ class FakeWeatherRepository implements WeatherRepository {
             ),
           ),
         );
-        Response response = await dio.get('http://worldtimeapi.org/api/ip');
 
-        dio.interceptors.removeLast();
-        dio = null;
+        Response response = await dio.get('http://worldtimeapi.org/api/ip');
 
         fullName = faker.person.name();
         position = faker.job.title();
@@ -115,14 +113,18 @@ class FakeWeatherRepository implements WeatherRepository {
         facePic = picNow;
         placeHolder = placeholderNow;
         gender = genderNow;
+
         /*
-        * colors values should come from
-        * colorN's equivalent enum value
-        */
+          * colors values should come from
+          * colorN's equivalent enum value
+          */
         Color one = Colors.green;
         Color two = Colors.blue;
         Color three = Color.fromRGBO(255, 255, 255, 0.87);
         Color four = Colors.red;
+
+        dio.interceptors.removeLast();
+        dio = null;
 
         // // Return "fetched" weather
         return Weather(

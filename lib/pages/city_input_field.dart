@@ -46,7 +46,10 @@ class CityInputField extends StatelessWidget {
             ),
           );
         } else {
-          throw error;
+          reactiveModel.setState(
+            (store) => store.getEmptyWeather(),
+          );
+          // throw error;
         }
       },
     );

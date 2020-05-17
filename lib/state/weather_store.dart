@@ -12,4 +12,8 @@ class WeatherStore {
   void getWeather(String cityName) async {
     _weather = await _weatherRepository.fetchWeather(cityName);
   }
+
+  void getEmptyWeather() {
+    _weather = Weather.empty();
+  }
 }
