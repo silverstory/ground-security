@@ -34,7 +34,7 @@ class ClassInfo extends StatelessWidget {
         child: Align(
           alignment: Alignment.topCenter,
           child: Padding(
-            padding: const EdgeInsets.only(top: 40.0),
+            padding: const EdgeInsets.only(top: 15.0), // top: 40.0
             child: Text(
               weather.classGroup,
               textAlign: TextAlign.center,
@@ -43,6 +43,7 @@ class ClassInfo extends StatelessWidget {
                 letterSpacing: 6.0,
                 fontSize: 30,
                 color: Colors.white,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),

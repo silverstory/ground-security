@@ -30,7 +30,7 @@ class BasicInfo extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(
-                16.0, 0.0, 16.0, 24.0), // .only(bottom: 54.0),
+                16.0, 0.0, 16.0, 10.0), // .only(bottom: 54.0),
             child: Column(
               children: <Widget>[
                 Expanded(

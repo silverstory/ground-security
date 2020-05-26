@@ -60,48 +60,48 @@ class _HomeState extends State<Home> {
       // Color.fromARGB(255, 3, 54, 255),
       backgroundColor: Color.fromARGB(255, 18, 18, 18),
       // Color.fromARGB(255, 20, 20, 20),
-      floatingActionButton: Material(
-        color: Colors.transparent,
-        child: Ink(
-          decoration: BoxDecoration(
-            border: Border.all(
-              // Color.fromARGB(255, 255, 2, 102),
-              color: Color.fromARGB(255, 3, 218, 197),
-              width: 2.0,
-            ),
-            // Color.fromARGB(255, 255, 2, 102),
-            color: Color.fromARGB(255, 3, 218, 197),
-            shape: BoxShape.circle,
-          ),
-          child: InkWell(
-            //This keeps the splash effect within the circle
-            borderRadius: BorderRadius.circular(
-                1000.0), //Something large to ensure a circle
-            onTap: () {},
-            child: Padding(
-              padding: EdgeInsets.all(15.0),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: 50.0,
-                  maxWidth: 50.0,
-                ),
-                child: FlareCacheBuilder(
-                  [asset],
-                  builder: (BuildContext context, bool _) {
-                    return FlareActor.asset(
-                      asset,
-                      alignment: Alignment.center,
-                      fit: BoxFit.contain,
-                      animation: 'show',
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      // floatingActionButton: Material(
+      //   color: Colors.transparent,
+      //   child: Ink(
+      //     decoration: BoxDecoration(
+      //       border: Border.all(
+      //         // Color.fromARGB(255, 255, 2, 102),
+      //         color: Color.fromARGB(255, 3, 218, 197),
+      //         width: 2.0,
+      //       ),
+      //       // Color.fromARGB(255, 255, 2, 102),
+      //       color: Color.fromARGB(255, 3, 218, 197),
+      //       shape: BoxShape.circle,
+      //     ),
+      //     child: InkWell(
+      //       //This keeps the splash effect within the circle
+      //       borderRadius: BorderRadius.circular(
+      //           1000.0), //Something large to ensure a circle
+      //       onTap: () {},
+      //       child: Padding(
+      //         padding: EdgeInsets.all(15.0),
+      //         child: ConstrainedBox(
+      //           constraints: BoxConstraints(
+      //             maxHeight: 50.0,
+      //             maxWidth: 50.0,
+      //           ),
+      //           child: FlareCacheBuilder(
+      //             [asset],
+      //             builder: (BuildContext context, bool _) {
+      //               return FlareActor.asset(
+      //                 asset,
+      //                 alignment: Alignment.center,
+      //                 fit: BoxFit.contain,
+      //                 animation: 'show',
+      //               );
+      //             },
+      //           ),
+      //         ),
+      //       ),
+      //     ),
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: SafeArea(
         child: Container(
           child: Center(
