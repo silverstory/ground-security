@@ -1,12 +1,21 @@
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_cache_builder.dart';
 import 'package:flare_flutter/provider/asset_flare.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:groundsecurity/data/weather_repository.dart';
+import 'package:groundsecurity/state/weather_store.dart';
 
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
+
+const flashOn = 'FLASH ON';
+const flashOff = 'FLASH OFF';
+const frontCamera = 'FRONT CAMERA';
+const backCamera = 'BACK CAMERA';
 
 class ScannerWidget extends StatefulWidget {
   const ScannerWidget({
@@ -21,12 +30,14 @@ class ScannerWidget extends StatefulWidget {
 }
 
 class _ScannerWidgetState extends State<ScannerWidget> {
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  var qrText = "";
+  var qrText = '';
+  var flashState = flashOff;
+  var cameraState = backCamera;
   QRViewController controller;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
-  final assetPlayPause =
-      AssetFlare(bundle: rootBundle, name: "assets/flare/qrcode_eprel.flr");
+  final assetPlayPause = AssetFlare(
+      bundle: rootBundle, name: "assets/flare/play-pause-dark-mode.flr");
 
   @override
   Widget build(BuildContext context) {
@@ -38,78 +49,261 @@ class _ScannerWidgetState extends State<ScannerWidget> {
       ),
       color: Color.fromRGBO(255, 255, 255, 0.07),
       child: Container(
-          width: MediaQuery.of(context).size.width * 0.90,
-          height: 170.0,
-          color: Colors.transparent,
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                flex: 4,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 7.0),
-                  child: QRView(
-                    key: qrKey,
-                    onQRViewCreated: _onQRViewCreated,
-                    overlay: QrScannerOverlayShape(
-                      borderColor: Colors.red,
-                      borderRadius: 10,
-                      borderLength: 30,
-                      borderWidth: 10,
-                      cutOutSize: 300,
-                    ),
+        width: MediaQuery.of(context).size.width * 0.95,
+        height: 250.0,
+        color: Colors.transparent,
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 5.0),
+                child: QRView(
+                  key: qrKey,
+                  onQRViewCreated: _onQRViewCreated,
+                  overlay: QrScannerOverlayShape(
+                    borderColor: Colors.red,
+                    borderRadius: 10,
+                    borderLength: 30,
+                    borderWidth: 10,
+                    cutOutSize: 200,
                   ),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 7.0),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Ink(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          // Color.fromARGB(255, 255, 2, 102),
-                          color: Color.fromARGB(255, 3, 218, 197),
-                          width: 2.0,
+            ),
+            Expanded(
+              flex: 1,
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    // AutoSizeText('This is the result of scan: $qrText'),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   crossAxisAlignment: CrossAxisAlignment.center,
+                    //   children: <Widget>[
+
+                    // FLASH
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 5.0,
                         ),
-                        // Color.fromARGB(255, 255, 2, 102),
-                        color: Color.fromARGB(255, 3, 218, 197),
-                        shape: BoxShape.circle,
-                      ),
-                      child: InkWell(
-                        //This keeps the splash effect within the circle
-                        borderRadius: BorderRadius.circular(
-                            800.0), //Something large to ensure a circle
-                        onTap: () {},
-                        child: Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints(
-                              maxHeight: 50.0,
-                              maxWidth: 50.0,
-                            ),
-                            child: FlareCacheBuilder(
-                              [assetPlayPause],
-                              builder: (BuildContext context, bool _) {
-                                return FlareActor.asset(
-                                  assetPlayPause,
-                                  alignment: Alignment.center,
-                                  fit: BoxFit.contain,
-                                  animation: 'show',
-                                );
-                              },
+                        CircleAvatar(
+                          radius: 20.0,
+                          backgroundColor: Color.fromARGB(255, 0, 0, 0),
+                          child: IconButton(
+                            iconSize: 25.0,
+                            color: Color.fromARGB(255, 255, 17, 104),
+                            icon: Icon(Icons.lightbulb_outline),
+                            tooltip: 'Turn flash on/off',
+                            onPressed: () {
+                              if (controller != null) {
+                                controller.toggleFlash();
+                                if (_isFlashOn(flashState)) {
+                                  setState(() {
+                                    flashState = flashOff;
+                                  });
+                                } else {
+                                  setState(() {
+                                    flashState = flashOn;
+                                  });
+                                }
+                              }
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 3.0,
+                        ),
+                        Text(
+                          flashState,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromRGBO(255, 255, 255, 0.87),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    // ACTIVE CAMERA
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        CircleAvatar(
+                          radius: 20.0,
+                          backgroundColor: Color.fromARGB(255, 0, 0, 0),
+                          child: IconButton(
+                            iconSize: 25.0,
+                            color: Color.fromARGB(255, 255, 17, 104),
+                            icon: Icon(Icons.camera_alt),
+                            tooltip: 'Turn flash on/off',
+                            onPressed: () {
+                              if (controller != null) {
+                                controller.flipCamera();
+                                if (_isBackCamera(cameraState)) {
+                                  setState(() {
+                                    cameraState = frontCamera;
+                                  });
+                                } else {
+                                  setState(() {
+                                    cameraState = backCamera;
+                                  });
+                                }
+                              }
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 3.0,
+                        ),
+                        Text(
+                          cameraState,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromRGBO(255, 255, 255, 0.87),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    // Divider(
+                    //   height: 10.0, // 40.0,
+                    //   thickness: 5.0, // 10.0,
+                    //   color: Color.fromRGBO(255, 255, 255, 0.38),
+                    //   indent: 20.0,
+                    //   endIndent: 20.0,
+                    // ),
+
+                    //   ],
+                    // ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        // play flare button
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            right: 5.0,
+                            bottom: 7.0,
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: Ink(
+                              decoration: BoxDecoration(
+                                // border: Border.all(
+                                //   color: Color.fromARGB(255, 0, 0, 0),
+                                //   width: 2.0,
+                                // ),
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                shape: BoxShape.circle,
+                              ),
+                              child: InkWell(
+                                //This keeps the splash effect within the circle
+                                borderRadius: BorderRadius.circular(
+                                    800.0), // 1000.0 - Something large to ensure a circle
+                                onTap: () {
+                                  controller?.resumeCamera();
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.all(0.0), // all(15.0)
+                                  child: ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                      maxHeight: 50.0, // 50.0,
+                                      maxWidth: 50.0, // 50.0,
+                                    ),
+                                    child: FlareCacheBuilder(
+                                      [assetPlayPause],
+                                      builder: (BuildContext context, bool _) {
+                                        return FlareActor.asset(
+                                          assetPlayPause,
+                                          alignment: Alignment.center,
+                                          fit: BoxFit.contain,
+                                          animation: 'Pause',
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
+
+                        // pause flare button
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            right: 5.0,
+                            bottom: 7.0,
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: Ink(
+                              decoration: BoxDecoration(
+                                // border: Border.all(
+                                //   color: Color.fromARGB(255, 0, 0, 0),
+                                //   width: 2.0,
+                                // ),
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                shape: BoxShape.circle,
+                              ),
+                              child: InkWell(
+                                //This keeps the splash effect within the circle
+                                borderRadius: BorderRadius.circular(
+                                    800.0), // 1000.0 - Something large to ensure a circle
+                                onTap: () {
+                                  controller?.pauseCamera();
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.all(0.0), // all(15.0)
+                                  child: ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                      maxHeight: 50.0, // 50.0,
+                                      maxWidth: 50.0, // 50.0,
+                                    ),
+                                    child: FlareCacheBuilder(
+                                      [assetPlayPause],
+                                      builder: (BuildContext context, bool _) {
+                                        return FlareActor.asset(
+                                          assetPlayPause,
+                                          alignment: Alignment.center,
+                                          fit: BoxFit.contain,
+                                          animation: 'Play',
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                  ],
                 ),
               ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
     );
+  }
+
+  bool _isFlashOn(String current) {
+    return flashOn == current;
+  }
+
+  bool _isBackCamera(String current) {
+    return backCamera == current;
   }
 
   void _onQRViewCreated(QRViewController controller) {
@@ -118,12 +312,34 @@ class _ScannerWidgetState extends State<ScannerWidget> {
       setState(() {
         qrText = scanData;
       });
+      submitCityName(scanData);
     });
+  }
+
+  void submitCityName(String cityName) {
+    final reactiveModel = Injector.getAsReactive<WeatherStore>();
+    reactiveModel.setState(
+      (store) => store.getWeather(cityName),
+      onError: (context, error) {
+        if (error is NetworkError) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Couldn't fetch weather. Is the device online?"),
+            ),
+          );
+        } else {
+          reactiveModel.setState(
+            (store) => store.getEmptyWeather(),
+          );
+          // throw error;
+        }
+      },
+    );
   }
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 }

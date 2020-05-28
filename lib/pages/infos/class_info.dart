@@ -28,7 +28,7 @@ class ClassInfo extends StatelessWidget {
         ),
       ),
       height: 45.0,
-      width: MediaQuery.of(context).size.width * 0.90,
+      width: MediaQuery.of(context).size.width * 0.95,
       margin: EdgeInsets.symmetric(horizontal: 5.0),
       child: Center(
         child: Align(

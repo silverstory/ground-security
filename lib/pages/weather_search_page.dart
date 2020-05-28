@@ -8,7 +8,6 @@ import 'package:groundsecurity/pages/infos/access_badge.dart';
 import 'package:groundsecurity/pages/infos/basic_info.dart';
 import 'package:groundsecurity/pages/infos/class_info.dart';
 import 'package:groundsecurity/pages/infos/face_image.dart';
-import 'package:groundsecurity/pages/scanner.dart';
 import 'package:groundsecurity/state/weather_store.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 // import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -75,20 +74,6 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
   Column buildColumnWithData(Weather weather) {
     return Column(
       children: <Widget>[
-        ScannerWidget(context: context),
-        FractionallySizedBox(
-          widthFactor: 0.7,
-          child: Divider(
-            height: 40.0,
-            thickness: 10.0,
-            // Color.fromARGB(255, 255, 222, 3),
-            // Color.fromARGB(255, 255, 2, 102),
-            // Color.fromARGB(255, 187, 134, 252),
-            color: Color.fromRGBO(255, 255, 255, 0.07),
-            // indent: 60.0,
-            // endIndent: 60.0,
-          ),
-        ),
         Material(
           elevation: 2.0,
           type: MaterialType.card,
@@ -97,7 +82,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
           ),
           color: Color.fromRGBO(255, 255, 255, 0.07),
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.90, // double.infinity,
+            width: MediaQuery.of(context).size.width * 0.95, // double.infinity,
             height: 580.0, // 650.0, // 530.0,
             color: Colors.transparent,
             child: Stack(
