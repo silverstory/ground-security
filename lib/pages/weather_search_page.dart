@@ -8,6 +8,7 @@ import 'package:groundsecurity/pages/infos/access_badge.dart';
 import 'package:groundsecurity/pages/infos/basic_info.dart';
 import 'package:groundsecurity/pages/infos/class_info.dart';
 import 'package:groundsecurity/pages/infos/face_image.dart';
+import 'package:groundsecurity/pages/scanner.dart';
 import 'package:groundsecurity/state/weather_store.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 // import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -46,8 +47,14 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
   }
 
   Widget buildInitialInput() {
-    return Center(
-      child: CityInputField(),
+    return Column(
+      children: <Widget>[
+        ScannerWidget(context: context),
+        SizedBox(height: 10.0),
+        Center(
+          child: CityInputField(),
+        )
+      ],
     );
   }
 
@@ -74,6 +81,8 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
   Column buildColumnWithData(Weather weather) {
     return Column(
       children: <Widget>[
+        ScannerWidget(context: context),
+        SizedBox(height: 10.0),
         Material(
           elevation: 2.0,
           type: MaterialType.card,

@@ -39,7 +39,7 @@ class FakeWeatherRepository implements WeatherRepository {
   Future<Weather> fetchWeather(String sCode) {
     // Simulate network delay
     return Future.delayed(
-      Duration(seconds: 3),
+      Duration(seconds: 2),
       () async {
         /*
         * start to get data from api

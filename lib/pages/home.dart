@@ -111,20 +111,6 @@ class _HomeState extends State<Home> {
                 padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 20.0),
                 child: Column(
                   children: <Widget>[
-                    ScannerWidget(context: context),
-                    // FractionallySizedBox(
-                    //   widthFactor: 0.7,
-                    //   child: Divider(
-                    //     height: 20.0, // 40.0,
-                    //     thickness: 5.0, // 10.0,
-                    //     // Color.fromARGB(255, 255, 222, 3),
-                    //     // Color.fromARGB(255, 255, 2, 102),
-                    //     // Color.fromARGB(255, 187, 134, 252),
-                    //     color: Color.fromRGBO(255, 255, 255, 0.07),
-                    //     // indent: 60.0,
-                    //     // endIndent: 60.0,
-                    //   ),
-                    // ),
                     Injector(
                       inject: [
                         Inject<WeatherStore>(

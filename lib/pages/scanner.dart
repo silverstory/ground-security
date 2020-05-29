@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'dart:ui';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_cache_builder.dart';
 import 'package:flare_flutter/provider/asset_flare.dart';
@@ -31,10 +31,11 @@ class ScannerWidget extends StatefulWidget {
 
 class _ScannerWidgetState extends State<ScannerWidget> {
   var qrText = '';
-  var flashState = flashOff;
-  var cameraState = backCamera;
+  var flashState = flashOn;
+  var cameraState = frontCamera;
   QRViewController controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  StreamSubscription subscription;
 
   final assetPlayPause = AssetFlare(
       bundle: rootBundle, name: "assets/flare/play-pause-dark-mode.flr");
@@ -50,7 +51,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
       color: Color.fromRGBO(255, 255, 255, 0.07),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.95,
-        height: 250.0,
+        height: 200.0, // 220
         color: Colors.transparent,
         child: Row(
           children: <Widget>[
@@ -66,7 +67,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                     borderRadius: 10,
                     borderLength: 30,
                     borderWidth: 10,
-                    cutOutSize: 200,
+                    cutOutSize: 180, // 200
                   ),
                 ),
               ),
@@ -78,7 +79,6 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    // AutoSizeText('This is the result of scan: $qrText'),
                     // Row(
                     //   mainAxisAlignment: MainAxisAlignment.center,
                     //   crossAxisAlignment: CrossAxisAlignment.center,
@@ -171,18 +171,9 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                         ),
                       ],
                     ),
-
                     SizedBox(
                       height: 10.0,
                     ),
-                    // Divider(
-                    //   height: 10.0, // 40.0,
-                    //   thickness: 5.0, // 10.0,
-                    //   color: Color.fromRGBO(255, 255, 255, 0.38),
-                    //   indent: 20.0,
-                    //   endIndent: 20.0,
-                    // ),
-
                     //   ],
                     // ),
                     Row(
@@ -200,8 +191,8 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                             child: Ink(
                               decoration: BoxDecoration(
                                 // border: Border.all(
-                                //   color: Color.fromARGB(255, 0, 0, 0),
-                                //   width: 2.0,
+                                //   color: Color.fromARGB(255, 255, 17, 104),
+                                //   width: 3.0,
                                 // ),
                                 color: Color.fromARGB(255, 0, 0, 0),
                                 shape: BoxShape.circle,
@@ -250,7 +241,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                               decoration: BoxDecoration(
                                 // border: Border.all(
                                 //   color: Color.fromARGB(255, 0, 0, 0),
-                                //   width: 2.0,
+                                //   width: 3.0,
                                 // ),
                                 color: Color.fromARGB(255, 0, 0, 0),
                                 shape: BoxShape.circle,
@@ -308,15 +299,27 @@ class _ScannerWidgetState extends State<ScannerWidget> {
 
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
+    this.subscription = controller.scannedDataStream.take(1).listen((data) {
       setState(() {
-        qrText = scanData;
+        qrText = data;
       });
-      submitCityName(scanData);
+      submitCityName(context, data);
+      this.subscription.pause(
+            Future.delayed(
+              Duration(seconds: 2),
+              () => {
+                this.controller.scannedDataStream.drain(),
+              }
+            ),
+          );
+    }, onDone: () {
+      print("Task Done");
+    }, onError: (error) {
+      print('Some Error: $error');
     });
   }
 
-  void submitCityName(String cityName) {
+  void submitCityName(BuildContext context, String cityName) {
     final reactiveModel = Injector.getAsReactive<WeatherStore>();
     reactiveModel.setState(
       (store) => store.getWeather(cityName),
@@ -339,6 +342,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
 
   @override
   void dispose() {
+    subscription.cancel();
     controller.dispose();
     super.dispose();
   }
