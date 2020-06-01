@@ -7,7 +7,9 @@ import 'package:flare_flutter/provider/asset_flare.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:groundsecurity/data/weather_repository.dart';
+import 'package:groundsecurity/state/camera_state.dart';
 import 'package:groundsecurity/state/weather_store.dart';
+import 'package:provider/provider.dart';
 
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
@@ -31,8 +33,8 @@ class ScannerWidget extends StatefulWidget {
 
 class _ScannerWidgetState extends State<ScannerWidget> {
   var qrText = '';
-  var flashState = flashOn;
-  var cameraState = frontCamera;
+  // var flashState = flashOn;
+  // var cameraState = frontCamera;
   QRViewController controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   StreamSubscription subscription;
@@ -42,6 +44,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var _camera = Provider.of<CameraState>(context);
     return Material(
       elevation: 2.0,
       type: MaterialType.card,
@@ -102,14 +105,14 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                             onPressed: () {
                               if (controller != null) {
                                 controller.toggleFlash();
-                                if (_isFlashOn(flashState)) {
-                                  setState(() {
-                                    flashState = flashOff;
-                                  });
+                                if (_isFlashOn(_camera.flashState)) {
+                                  // setState(() {
+                                  _camera.setFlashState(flashOff);
+                                  // });
                                 } else {
-                                  setState(() {
-                                    flashState = flashOn;
-                                  });
+                                  // setState(() {
+                                  _camera.setFlashState(flashOn);
+                                  // });
                                 }
                               }
                             },
@@ -118,12 +121,16 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                         SizedBox(
                           height: 3.0,
                         ),
-                        Text(
-                          flashState,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromRGBO(255, 255, 255, 0.87),
-                          ),
+                        Consumer<CameraState>(
+                          builder: (context, camera, child) {
+                            return Text(
+                              camera.flashState,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Color.fromRGBO(255, 255, 255, 0.87),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -146,14 +153,14 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                             onPressed: () {
                               if (controller != null) {
                                 controller.flipCamera();
-                                if (_isBackCamera(cameraState)) {
-                                  setState(() {
-                                    cameraState = frontCamera;
-                                  });
+                                if (_isBackCamera(_camera.cameraState)) {
+                                  // setState(() {
+                                  _camera.setCameraState(frontCamera);
+                                  // });
                                 } else {
-                                  setState(() {
-                                    cameraState = backCamera;
-                                  });
+                                  // setState(() {
+                                  _camera.setCameraState(backCamera);
+                                  // });
                                 }
                               }
                             },
@@ -162,12 +169,16 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                         SizedBox(
                           height: 3.0,
                         ),
-                        Text(
-                          cameraState,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromRGBO(255, 255, 255, 0.87),
-                          ),
+                        Consumer<CameraState>(
+                          builder: (context, camera, child) {
+                            return Text(
+                              camera.cameraState,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Color.fromRGBO(255, 255, 255, 0.87),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -297,8 +308,15 @@ class _ScannerWidgetState extends State<ScannerWidget> {
     return backCamera == current;
   }
 
-  void _onQRViewCreated(QRViewController controller) {
+  _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
+    var _camera = Provider.of<CameraState>(context);
+    if (!_isFlashOn(_camera.flashState)) {
+      this.controller.toggleFlash();
+    }
+    if (_isBackCamera(_camera.cameraState)) {
+      this.controller.flipCamera();
+    }
     this.subscription = controller.scannedDataStream.take(1).listen((data) {
       setState(() {
         qrText = data;
@@ -306,11 +324,10 @@ class _ScannerWidgetState extends State<ScannerWidget> {
       submitCityName(context, data);
       this.subscription.pause(
             Future.delayed(
-              Duration(seconds: 2),
-              () => {
-                this.controller.scannedDataStream.drain(),
-              }
-            ),
+                Duration(seconds: 2),
+                () => {
+                      this.controller.scannedDataStream.drain(),
+                    }),
           );
     }, onDone: () {
       print("Task Done");

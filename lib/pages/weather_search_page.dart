@@ -9,12 +9,15 @@ import 'package:groundsecurity/pages/infos/basic_info.dart';
 import 'package:groundsecurity/pages/infos/class_info.dart';
 import 'package:groundsecurity/pages/infos/face_image.dart';
 import 'package:groundsecurity/pages/scanner.dart';
+import 'package:groundsecurity/state/camera_state.dart';
 import 'package:groundsecurity/state/weather_store.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 // import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import "package:flare_flutter/flare_cache_builder.dart";
 import 'package:flare_flutter/provider/asset_flare.dart';
+
+import 'package:provider/provider.dart';
 
 class WeatherSearchPage extends StatefulWidget {
   @override
@@ -29,19 +32,22 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
       bundle: rootBundle, name: "assets/flare/pin_location_eprel.flr");
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      alignment: Alignment.center,
-      child: StateBuilder<WeatherStore>(
-        models: [Injector.getAsReactive<WeatherStore>()],
-        builder: (_, reactiveModel) {
-          return reactiveModel.whenConnectionState(
-            onIdle: () => buildInitialInput(),
-            onWaiting: () => buildLoading(),
-            onData: (store) => buildColumnWithData(store.weather),
-            onError: (_) => buildInitialInput(),
-          );
-        },
+    return ChangeNotifierProvider(
+      create: (context) => CameraState(),
+      child: Container(
+        padding: EdgeInsets.only(top: 2.0, bottom: 16.0),
+        alignment: Alignment.center,
+        child: StateBuilder<WeatherStore>(
+          models: [Injector.getAsReactive<WeatherStore>()],
+          builder: (_, reactiveModel) {
+            return reactiveModel.whenConnectionState(
+              onIdle: () => buildInitialInput(),
+              onWaiting: () => buildLoading(),
+              onData: (store) => buildColumnWithData(store.weather),
+              onError: (_) => buildInitialInput(),
+            );
+          },
+        ),
       ),
     );
   }
