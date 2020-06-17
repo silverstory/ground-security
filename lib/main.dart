@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_dependency_injection/injector.dart';
+import 'package:groundsecurity/app_initializer.dart';
 
 import 'package:groundsecurity/pages/home.dart';
 import 'package:groundsecurity/pages/choose_location.dart';
@@ -7,6 +9,9 @@ import 'package:groundsecurity/pages/loading.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:groundsecurity/pages/verify.dart';
+import 'package:groundsecurity/services/dependency_injection.dart';
+
+Injector injector;
 
 // Sets a platform override for desktop to avoid exceptions. See
 // https://flutter.dev/desktop#target-platform-override for more info.
@@ -16,8 +21,11 @@ void _enablePlatformOverrideForDesktop() {
   }
 }
 
-void main() {
+void main() async {
   _enablePlatformOverrideForDesktop();
+  DependencyInjection().initialise(Injector.getInjector());
+  injector = Injector.getInjector();
+  await AppInitializer().initialise(injector);
   runApp(MyApp());
 }
 

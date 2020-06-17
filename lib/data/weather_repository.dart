@@ -62,7 +62,7 @@ class FakeWeatherRepository implements WeatherRepository {
         String color3; // as hex color value
         String color4;
 
-        final random = Random();
+        // final random = Random();
 
         // Simulate some network error
         // if (random.nextBool()) {
@@ -105,6 +105,10 @@ class FakeWeatherRepository implements WeatherRepository {
         );
 
         Response response = await dio.get('http://worldtimeapi.org/api/ip');
+
+        // if (response.data == null) {
+        //   return Weather.notFound();
+        // }
 
         fullName = faker.person.name();
         position = faker.job.title();

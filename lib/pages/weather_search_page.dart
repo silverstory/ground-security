@@ -3,12 +3,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:groundsecurity/data/model/weather.dart';
+import 'package:groundsecurity/main.dart';
 import 'package:groundsecurity/pages/city_input_field.dart';
 import 'package:groundsecurity/pages/infos/access_badge.dart';
 import 'package:groundsecurity/pages/infos/basic_info.dart';
 import 'package:groundsecurity/pages/infos/class_info.dart';
 import 'package:groundsecurity/pages/infos/face_image.dart';
 import 'package:groundsecurity/pages/scanner.dart';
+import 'package:groundsecurity/services/socket_service.dart';
 import 'package:groundsecurity/state/camera_state.dart';
 import 'package:groundsecurity/state/weather_store.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
@@ -53,6 +55,12 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
   }
 
   Widget buildInitialInput() {
+    final SocketService socketService = injector.get<SocketService>();
+    // one for livefeed
+    socketService.deliverSocketMessage('channel1', 'json');
+    // and another for entirelistfeed
+    socketService.deliverSocketMessage('channel2', 'json');
+
     return Column(
       children: <Widget>[
         ScannerWidget(context: context),
@@ -85,6 +93,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
   }
 
   Column buildColumnWithData(Weather weather) {
+    // socket send
     return Column(
       children: <Widget>[
         ScannerWidget(context: context),

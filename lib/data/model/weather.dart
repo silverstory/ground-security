@@ -65,6 +65,22 @@ class Weather {
     four = Color.fromRGBO(255, 255, 255, 0.27);
   }
 
+  Weather.notFound() {
+    sCode = '11111111';
+    fullName = 'Unknown ID';
+    position = 'No such record for this ID';
+    office = 'Please secure an access pass';
+    classGroup = 'NOT FOUND';
+    facePic =
+        'https://images.pexels.com/photos/3881001/pexels-photo-3881001.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940';
+    placeHolder = 'male.jpg';
+    gender = 'male';
+    one = Color.fromRGBO(255, 255, 255, 0.27);
+    two = Color.fromRGBO(255, 255, 255, 0.27);
+    three = Color.fromRGBO(255, 255, 255, 0.27);
+    four = Color.fromRGBO(255, 255, 255, 0.27);
+  }
+
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
