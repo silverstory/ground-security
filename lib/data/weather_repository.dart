@@ -1,5 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:groundsecurity/main.dart';
+import 'package:groundsecurity/services/socket_service.dart';
 
 import 'model/weather.dart';
 
@@ -15,6 +17,7 @@ abstract class WeatherRepository {
 }
 
 class FakeWeatherRepository implements WeatherRepository {
+  // final SocketService socketService = injector.get<SocketService>();
   Dio dio;
   double cachedTempCelsius;
   Map<String, String> placeholderMap = {
@@ -93,19 +96,24 @@ class FakeWeatherRepository implements WeatherRepository {
 
         const faker = Faker();
 
-        dio = Dio();
+        // uncomment lines below for ciss API
 
-        dio.interceptors.add(
-          RetryOnConnectionChangeInterceptor(
-            requestRetrier: DioConnectivityRequestRetrier(
-              dio: Dio(),
-              connectivity: Connectivity(),
-            ),
-          ),
-        );
+        // dio = Dio();
 
-        Response response = await dio.get('http://worldtimeapi.org/api/ip');
+        // dio.interceptors.add(
+        //   RetryOnConnectionChangeInterceptor(
+        //     requestRetrier: DioConnectivityRequestRetrier(
+        //       dio: Dio(),
+        //       connectivity: Connectivity(),
+        //     ),
+        //   ),
+        // );
 
+        // Response response = await dio.get('http://worldtimeapi.org/api/ip');
+
+        // end uncomment lines below for ciss API
+
+        // handle not found
         // if (response.data == null) {
         //   return Weather.notFound();
         // }
@@ -118,6 +126,16 @@ class FakeWeatherRepository implements WeatherRepository {
         placeHolder = placeholderNow;
         gender = genderNow;
 
+        // additional fields for socket io
+        // to add to Weather class
+        //
+        // id
+        // profileid
+        // gate
+        // qrcode
+        // datetime
+        var datetime = new DateTime.now();
+
         /*
           * colors values should come from
           * colorN's equivalent enum value
@@ -127,8 +145,27 @@ class FakeWeatherRepository implements WeatherRepository {
         Color three = Color.fromRGBO(255, 255, 255, 0.87);
         Color four = Colors.red;
 
-        dio.interceptors.removeLast();
-        dio = null;
+        // uncomment lines below for ciss API
+
+        // dio.interceptors.removeLast();
+        // dio = null;
+
+        // end uncomment lines below for ciss API
+
+        // dynamic person = {
+        //   'id': sCode,
+        //   'profileid': 'replace-this-value' + sCode,
+        //   'name': fullName,
+        //   'gender': gender,
+        //   'imagepath': facePic,
+        //   'distinction': classGroup,
+        //   'gate': 'GATE-7',
+        //   'qrcode': 'replace-this-value',
+        //   'datetime': datetime,
+        //   'completed': false,
+        // };
+
+        // socketService.deliverSocketMessage('list:feed', person);
 
         // // Return "fetched" weather
         return Weather(

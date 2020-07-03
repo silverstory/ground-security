@@ -27,6 +27,7 @@ class WeatherSearchPage extends StatefulWidget {
 }
 
 class _WeatherSearchPageState extends State<WeatherSearchPage> {
+  final SocketService socketService = injector.get<SocketService>();
   Color accessFont = Colors.black;
   final asset = AssetFlare(
       bundle: rootBundle, name: "assets/flare/meteor_loading_eprel.flr");
@@ -55,12 +56,6 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
   }
 
   Widget buildInitialInput() {
-    final SocketService socketService = injector.get<SocketService>();
-    // one for livefeed
-    socketService.deliverSocketMessage('channel1', 'json');
-    // and another for entirelistfeed
-    socketService.deliverSocketMessage('channel2', 'json');
-
     return Column(
       children: <Widget>[
         ScannerWidget(context: context),
@@ -93,6 +88,23 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
   }
 
   Column buildColumnWithData(Weather weather) {
+    var datetime = new DateTime.now();
+    // one for livefeed
+    dynamic person = {
+      'id': 'replace-this-value' + datetime.toString(),
+      'profileid': 'replace-this-value' + '777',
+      'name': weather.fullName,
+      'gender': weather.gender,
+      'imagepath': weather.facePic,
+      'distinction': weather.classGroup,
+      'gate': 'GATE-7',
+      'qrcode': 'replace-this-value',
+      'datetime': datetime.toIso8601String(),
+      'completed': false,
+    };
+    socketService.deliverSocketMessage('list:feed', person);
+    // and another for entirelistfeed
+    // socketService.deliverSocketMessage('channel2', 'json');
     // socket send
     return Column(
       children: <Widget>[

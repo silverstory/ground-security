@@ -2,7 +2,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SocketService {
   IO.Socket socket;
-  final String socketUrl = 'http://192.168.23.8:8000';
+  final String socketUrl = 'http://192.168.43.184:8000';
 
   createSocketConnection() {
     socket = IO.io(socketUrl, <String, dynamic>{
@@ -15,8 +15,8 @@ class SocketService {
 
   // instead of String, the 2nd parameter should be of type
   // Object JSON to match the required data from the server
-  deliverSocketMessage(String message, String mustBeJson) {
-    this.socket.on("connect", (_) => print('Connected'));
-    this.socket.emit('msg', 'test');
+  deliverSocketMessage(String channel, dynamic person) {
+    this.socket.emit(channel, person);
+    // another emit below for entirelist
   }
 }
