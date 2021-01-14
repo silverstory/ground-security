@@ -102,9 +102,10 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
       'datetime': datetime.toIso8601String(),
       'completed': false,
     };
+    // one for livefeed
     socketService.deliverSocketMessage('list:feed', person);
     // and another for entirelistfeed
-    // socketService.deliverSocketMessage('channel2', 'json');
+    socketService.deliverSocketMessage('entirelist:add', person);
     // socket send
     return Column(
       children: <Widget>[

@@ -111,12 +111,12 @@ class FakeWeatherRepository implements WeatherRepository {
 
         // Response response = await dio.get('http://worldtimeapi.org/api/ip');
 
-        // end uncomment lines below for ciss API
-
         // handle not found
         // if (response.data == null) {
         //   return Weather.notFound();
         // }
+
+        // end uncomment lines below for ciss API
 
         fullName = faker.person.name();
         position = faker.job.title();
