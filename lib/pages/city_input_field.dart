@@ -14,7 +14,8 @@ class CityInputField extends StatelessWidget {
         textInputAction: TextInputAction.search,
         keyboardType: TextInputType.number,
         inputFormatters: <TextInputFormatter>[
-          WhitelistingTextInputFormatter.digitsOnly
+          FilteringTextInputFormatter.digitsOnly
+          // WhitelistingTextInputFormatter.digitsOnly
         ], // Only numbers can be entered
         textAlign: TextAlign.center,
         style: new TextStyle(
