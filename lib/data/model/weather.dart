@@ -34,6 +34,11 @@ class Weather {
   Color two;
   Color three;
   Color four;
+  // for socket
+  String id;
+  String profileid;
+  String qrcode;
+  String gate;
 
   Weather(
       {@required this.sCode,
@@ -47,7 +52,12 @@ class Weather {
       @required this.one,
       @required this.two,
       @required this.three,
-      @required this.four});
+      @required this.four,
+      // for socket
+      @required this.id,
+      @required this.profileid,
+      @required this.qrcode,
+      @required this.gate});
 
   Weather.empty() {
     sCode = '00000000';
@@ -63,6 +73,11 @@ class Weather {
     two = Color.fromRGBO(255, 255, 255, 0.27);
     three = Color.fromRGBO(255, 255, 255, 0.27);
     four = Color.fromRGBO(255, 255, 255, 0.27);
+    // for socket
+    id = 'dgfsdfgsdjhfgsdgfisuhfreiwuyrw7r8wry63c32c9846392c64b392';
+    profileid = 'empty';
+    qrcode = 'empty';
+    gate = 'VOID';
   }
 
   Weather.notFound() {
@@ -79,6 +94,11 @@ class Weather {
     two = Color.fromRGBO(255, 255, 255, 0.27);
     three = Color.fromRGBO(255, 255, 255, 0.27);
     four = Color.fromRGBO(255, 255, 255, 0.27);
+    // for socket
+    id = 'dgfsdfgsdjhfgsdgfisuhfreiwuyrw7r8wry63c32c9846392c64b392';
+    profileid = 'empty';
+    qrcode = 'empty';
+    gate = 'VOID';
   }
 
   @override
@@ -97,7 +117,11 @@ class Weather {
         o.one == one &&
         o.two == two &&
         o.three == three &&
-        o.four == four;
+        o.four == four &&
+        o.id == id &&
+        o.profileid == profileid &&
+        o.qrcode == qrcode &&
+        o.gate == gate;
   }
 
   @override

@@ -91,14 +91,14 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
     var datetime = new DateTime.now();
     // one for livefeed
     dynamic person = {
-      'id': 'replace-this-value' + datetime.toString(),
-      'profileid': 'replace-this-value' + '777',
+      'id': weather.id,
+      'profileid': weather.profileid,
       'name': weather.fullName,
       'gender': weather.gender,
       'imagepath': weather.facePic,
       'distinction': weather.classGroup,
-      'gate': 'GATE-7',
-      'qrcode': 'replace-this-value',
+      'gate': weather.gate,
+      'qrcode': weather.qrcode,
       'datetime': datetime.toIso8601String(),
       'completed': false,
     };

@@ -1,3 +1,4 @@
+// import 'dart:html';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:groundsecurity/main.dart';
@@ -58,7 +59,8 @@ class FakeWeatherRepository implements WeatherRepository {
         //   return (prefs.getString('token') ?? 'an invalid token');
         // });
         String _token = await _tokenRetriever();
-
+        List<String> urlArr = sCode.split('/');
+        String hmac = urlArr.last;
         /*
         * start to get data from api
         */
@@ -77,6 +79,12 @@ class FakeWeatherRepository implements WeatherRepository {
         String color2; // data coming from api
         String color3; // as hex color value
         String color4;
+
+        // for socket
+        String id;
+        String profileid;
+        String qrcode;
+        String gate = await _gateRetriever();
 
         // FormData formData = new FormData.fromMap({
         //   "name": "wendux",
@@ -106,7 +114,7 @@ class FakeWeatherRepository implements WeatherRepository {
           ),
         );
 
-        const url = "http://210.213.193.149/profile/${sCode}";
+        String url = "http://210.213.193.149/api/profile/${hmac}";
 
         // Dio dio = new Dio();
         dio.options.headers["Authorization"] = "Bearer ${_token}";
@@ -129,9 +137,14 @@ class FakeWeatherRepository implements WeatherRepository {
         office = data['employee']['office'];
         // end if clause
         classGroup = data['distinction'];
-        facePic = data['photothumbnailurl'];
+        String _facePic = data['photothumbnailurl'];
+        facePic = _facePic.replaceAll('http://192.168.23.60/', 'http://58.69.10.203/');
         placeHolder = placeholderMap[data['gender']];
         gender = data['gender'];
+        // for socket
+        id = data['_id'];
+        profileid = data['profileid'];
+        qrcode = data['cissinqtext'];
 
         // additional fields for socket io
         // to add to Weather class
@@ -179,19 +192,22 @@ class FakeWeatherRepository implements WeatherRepository {
 
         // // Return "fetched" weather
         return Weather(
-          sCode: sCode,
-          fullName: fullName,
-          position: position,
-          office: office,
-          classGroup: classGroup,
-          facePic: facePic,
-          placeHolder: placeHolder,
-          gender: gender,
-          one: one,
-          two: two,
-          three: three,
-          four: four,
-        );
+            sCode: sCode,
+            fullName: fullName,
+            position: position,
+            office: office,
+            classGroup: classGroup,
+            facePic: facePic,
+            placeHolder: placeHolder,
+            gender: gender,
+            one: one,
+            two: two,
+            three: three,
+            four: four,
+            id: id,
+            profileid: profileid,
+            qrcode: qrcode,
+            gate: gate);
       },
     );
   }
@@ -201,6 +217,13 @@ class FakeWeatherRepository implements WeatherRepository {
     final token = prefs.getString('token') ?? 'an invalid token';
     print(token);
     return token;
+  }
+
+  Future<String> _gateRetriever() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final location = prefs.getString('location') ?? 'CISS MOBILE';
+    print(location);
+    return location;
   }
 
   // @override
