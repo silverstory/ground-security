@@ -5,6 +5,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:groundsecurity/interceptor/dio_connectivity_request_retrier.dart';
 import 'package:groundsecurity/interceptor/retry_interceptor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WorldTime {
   Dio dio;
@@ -18,6 +19,54 @@ class WorldTime {
   WorldTime.empty();
 
   Future<void> getTimeByIp() async {
+    await _parseData();
+  }
+
+  Future<String> getTimeByCity() async {
+    await _parseData();
+    return await time;
+  }
+
+  void _parseData() async {
+
+    // datetime.toIso8601String();
+    // flag: 'ph.png', url: 'Asia/Manila'
+    // {"abbreviation":"PST","client_ip":"175.176.46.143","datetime":"2021-01-20T11:53:14.059717+08:00","day_of_week":3,"day_of_year":20,"dst":false,"dst_from":null,"dst_offset":0,"dst_until":null,"raw_offset":28800,"timezone":"Asia/Manila","unixtime":1611114794,"utc_datetime":"2021-01-20T03:53:14.059717+00:00","utc_offset":"+08:00","week_number":3}
+
+    var _datetime = new DateTime.now();
+
+    // location = 'Manila';
+    // location = await _gateRetriever();
+
+    String datetime = _datetime.toIso8601String();
+    String manilaUtcOffset = '+08:00';
+    int offset = int.parse(manilaUtcOffset.substring(0, 3));
+
+    DateTime now = DateTime.parse(datetime);
+    now = now.add(Duration(hours: offset));
+
+    isDaytime = now.hour > 6 && now.hour < 20 ? true : false;
+    /*
+    * this is the original
+    * time value
+    time = DateFormat.jm().format(now);
+    */
+    // time = 'Ground Security 🛡️';
+    time = 'Ground Security';
+  }
+
+  Future<String> _gateRetriever() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final location = prefs.getString('location') ?? 'CISS MOBILE';
+    return location;
+  }
+
+  /*
+  * ALL THE OLD
+  * CODE BELOW
+  */
+
+  Future<void> oldGetTimeByIp() async {
     try {
       // using og http pkg
       // Response response = await get("http://worldtimeapi.org/api/ip");
@@ -33,14 +82,14 @@ class WorldTime {
       Response response = await dio.get('http://worldtimeapi.org/api/ip');
       dio.interceptors.removeLast();
       dio = null;
-      _parseData(response);
+      _oldParseData(response);
     } catch (error) {
       print('error: $error');
       time = "Service down...";
     }
   }
 
-  Future<String> getTimeByCity() async {
+  Future<String> oldGetTimeByCity() async {
     try {
       // usin og http pkg
       // Response response =
@@ -58,7 +107,7 @@ class WorldTime {
           await dio.get('http://worldtimeapi.org/api/timezone/$url');
       dio.interceptors.removeLast();
       dio = null;
-      _parseData(response);
+      _oldParseData(response);
     } catch (error) {
       print('error: $error');
       time = "Service down...";
@@ -67,7 +116,7 @@ class WorldTime {
     return time;
   }
 
-  void _parseData(Response response) {
+  void _oldParseData(Response response) {
     // using og http pkg
     // Map data = jsonDecode(response.body);
 

@@ -138,11 +138,12 @@ class FakeWeatherRepository implements WeatherRepository {
         // end if clause
         classGroup = data['distinction'];
         String _facePic = data['photothumbnailurl'];
-        facePic = _facePic.replaceAll('http://192.168.23.60/', 'http://58.69.10.203/');
-        placeHolder = placeholderMap[data['gender']];
+        facePic = _facePic.replaceAll(
+            'http://192.168.23.60/', 'http://58.69.10.203/');
+        placeHolder = placeholderMap[data['gender'].toString().trim()];
         gender = data['gender'];
         // for socket
-        id = data['_id'];
+        id = data['_id'].toString();
         profileid = data['profileid'];
         qrcode = data['cissinqtext'];
 
@@ -369,6 +370,10 @@ class FakeWeatherRepository implements WeatherRepository {
           two: two,
           three: three,
           four: four,
+          id: 'id',
+          profileid: 'profileid',
+          qrcode: 'qrcode',
+          gate: 'gate',
         );
       },
     );
