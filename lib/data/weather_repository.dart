@@ -16,6 +16,9 @@ import 'package:faker/faker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
+
+import 'dart:async';
 
 abstract class WeatherRepository {
   Future<Weather> fetchWeather(String cityName);
@@ -140,8 +143,14 @@ class FakeWeatherRepository implements WeatherRepository {
         String _facePic = data['photothumbnailurl'];
         facePic = _facePic.replaceAll(
             'http://192.168.23.60/', 'http://58.69.10.203/');
-        placeHolder = placeholderMap[data['gender'].toString().trim()];
-        gender = data['gender'];
+        placeHolder = 'male.jpg';
+        print(data['gender'].toString().trim());
+        if (data['gender'].toString().trim() == 'male') {
+          placeHolder = 'male.jpg';
+        } else {
+          placeHolder = 'female.jpg';
+        }
+        gender = data['gender'].toString().trim();
         // for socket
         id = data['_id'].toString();
         profileid = data['profileid'];
@@ -185,9 +194,26 @@ class FakeWeatherRepository implements WeatherRepository {
         //   'distinction': classGroup,
         //   'gate': 'GATE-7',
         //   'qrcode': 'replace-this-value',
-        //   'datetime': datetime,
+        //   'datetime': datetime.toIso8601String(),
         //   'completed': false,
         // };
+
+        dynamic person = {
+          'id': id,
+          'profileid': profileid,
+          'name': fullName,
+          'gender': gender,
+          'imagepath': facePic,
+          'distinction': classGroup,
+          'gate': gate,
+          'qrcode': qrcode,
+          'datetime': datetime.toIso8601String(),
+          'completed': false,
+        };
+
+        dynamic _res = await _sendNotification(person);
+
+        print(_res);
 
         // socketService.deliverSocketMessage('list:feed', person);
 
@@ -212,6 +238,28 @@ class FakeWeatherRepository implements WeatherRepository {
       },
     );
   }
+
+  // send notification
+  Future<dynamic> _sendNotification(dynamic person) async {
+    var url = 'http://58.69.10.198/send-notification';
+
+    var body = json.encode(person);
+
+    Map<String, String> headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    var response = await http.post(url, body: body, headers: headers);
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    var _res = json.decode(response.body);
+
+    return _res;
+  }
+  // end send notification
 
   Future<String> _tokenRetriever() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

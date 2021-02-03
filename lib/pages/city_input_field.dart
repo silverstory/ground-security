@@ -47,6 +47,7 @@ class CityInputField extends StatelessWidget {
             ),
           );
         } else {
+          print(error.toString());
           reactiveModel.setState(
             (store) => store.getEmptyWeather(),
           );

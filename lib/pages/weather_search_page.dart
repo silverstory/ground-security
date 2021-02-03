@@ -33,6 +33,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
       bundle: rootBundle, name: "assets/flare/meteor_loading_eprel.flr");
   final pinAsset = AssetFlare(
       bundle: rootBundle, name: "assets/flare/pin_location_eprel.flr");
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -88,25 +89,31 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
   }
 
   Column buildColumnWithData(Weather weather) {
-    var datetime = new DateTime.now();
-    // one for livefeed
-    dynamic person = {
-      'id': weather.id,
-      'profileid': weather.profileid,
-      'name': weather.fullName,
-      'gender': weather.gender,
-      'imagepath': weather.facePic,
-      'distinction': weather.classGroup,
-      'gate': weather.gate,
-      'qrcode': weather.qrcode,
-      'datetime': datetime.toIso8601String(),
-      'completed': false,
-    };
-    // one for livefeed
-    socketService.deliverSocketMessage('list:feed', person);
-    // and another for entirelistfeed
-    socketService.deliverSocketMessage('entirelist:add', person);
-    // socket send
+    // var datetime = new DateTime.now();
+
+    // // socket send
+    // dynamic person = {
+    //   'id': weather.id,
+    //   'profileid': weather.profileid,
+    //   'name': weather.fullName,
+    //   'gender': weather.gender,
+    //   'imagepath': weather.facePic,
+    //   'distinction': weather.classGroup,
+    //   'gate': weather.gate,
+    //   'qrcode': weather.qrcode,
+    //   'datetime': datetime.toIso8601String(),
+    //   'completed': false,
+    // };
+    // if (weather.sCode != '00000000') {
+    //   // use api here instead of socket io
+    //   Future<dynamic> res = _sendNotification(person);
+    //   // one for livefeed
+    //   // socketService.deliverSocketMessage('list:feed', person);
+    //   // and another for entirelistfeed
+    //   // socketService.deliverSocketMessage('entirelist:add', person);
+    // }
+    // // end socket send
+
     return Column(
       children: <Widget>[
         ScannerWidget(context: context),

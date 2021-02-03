@@ -348,6 +348,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
             ),
           );
         } else {
+          print(error.toString());
           reactiveModel.setState(
             (store) => store.getEmptyWeather(),
           );

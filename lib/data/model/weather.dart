@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
+import 'dart:math';
+
+const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+Random _rnd = Random();
+
+String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
 class Weather {
   // final String facepic;
   // final String gender;
@@ -74,14 +82,14 @@ class Weather {
     three = Color.fromRGBO(255, 255, 255, 0.27);
     four = Color.fromRGBO(255, 255, 255, 0.27);
     // for socket
-    id = 'dgfsdfgsdjhfgsdgfisuhfreiwuyrw7r8wry63c32c9846392c64b392';
-    profileid = 'empty';
-    qrcode = 'empty';
+    id = getRandomString(16);
+    profileid = getRandomString(7);
+    qrcode = getRandomString(16);
     gate = 'VOID';
   }
 
   Weather.notFound() {
-    sCode = '11111111';
+    sCode = '00000000';
     fullName = 'Unknown ID';
     position = 'No such record for this ID';
     office = 'Please secure an access pass';
@@ -95,9 +103,9 @@ class Weather {
     three = Color.fromRGBO(255, 255, 255, 0.27);
     four = Color.fromRGBO(255, 255, 255, 0.27);
     // for socket
-    id = 'dgfsdfgsdjhfgsdgfisuhfreiwuyrw7r8wry63c32c9846392c64b392';
-    profileid = 'empty';
-    qrcode = 'empty';
+    id = getRandomString(16);
+    profileid = getRandomString(7);
+    qrcode = getRandomString(16);
     gate = 'VOID';
   }
 
