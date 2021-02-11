@@ -119,6 +119,10 @@ class FakeWeatherRepository implements WeatherRepository {
 
         String url = "http://210.213.193.149/api/profile/${hmac}";
 
+        if (hmac.contains('VEHICLE')) {
+          url = "http://192.168.43.184:3310/api/vehicle/${hmac}";
+        }
+
         // Dio dio = new Dio();
         dio.options.headers["Authorization"] = "Bearer ${_token}";
 
@@ -132,29 +136,46 @@ class FakeWeatherRepository implements WeatherRepository {
         Map data = response.data;
 
         // end uncomment lines below for ciss API
-
-        fullName = data['name']['first'] + ' ' + data['name']['last'];
-        // if clause here on what field to
-        // display depending on distinction
-        position = data['employee']['position'];
-        office = data['employee']['office'];
-        // end if clause
-        classGroup = data['distinction'];
-        String _facePic = data['photothumbnailurl'];
-        facePic = _facePic.replaceAll(
-            'http://192.168.23.60/', 'http://58.69.10.203/');
-        placeHolder = 'male.jpg';
-        print(data['gender'].toString().trim());
-        if (data['gender'].toString().trim() == 'male') {
+        if (hmac.contains('VEHICLE')) {
+          // use vehicle profile
+          fullName = data['platenumber'];
+          position = data['make'] + ' ' + data['series'];
+          office = 'Owner :' + data['vehicleowner'];
+          classGroup = 'Parking Slot: ' + data['parkingslot'];
+          String _facePic = data['vehiclephoto'];
+          facePic = _facePic.replaceAll(
+              'http://192.168.23.60/', 'http://58.69.10.203/');
           placeHolder = 'male.jpg';
+          gender = 'male';
+          // for socket
+          id = data['_id'].toString();
+          profileid = data['controlnumber'];
+          qrcode = data['qrcode'];
         } else {
-          placeHolder = 'female.jpg';
+          // use human profile
+          fullName = data['name']['first'] + ' ' + data['name']['last'];
+          // if clause here on what field to
+          // display depending on distinction
+          position = data['employee']['position'];
+          office = data['employee']['office'];
+          // end if clause
+          classGroup = data['distinction'];
+          String _facePic = data['photothumbnailurl'];
+          facePic = _facePic.replaceAll(
+              'http://192.168.23.60/', 'http://58.69.10.203/');
+          placeHolder = 'male.jpg';
+          print(data['gender'].toString().trim());
+          if (data['gender'].toString().trim() == 'male') {
+            placeHolder = 'male.jpg';
+          } else {
+            placeHolder = 'female.jpg';
+          }
+          gender = data['gender'].toString().trim();
+          // for socket
+          id = data['_id'].toString();
+          profileid = data['profileid'];
+          qrcode = data['cissinqtext'];
         }
-        gender = data['gender'].toString().trim();
-        // for socket
-        id = data['_id'].toString();
-        profileid = data['profileid'];
-        qrcode = data['cissinqtext'];
 
         // additional fields for socket io
         // to add to Weather class
