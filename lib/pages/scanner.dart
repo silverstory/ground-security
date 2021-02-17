@@ -45,6 +45,13 @@ class _ScannerWidgetState extends State<ScannerWidget> {
   @override
   Widget build(BuildContext context) {
     var _camera = Provider.of<CameraState>(context);
+    // For this we check how width or tall the device is and change the scanArea and overlay accordingly.
+    var scanArea = (MediaQuery.of(context).size.width < 400 ||
+            MediaQuery.of(context).size.height < 400)
+        ? 400.0
+        : 500.0;
+    // To ensure the Scanner view is properly sizes after rotation
+    // we need to listen for Flutter SizeChanged notification and update controller
     return Material(
       elevation: 2.0,
       type: MaterialType.card,
@@ -54,12 +61,13 @@ class _ScannerWidgetState extends State<ScannerWidget> {
       color: Color.fromRGBO(255, 255, 255, 0.07),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.95,
-        height: 200.0, // 220
+        height: 600.0, // 200
         color: Colors.transparent,
-        child: Row(
+        child: Column(
+          // child: Row(
           children: <Widget>[
             Expanded(
-              flex: 2,
+              flex: 5,
               child: Padding(
                 padding: const EdgeInsets.only(right: 5.0),
                 child: QRView(
@@ -70,7 +78,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                     borderRadius: 10,
                     borderLength: 30,
                     borderWidth: 10,
-                    cutOutSize: 180, // 200
+                    cutOutSize: scanArea, // 180
                   ),
                 ),
               ),
@@ -79,12 +87,12 @@ class _ScannerWidgetState extends State<ScannerWidget> {
               flex: 1,
               child: FittedBox(
                 fit: BoxFit.contain,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   crossAxisAlignment: CrossAxisAlignment.center,
+                    // Column(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     //   children: <Widget>[
 
                     // FLASH
@@ -126,7 +134,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                             return Text(
                               camera.flashState,
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 7,
                                 color: Color.fromRGBO(255, 255, 255, 0.87),
                               ),
                             );
@@ -134,7 +142,9 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                         ),
                       ],
                     ),
-
+                    SizedBox(
+                      width: 10.0,
+                    ),
                     // ACTIVE CAMERA
                     Column(
                       mainAxisSize: MainAxisSize.min,
@@ -174,7 +184,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                             return Text(
                               camera.cameraState,
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 7,
                                 color: Color.fromRGBO(255, 255, 255, 0.87),
                               ),
                             );
@@ -319,9 +329,9 @@ class _ScannerWidgetState extends State<ScannerWidget> {
     }
     this.subscription = controller.scannedDataStream.take(1).listen((data) {
       setState(() {
-        qrText = data;
+        qrText = data.code;
       });
-      submitCityName(context, data);
+      submitCityName(context, data.code);
       this.subscription.pause(
             Future.delayed(
                 Duration(seconds: 2),

@@ -60,7 +60,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
     return Column(
       children: <Widget>[
         ScannerWidget(context: context),
-        SizedBox(height: 10.0),
+        SizedBox(height: 30.0),
         Center(
           child: CityInputField(),
         )
@@ -116,8 +116,6 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
 
     return Column(
       children: <Widget>[
-        ScannerWidget(context: context),
-        SizedBox(height: 10.0),
         Material(
           elevation: 2.0,
           type: MaterialType.card,
@@ -171,6 +169,8 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
         SizedBox(
           height: 30.0,
         ),
+        ScannerWidget(context: context),
+        SizedBox(height: 30.0),
         CityInputField(),
       ],
     );

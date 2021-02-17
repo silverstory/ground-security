@@ -33,7 +33,7 @@ dependencies:
   shared_preferences: ^0.5.7+1
   flushbar: ^1.10.2
   auto_size_text: ^2.1.0
-  qr_code_scanner: ^0.0.13
+  qr_code_scanner: ^0.3.4
   provider: ^4.1.2
   socket_io_client: ^0.9.10
   flutter_simple_dependency_injection: ^1.0.2+1

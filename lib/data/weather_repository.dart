@@ -120,7 +120,7 @@ class FakeWeatherRepository implements WeatherRepository {
         String url = "http://210.213.193.149/api/profile/${hmac}";
 
         if (hmac.contains('VEHICLE')) {
-          url = "http://192.168.43.184:3310/api/vehicle/${hmac}";
+          url = "http://210.213.193.149/api/vehicle/${hmac}";
         }
 
         // Dio dio = new Dio();
@@ -139,14 +139,15 @@ class FakeWeatherRepository implements WeatherRepository {
         if (hmac.contains('VEHICLE')) {
           // use vehicle profile
           fullName = data['platenumber'];
-          position = data['make'] + ' ' + data['series'];
-          office = 'Owner :' + data['vehicleowner'];
-          classGroup = 'Parking Slot: ' + data['parkingslot'];
+          position =
+              data['make'] + ' ' + data['series'] + ' [' + data['color'] + ']';
+          office = data['vehicleowner'];
+          classGroup = data['parkingslot'];
           String _facePic = data['vehiclephoto'];
           facePic = _facePic.replaceAll(
               'http://192.168.23.60/', 'http://58.69.10.203/');
-          placeHolder = 'male.jpg';
-          gender = 'male';
+          placeHolder = 'female.jpg';
+          gender = 'female';
           // for socket
           id = data['_id'].toString();
           profileid = data['controlnumber'];
@@ -157,7 +158,10 @@ class FakeWeatherRepository implements WeatherRepository {
           // if clause here on what field to
           // display depending on distinction
           position = data['employee']['position'];
-          office = data['employee']['office'];
+          office = data['employee']['office'] +
+              ' [' +
+              data['employee']['recordstatus'].toString().toUpperCase() +
+              ']';
           // end if clause
           classGroup = data['distinction'];
           String _facePic = data['photothumbnailurl'];
