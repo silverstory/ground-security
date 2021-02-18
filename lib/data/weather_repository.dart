@@ -160,7 +160,7 @@ class FakeWeatherRepository implements WeatherRepository {
           position = data['employee']['position'];
           office = data['employee']['office'] +
               ' [' +
-              data['employee']['recordstatus'].toString().toUpperCase() +
+              data['recordstatus'].toString().toUpperCase() +
               ']';
           // end if clause
           classGroup = data['distinction'];

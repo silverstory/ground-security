@@ -48,8 +48,8 @@ class _ScannerWidgetState extends State<ScannerWidget> {
     // For this we check how width or tall the device is and change the scanArea and overlay accordingly.
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
-        ? 400.0
-        : 500.0;
+        ? 370.0
+        : 470.0;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
     return Material(
@@ -61,7 +61,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
       color: Color.fromRGBO(255, 255, 255, 0.07),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.95,
-        height: 600.0, // 200
+        height: 500.0, // 200
         color: Colors.transparent,
         child: Column(
           // child: Row(

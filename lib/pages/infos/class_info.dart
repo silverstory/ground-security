@@ -15,10 +15,16 @@ class ClassInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // if clause here for gender placeholder
+    String gender = this.weather.gender;
+    String assetImage = 'assets/placeholder/male.jpg';
+    if (gender == 'female') {
+      assetImage = 'assets/placeholder/female.jpg';
+    }
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/placeholder/male.jpg'),
+          image: AssetImage(assetImage),
           fit: BoxFit.cover,
         ),
         color: Color.fromARGB(255, 3, 54, 255),
