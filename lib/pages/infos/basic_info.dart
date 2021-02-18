@@ -49,7 +49,7 @@ class BasicInfo extends StatelessWidget {
                     children: <Widget>[
                       SizedBox(
                         width: cWidth,
-                        height: 50.0,
+                        height: 100.0, // 50.0
                         child: AutoSizeText(
                           weather.position,
                           textAlign: TextAlign.center,
@@ -60,7 +60,7 @@ class BasicInfo extends StatelessWidget {
                             // Color.fromARGB(255, 3, 54, 255),
                             color: Color.fromRGBO(255, 255, 255, 0.6),
                           ),
-                          maxLines: 2,
+                          maxLines: 4,
                         ),
                       ),
                       // SizedBox(
@@ -68,7 +68,7 @@ class BasicInfo extends StatelessWidget {
                       // ),
                       SizedBox(
                         width: cWidth,
-                        height: 50.0,
+                        height: 100.0, // 50.0
                         child: AutoSizeText(
                           weather.fullName,
                           textAlign: TextAlign.center,
@@ -80,7 +80,7 @@ class BasicInfo extends StatelessWidget {
                             // Color.fromARGB(255, 30, 30, 30),
                             color: Color.fromRGBO(255, 255, 255, 0.87),
                           ),
-                          maxLines: 2,
+                          maxLines: 4,
                         ),
                       ),
                       // SizedBox(
@@ -100,7 +100,7 @@ class BasicInfo extends StatelessWidget {
                           ),
                           SizedBox(
                             width: dWidth, // c_width - 90,
-                            height: 50.0,
+                            height: 100.0, // 50.0
                             child: Padding(
                               padding: const EdgeInsets.only(right: 5.0),
                               child: AutoSizeText(
@@ -114,7 +114,7 @@ class BasicInfo extends StatelessWidget {
                                   // Color.fromARGB(255, 2, 53, 255),
                                   color: Color.fromRGBO(255, 255, 255, 0.38),
                                 ),
-                                maxLines: 2,
+                                maxLines: 4,
                               ),
                             ),
                           ),

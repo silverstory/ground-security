@@ -125,7 +125,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
           color: Color.fromRGBO(255, 255, 255, 0.07),
           child: Container(
             width: MediaQuery.of(context).size.width * 0.95, // double.infinity,
-            height: 580.0, // 650.0, // 530.0,
+            height: 730.0, // 580.0 // old 650.0, // 530.0,
             color: Colors.transparent,
             child: Stack(
               alignment: Alignment.topCenter,
