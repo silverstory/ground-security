@@ -53,7 +53,7 @@ class FakeWeatherRepository implements WeatherRepository {
   Future<Weather> fetchWeather(String sCode) {
     // Simulate network delay
     return Future.delayed(
-      Duration(seconds: 2),
+      Duration(seconds: 1),
       () async {
         /*
         * read token from storage
@@ -87,7 +87,7 @@ class FakeWeatherRepository implements WeatherRepository {
         String id;
         String profileid;
         String qrcode;
-        String gate = await _gateRetriever();
+        // String gate = await _gateRetriever();
 
         // FormData formData = new FormData.fromMap({
         //   "name": "wendux",
@@ -223,6 +223,11 @@ class FakeWeatherRepository implements WeatherRepository {
         //   'completed': false,
         // };
 
+        String gate;
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        gate = prefs.getString('location') ?? 'GATE 6';
+
         dynamic person = {
           'id': id,
           'profileid': profileid,
@@ -295,7 +300,7 @@ class FakeWeatherRepository implements WeatherRepository {
 
   Future<String> _gateRetriever() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final location = prefs.getString('location') ?? 'CISS MOBILE';
+    final location = prefs.getString('location') ?? 'GATE 6';
     print(location);
     return location;
   }

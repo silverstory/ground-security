@@ -48,8 +48,8 @@ class _ScannerWidgetState extends State<ScannerWidget> {
     // For this we check how width or tall the device is and change the scanArea and overlay accordingly.
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
-        ? 370.0
-        : 470.0;
+        ? 350.0
+        : 450.0;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
     return Material(
@@ -82,6 +82,9 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                   ),
                 ),
               ),
+            ),
+            SizedBox(
+              height: 20.0,
             ),
             Expanded(
               flex: 1,
@@ -221,7 +224,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                               child: InkWell(
                                 //This keeps the splash effect within the circle
                                 borderRadius: BorderRadius.circular(
-                                    800.0), // 1000.0 - Something large to ensure a circle
+                                    800.0), // 800.0 // 1000.0 - Something large to ensure a circle
                                 onTap: () {
                                   controller?.resumeCamera();
                                 },
@@ -249,7 +252,6 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                             ),
                           ),
                         ),
-
                         // pause flare button
                         Padding(
                           padding: const EdgeInsets.only(
@@ -270,7 +272,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                               child: InkWell(
                                 //This keeps the splash effect within the circle
                                 borderRadius: BorderRadius.circular(
-                                    800.0), // 1000.0 - Something large to ensure a circle
+                                    800.0), // 800.0 // 1000.0 - Something large to ensure a circle
                                 onTap: () {
                                   controller?.pauseCamera();
                                 },
@@ -303,6 +305,9 @@ class _ScannerWidgetState extends State<ScannerWidget> {
                   ],
                 ),
               ),
+            ),
+            SizedBox(
+              height: 20.0,
             ),
           ],
         ),

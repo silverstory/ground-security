@@ -57,7 +57,7 @@ class WorldTime {
 
   Future<String> _gateRetriever() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final location = prefs.getString('location') ?? 'CISS MOBILE';
+    final location = prefs.getString('location') ?? 'GATE 6';
     return location;
   }
 

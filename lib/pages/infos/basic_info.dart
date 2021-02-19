@@ -49,7 +49,7 @@ class BasicInfo extends StatelessWidget {
                     children: <Widget>[
                       SizedBox(
                         width: cWidth,
-                        height: 100.0, // 50.0
+                        height: 50.0, // 50.0
                         child: AutoSizeText(
                           weather.position,
                           textAlign: TextAlign.center,
@@ -68,7 +68,7 @@ class BasicInfo extends StatelessWidget {
                       // ),
                       SizedBox(
                         width: cWidth,
-                        height: 100.0, // 50.0
+                        height: 50.0, // 50.0
                         child: AutoSizeText(
                           weather.fullName,
                           textAlign: TextAlign.center,
@@ -100,7 +100,7 @@ class BasicInfo extends StatelessWidget {
                           ),
                           SizedBox(
                             width: dWidth, // c_width - 90,
-                            height: 100.0, // 50.0
+                            height: 50.0, // 50.0
                             child: Padding(
                               padding: const EdgeInsets.only(right: 5.0),
                               child: AutoSizeText(
