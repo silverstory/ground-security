@@ -19,28 +19,28 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  states_rebuilder: ^1.14.3
-  http: ^0.12.0+4
-  intl: ^0.16.1
-  flutter_spinkit: ^4.1.2
-  avatar_glow: ^1.1.0
+  states_rebuilder: ^4.0.0
+  http: ^0.13.0
+  intl: ^0.17.0
+  flutter_spinkit: ^5.0.0
+  avatar_glow: ^2.0.0
   progressive_image: ^1.0.1
   flare_flutter: ^2.0.3
-  dio: ^3.0.9
-  connectivity: ^0.4.8+2
-  pin_code_fields: ^2.5.1
+  dio: ^4.0.0-beta7
+  connectivity: ^3.0.2
+  pin_code_fields: ^7.0.0
   faker: ^1.2.1
-  shared_preferences: ^0.5.7+1
+  shared_preferences: ^2.0.4
   flushbar: ^1.10.2
   auto_size_text: ^2.1.0
   qr_code_scanner: ^0.3.4
-  provider: ^4.1.2
+  provider: ^5.0.0
   socket_io_client: ^0.9.10
   flutter_simple_dependency_injection: ^1.0.2+1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
+  cupertino_icons: ^1.0.2
 
 dev_dependencies:
   flutter_test:

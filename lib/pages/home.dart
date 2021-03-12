@@ -25,6 +25,9 @@ class _HomeState extends State<Home> {
   final asset =
       AssetFlare(bundle: rootBundle, name: "assets/flare/qrcode_eprel.flr");
 
+  final Injected<WeatherStore> weatherstore =
+      RM.inject(() => WeatherStore(FakeWeatherRepository()));
+
   // void setupWorldTimeDio() {
   //   // fakeFetchWeather();
   //   WorldTime instance =
@@ -63,7 +66,8 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      resizeToAvoidBottomPadding: true,
+      // resizeToAvoidBottomPadding: true,
+
       // Color.fromARGB(255, 3, 54, 255),
       backgroundColor: Color.fromARGB(255, 18, 18, 18),
       // Color.fromARGB(255, 20, 20, 20),
@@ -117,13 +121,14 @@ class _HomeState extends State<Home> {
                 padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 20.0),
                 child: Column(
                   children: <Widget>[
-                    Injector(
-                      inject: [
-                        Inject<WeatherStore>(
-                            () => WeatherStore(FakeWeatherRepository())),
-                      ],
-                      builder: (_) => WeatherSearchPage(),
-                    ),
+                    // Injector(
+                    //   inject: [
+                    //     Inject<WeatherStore>(
+                    //         () => WeatherStore(FakeWeatherRepository())),
+                    //   ],
+                    //   builder: (_) => WeatherSearchPage(),
+                    // ),
+                    weatherstore.rebuilder(() => WeatherSearchPage()),
                     SizedBox(height: 30.0),
                     FlatButton.icon(
                       onPressed: () async {

@@ -59,9 +59,17 @@ class _LoadingState extends State<Loading> {
     // fetch token here
     String token;
 
-    var url = 'http://210.213.193.149/users/authenticate';
+    var uri = Uri(
+      scheme: 'http',
+      host: '210.213.193.149',
+      path: '/users/authenticate');
+    // print(
+    //   uri.toString() == 'http://58.69.10.198/send-notification');
+
+    // var url = 'http://210.213.193.149/users/authenticate';
+
     var response =
-        await http.post(url, body: {'userName': 'h', 'password': 'h'});
+        await http.post(uri, body: {'userName': 'h', 'password': 'h'});
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
 

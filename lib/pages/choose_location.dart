@@ -126,7 +126,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 18, 18, 18),
       resizeToAvoidBottomInset: true,
-      resizeToAvoidBottomPadding: true,
+      // resizeToAvoidBottomPadding: true,
       appBar: AppBar(
         // backgroundColor: Color.fromRGBO(255, 255, 255, 40.0),
         title: Text('Choose a Location'),

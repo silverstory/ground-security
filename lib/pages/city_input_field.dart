@@ -36,12 +36,12 @@ class CityInputField extends StatelessWidget {
   }
 
   void submitCityName(BuildContext context, String cityName) {
-    final reactiveModel = Injector.getAsReactive<WeatherStore>();
+    final reactiveModel = RM.get<WeatherStore>();
     reactiveModel.setState(
       (store) => store.getWeather(cityName),
-      onError: (context, error) {
+      onError: (error) {
         if (error is NetworkError) {
-          Scaffold.of(context).showSnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text("Couldn't fetch weather. Is the device online?"),
             ),

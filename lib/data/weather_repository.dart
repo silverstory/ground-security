@@ -243,7 +243,7 @@ class FakeWeatherRepository implements WeatherRepository {
 
         dynamic _res = await _sendNotification(person);
 
-        print(_res);
+        // print(_res);
 
         // socketService.deliverSocketMessage('list:feed', person);
 
@@ -271,7 +271,21 @@ class FakeWeatherRepository implements WeatherRepository {
 
   // send notification
   Future<dynamic> _sendNotification(dynamic person) async {
-    var url = 'http://58.69.10.198/send-notification';
+
+    // var uri = Uri(
+    //   scheme: 'https',
+    //   host: 'example.org',
+    //   path: '/foo/bar',
+    //   fragment: 'frag');
+    // print(
+    //   uri.toString() == 'https://example.org/foo/bar#frag');
+
+    var uri = Uri(
+      scheme: 'http',
+      host: '58.69.10.198',
+      path: '/send-notification');
+    // print(
+    //   uri.toString() == 'http://58.69.10.198/send-notification');
 
     var body = json.encode(person);
 
@@ -280,7 +294,7 @@ class FakeWeatherRepository implements WeatherRepository {
       'Accept': 'application/json',
     };
 
-    var response = await http.post(url, body: body, headers: headers);
+    var response = await http.post(uri, body: body, headers: headers);
 
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');

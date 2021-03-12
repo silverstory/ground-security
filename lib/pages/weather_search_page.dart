@@ -33,6 +33,8 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
       bundle: rootBundle, name: "assets/flare/meteor_loading_eprel.flr");
   final pinAsset = AssetFlare(
       bundle: rootBundle, name: "assets/flare/pin_location_eprel.flr");
+  // final rm = RM.get<WeatherStore>();
+  final reactiveModel = RM.inject(() => WeatherStore);
 
   @override
   Widget build(BuildContext context) {
@@ -41,17 +43,26 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
       child: Container(
         padding: EdgeInsets.only(top: 2.0, bottom: 16.0),
         alignment: Alignment.center,
-        child: StateBuilder<WeatherStore>(
-          models: [Injector.getAsReactive<WeatherStore>()],
-          builder: (_, reactiveModel) {
-            return reactiveModel.whenConnectionState(
-              onIdle: () => buildInitialInput(),
-              onWaiting: () => buildLoading(),
-              onData: (store) => buildColumnWithData(store.weather),
-              onError: (_) => buildInitialInput(),
-            );
-          },
-        ),
+        child:
+
+        // StateBuilder<WeatherStore>(
+        //   models: [Injector.getAsReactive<WeatherStore>()],
+        //   builder: (_, reactiveModel) {
+        //     return reactiveModel.whenConnectionState(
+        //       onIdle: () => buildInitialInput(),
+        //       onWaiting: () => buildLoading(),
+        //       onData: (store) => buildColumnWithData(store.weather),
+        //       onError: (_) => buildInitialInput(),
+        //     );
+        //   },
+        // ),
+
+reactiveModel.futureBuilder(
+    onWaiting: ()=> Text('Waiting..'),
+    onError: null, // Here on error is null
+    onData: (data)=> buildColumnWithData(data.weather),
+),
+
       ),
     );
   }
@@ -128,9 +139,9 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
             height: 580.0, // 580.0 // old 650.0, // 530.0,
             color: Colors.transparent,
             child: Stack(
+              clipBehavior: Clip.hardEdge,
               alignment: Alignment.topCenter,
               fit: StackFit.loose,
-              overflow: Overflow.clip,
               children: <Widget>[
                 Positioned(
                   top: 0.0,
