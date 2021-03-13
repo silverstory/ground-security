@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:groundsecurity/data/weather_repository.dart';
-import 'package:groundsecurity/state/weather_store.dart';
+import 'package:groundsecurity/main.dart';
+// import 'package:groundsecurity/state/weather_store.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 class CityInputField extends StatelessWidget {
@@ -36,24 +37,43 @@ class CityInputField extends StatelessWidget {
   }
 
   void submitCityName(BuildContext context, String cityName) {
-    final reactiveModel = RM.get<WeatherStore>();
-    reactiveModel.setState(
+    weatherStore.setState(
       (store) => store.getWeather(cityName),
       onError: (error) {
         if (error is NetworkError) {
-          ScaffoldMessenger.of(context).showSnackBar(
+          ScaffoldMessenger.of(RM.context).showSnackBar(
             SnackBar(
               content: Text("Couldn't fetch weather. Is the device online?"),
             ),
           );
         } else {
           print(error.toString());
-          reactiveModel.setState(
+          weatherStore.setState(
             (store) => store.getEmptyWeather(),
           );
           // throw error;
         }
       },
     );
+
+    // final reactiveModel = RM.get<WeatherStore>();
+    // reactiveModel.setState(
+    //   (store) => store.getWeather(cityName),
+    //   onError: (error) {
+    //     if (error is NetworkError) {
+    //       ScaffoldMessenger.of(context).showSnackBar(
+    //         SnackBar(
+    //           content: Text("Couldn't fetch weather. Is the device online?"),
+    //         ),
+    //       );
+    //     } else {
+    //       print(error.toString());
+    //       reactiveModel.setState(
+    //         (store) => store.getEmptyWeather(),
+    //       );
+    //       // throw error;
+    //     }
+    //   },
+    // );
   }
 }

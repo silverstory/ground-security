@@ -1,0 +1,42 @@
+final Injected<Foo> foo = RM.inject<Foo>(
+  ()=> Foo(),
+  onInitialized : (Foo state) => print('Initialized'),
+  // Default callbacks for side effects.
+  onSetState: On.all(
+    onIdle: () => print('Is idle'),
+    onWaiting: () => print('Is waiting'),
+    onError: (error) => print('Has error'),
+    onData: (Foo data) => print('Has data'),
+  ),
+  // It is disposed when no longer needed
+  onDisposed: (Foo state) => print('Disposed'),
+  // To persist the state
+  persist:() => PersistState(
+      key: '__FooKey__',
+      toJson: (Foo s) => s.toJson(),
+      fromJson: (String json) => Foo.fromJson(json),
+      // Optionally, throttle the state persistance
+      throttleDelay: 1000,
+  ),
+  // middleSnapState as a middleWare place
+  // Used to track and log state lifecycle and transitions.
+  // It can also be used to return another state created from 
+  // the current state and the next state.
+  middleSnapState: (middleSnap) {
+     middleSnap.print(); //Build-in logger
+    
+    // Example of simple email validation
+    if (middleSnap.nextSnap.hasData) {
+      if (!middleSnap.nextSnap.data.contains('@')) {
+        return middleSnap.nextSnap.copyToHasError(
+          Exception('Enter a valid Email'),
+        );
+      }
+    }
+  },
+);
+//For simple injection you can use `inj()` extension:
+final foo = Foo().inj<Foo>();
+final isBool = false.inj();
+final string = 'str'.inj();
+final count = 0.inj();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_dependency_injection/injector.dart';
 import 'package:groundsecurity/app_initializer.dart';
+import 'package:groundsecurity/data/weather_repository.dart';
 
 import 'package:groundsecurity/pages/home.dart';
 import 'package:groundsecurity/pages/choose_location.dart';
@@ -10,8 +11,12 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:groundsecurity/pages/verify.dart';
 import 'package:groundsecurity/services/dependency_injection.dart';
+import 'package:groundsecurity/state/weather_store.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
 
 Injector injector;
+
+final weatherStore = RM.inject(() => WeatherStore(FakeWeatherRepository()));
 
 // Sets a platform override for desktop to avoid exceptions. See
 // https://flutter.dev/desktop#target-platform-override for more info.

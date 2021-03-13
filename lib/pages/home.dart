@@ -25,8 +25,10 @@ class _HomeState extends State<Home> {
   final asset =
       AssetFlare(bundle: rootBundle, name: "assets/flare/qrcode_eprel.flr");
 
-  final Injected<WeatherStore> weatherstore =
-      RM.inject(() => WeatherStore(FakeWeatherRepository()));
+  // final Injected<WeatherStore> weatherstore =
+  //     RM.inject(() => WeatherStore(FakeWeatherRepository()));
+
+  // final weatherStore = RM.inject(() => WeatherStore(FakeWeatherRepository()));
 
   // void setupWorldTimeDio() {
   //   // fakeFetchWeather();
@@ -128,7 +130,7 @@ class _HomeState extends State<Home> {
                     //   ],
                     //   builder: (_) => WeatherSearchPage(),
                     // ),
-                    weatherstore.rebuilder(() => WeatherSearchPage()),
+                    WeatherSearchPage(),
                     SizedBox(height: 30.0),
                     FlatButton.icon(
                       onPressed: () async {

@@ -29,8 +29,26 @@ class DioConnectivityRequestRetrier {
               onReceiveProgress: requestOptions.onReceiveProgress,
               onSendProgress: requestOptions.onSendProgress,
               queryParameters: requestOptions.queryParameters,
-              options: requestOptions,
+              options: Options(method: requestOptions.method),
             ),
+
+            // return _dio.request(options.path,
+            //   options: Options(
+            //     method: options.method,
+            //     sendTimeout: options.sendTimeout,
+            //     receiveTimeout: options.receiveTimeout,
+            //     extra: options.extra,
+            //     headers: options.headers,
+            //     responseType: options.responseType,
+            //     contentType: options.contentType,
+            //     validateStatus: options.validateStatus,
+            //     receiveDataWhenStatusError: options.receiveDataWhenStatusError,
+            //     followRedirects: options.followRedirects,
+            //     maxRedirects: options.maxRedirects,
+            //     requestEncoder: options.requestEncoder,
+            //     responseDecoder: options.responseDecoder,
+            //     listFormat: options.listFormat,
+            //   ));
           );
         }
       },

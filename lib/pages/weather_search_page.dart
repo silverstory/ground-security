@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:groundsecurity/data/model/weather.dart';
+import 'package:groundsecurity/data/weather_repository.dart';
 import 'package:groundsecurity/main.dart';
 import 'package:groundsecurity/pages/city_input_field.dart';
 import 'package:groundsecurity/pages/infos/access_badge.dart';
@@ -33,8 +34,8 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
       bundle: rootBundle, name: "assets/flare/meteor_loading_eprel.flr");
   final pinAsset = AssetFlare(
       bundle: rootBundle, name: "assets/flare/pin_location_eprel.flr");
-  // final rm = RM.get<WeatherStore>();
-  final reactiveModel = RM.inject(() => WeatherStore);
+
+  // final weatherStore = RM.inject(() => WeatherStore(FakeWeatherRepository()));
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,12 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
       child: Container(
         padding: EdgeInsets.only(top: 2.0, bottom: 16.0),
         alignment: Alignment.center,
-        child:
+        child: On.all(
+          onIdle: () => buildInitialInput(),
+          onWaiting: () => buildLoading(),
+          onData: () => buildColumnWithData(weatherStore.state.weather),
+          onError: (err, refresh) => buildInitialInput(),
+        ).listenTo(weatherStore),
 
         // StateBuilder<WeatherStore>(
         //   models: [Injector.getAsReactive<WeatherStore>()],
@@ -56,13 +62,6 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
         //     );
         //   },
         // ),
-
-reactiveModel.futureBuilder(
-    onWaiting: ()=> Text('Waiting..'),
-    onError: null, // Here on error is null
-    onData: (data)=> buildColumnWithData(data.weather),
-),
-
       ),
     );
   }
