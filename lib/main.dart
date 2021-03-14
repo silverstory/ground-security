@@ -12,11 +12,11 @@ import 'package:flutter/foundation.dart';
 import 'package:groundsecurity/pages/verify.dart';
 import 'package:groundsecurity/services/dependency_injection.dart';
 import 'package:groundsecurity/state/weather_store.dart';
-import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:states_rebuilder/states_rebuilder.dart' as state;
 
 Injector injector;
 
-final weatherStore = RM.inject(() => WeatherStore(FakeWeatherRepository()));
+final weatherStore = state.RM.inject(() => WeatherStore(FakeWeatherRepository()));
 
 // Sets a platform override for desktop to avoid exceptions. See
 // https://flutter.dev/desktop#target-platform-override for more info.
@@ -28,8 +28,8 @@ void _enablePlatformOverrideForDesktop() {
 
 void main() async {
   _enablePlatformOverrideForDesktop();
-  DependencyInjection().initialise(Injector.getInjector());
-  injector = Injector.getInjector();
+  DependencyInjection().initialise(Injector());
+  injector = Injector();
   await AppInitializer().initialise(injector);
   runApp(MyApp());
 }
