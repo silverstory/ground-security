@@ -28,7 +28,7 @@ dependencies:
   flare_flutter: ^2.0.3
   dio: ^4.0.0-beta7
   connectivity: ^3.0.2
-  pin_code_fields: ^7.0.0
+  pin_code_fields: ^2.5.1
   faker: ^1.2.1
   shared_preferences: ^2.0.4
   flushbar: ^1.10.2

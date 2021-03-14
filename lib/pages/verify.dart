@@ -44,7 +44,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      // resizeToAvoidBottomPadding: true,
+      // resizeToAvoidBottomPadding: true,s
       backgroundColor: Color.fromARGB(255, 18, 18, 18),
       key: scaffoldKey,
       appBar: AppBar(
@@ -117,21 +117,20 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 ),
                 child: PinCodeTextField(
                   length: 4,
-                  obscureText: false,
+                  obsecureText: false,
                   animationType: AnimationType.fade,
-                  // shape: PinCodeFieldShape.box,
+                  shape: PinCodeFieldShape.box,
                   animationDuration: Duration(milliseconds: 300),
-                  useHapticFeedback: true,
-                  // borderRadius: BorderRadius.circular(5),
-                  // fieldHeight: 50,
+                  borderRadius: BorderRadius.circular(5),
+                  fieldHeight: 50,
                   backgroundColor: Color.fromARGB(255, 18, 18, 18),
-                  // fieldWidth: 40,
-                  // activeFillColor: Color.fromARGB(255, 18, 18, 18),
-                  // activeColor: Color.fromRGBO(255, 255, 255, 0.38),
-                  // inactiveFillColor: Color.fromARGB(255, 18, 18, 18),
-                  // inactiveColor: Color.fromRGBO(255, 255, 255, 0.38),
-                  // selectedFillColor: Color.fromARGB(255, 18, 18, 18),
-                  // selectedColor: Color.fromARGB(255, 3, 218, 197),
+                  fieldWidth: 40,
+                  activeFillColor: Color.fromARGB(255, 18, 18, 18),
+                  activeColor: Color.fromRGBO(255, 255, 255, 0.38),
+                  inactiveFillColor: Color.fromARGB(255, 18, 18, 18),
+                  inactiveColor: Color.fromRGBO(255, 255, 255, 0.38),
+                  selectedFillColor: Color.fromARGB(255, 18, 18, 18),
+                  selectedColor: Color.fromARGB(255, 3, 218, 197),
                   textStyle: TextStyle(
                     color: Colors.white,
                     fontSize: 20.0,
@@ -148,7 +147,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       currentText = value;
                     });
                   },
-                  appContext: context,
                 ),
               ),
               Padding(
