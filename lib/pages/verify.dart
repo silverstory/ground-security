@@ -148,6 +148,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       currentText = value;
                     });
                   },
+                  appContext: context,
                 ),
               ),
               Padding(
