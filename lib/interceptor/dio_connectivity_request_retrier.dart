@@ -29,6 +29,7 @@ class DioConnectivityRequestRetrier {
               onReceiveProgress: requestOptions.onReceiveProgress,
               onSendProgress: requestOptions.onSendProgress,
               queryParameters: requestOptions.queryParameters,
+              // Something is wrong with this line. Request not retrying.
               options: Options(method: requestOptions.method),
             ),
 
