@@ -29,27 +29,8 @@ class DioConnectivityRequestRetrier {
               onReceiveProgress: requestOptions.onReceiveProgress,
               onSendProgress: requestOptions.onSendProgress,
               queryParameters: requestOptions.queryParameters,
-              // Something is wrong with this line. Request not retrying.
-              options: Options(method: requestOptions.method),
+              options: requestOptions,
             ),
-
-            // return _dio.request(options.path,
-            //   options: Options(
-            //     method: options.method,
-            //     sendTimeout: options.sendTimeout,
-            //     receiveTimeout: options.receiveTimeout,
-            //     extra: options.extra,
-            //     headers: options.headers,
-            //     responseType: options.responseType,
-            //     contentType: options.contentType,
-            //     validateStatus: options.validateStatus,
-            //     receiveDataWhenStatusError: options.receiveDataWhenStatusError,
-            //     followRedirects: options.followRedirects,
-            //     maxRedirects: options.maxRedirects,
-            //     requestEncoder: options.requestEncoder,
-            //     responseDecoder: options.responseDecoder,
-            //     listFormat: options.listFormat,
-            //   ));
           );
         }
       },
