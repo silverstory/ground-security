@@ -2,7 +2,8 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SocketService {
   IO.Socket socket;
-  final String socketUrl = 'http://58.69.10.198:80';
+  // final String socketUrl = 'http://58.69.10.198:80';
+  final String socketUrl = 'http://192.168.23.8:8000';
 
   createSocketConnection() {
     socket = IO.io(socketUrl, <String, dynamic>{

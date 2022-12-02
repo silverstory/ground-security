@@ -117,10 +117,12 @@ class FakeWeatherRepository implements WeatherRepository {
           ),
         );
 
-        String url = "http://210.213.193.149/api/profile/${hmac}";
+        // String url = "http://210.213.193.149/api/profile/${hmac}";
+        String url = "http://192.168.23.8/api/profile/${hmac}";
 
         if (hmac.contains('VEHICLE')) {
-          url = "http://210.213.193.149/api/vehicle/${hmac}";
+          // url = "http://210.213.193.149/api/vehicle/${hmac}";
+          url = "http://192.168.23.8/api/vehicle/${hmac}";
         }
 
         // Dio dio = new Dio();
@@ -144,8 +146,9 @@ class FakeWeatherRepository implements WeatherRepository {
           office = data['vehicleowner'];
           classGroup = data['parkingslot'];
           String _facePic = data['vehiclephoto'];
-          facePic = _facePic.replaceAll(
-              'http://192.168.23.60/', 'http://58.69.10.203/');
+          // facePic = _facePic.replaceAll(
+          //     'http://192.168.23.60/', 'http://58.69.10.203/');
+          facePic = _facePic;
           placeHolder = 'female.jpg';
           gender = 'female';
           // for socket
@@ -165,8 +168,9 @@ class FakeWeatherRepository implements WeatherRepository {
           // end if clause
           classGroup = data['distinction'];
           String _facePic = data['photothumbnailurl'];
-          facePic = _facePic.replaceAll(
-              'http://192.168.23.60/', 'http://58.69.10.203/');
+          facePic = _facePic;
+          // facePic = _facePic.replaceAll(
+          //     'http://192.168.23.60/', 'http://58.69.10.203/');
           placeHolder = 'male.jpg';
           print(data['gender'].toString().trim());
           if (data['gender'].toString().trim() == 'male') {
@@ -271,7 +275,6 @@ class FakeWeatherRepository implements WeatherRepository {
 
   // send notification
   Future<dynamic> _sendNotification(dynamic person) async {
-
     // var uri = Uri(
     //   scheme: 'https',
     //   host: 'example.org',
@@ -281,9 +284,9 @@ class FakeWeatherRepository implements WeatherRepository {
     //   uri.toString() == 'https://example.org/foo/bar#frag');
 
     var uri = Uri(
-      scheme: 'http',
-      host: '58.69.10.198',
-      path: '/send-notification');
+        scheme: 'http', host: '192.168.23.8:8000', path: '/send-notification');
+    // var uri =
+    //     Uri(scheme: 'http', host: '58.69.10.198', path: '/send-notification');
     // print(
     //   uri.toString() == 'http://58.69.10.198/send-notification');
 

@@ -60,9 +60,10 @@ class _LoadingState extends State<Loading> {
     String token;
 
     var uri = Uri(
-      scheme: 'http',
-      host: '210.213.193.149',
-      path: '/users/authenticate');
+        scheme: 'http',
+        // host: '210.213.193.149',
+        host: '192.168.23.8',
+        path: '/users/authenticate');
     // print(
     //   uri.toString() == 'http://58.69.10.198/send-notification');
 
