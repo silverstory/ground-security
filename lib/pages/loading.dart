@@ -61,13 +61,8 @@ class _LoadingState extends State<Loading> {
 
     var uri = Uri(
         scheme: 'http',
-        // host: '210.213.193.149',
         host: '192.168.23.8',
         path: '/users/authenticate');
-    // print(
-    //   uri.toString() == 'http://58.69.10.198/send-notification');
-
-    // var url = 'http://210.213.193.149/users/authenticate';
 
     var response =
         await http.post(uri, body: {'userName': 'h', 'password': 'h'});

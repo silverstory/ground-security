@@ -129,6 +129,8 @@ class FakeWeatherRepository implements WeatherRepository {
         dio.options.headers["Authorization"] = "Bearer ${_token}";
 
         Response response = await dio.get(url);
+        
+        print(response);
 
         // handle not found
         if (response.data == null) {
@@ -245,7 +247,7 @@ class FakeWeatherRepository implements WeatherRepository {
           'completed': false,
         };
 
-        dynamic _res = await _sendNotification(person);
+        // dynamic _res = await _sendNotification(person);
 
         // print(_res);
 
@@ -275,20 +277,12 @@ class FakeWeatherRepository implements WeatherRepository {
 
   // send notification
   Future<dynamic> _sendNotification(dynamic person) async {
-    // var uri = Uri(
-    //   scheme: 'https',
-    //   host: 'example.org',
-    //   path: '/foo/bar',
-    //   fragment: 'frag');
-    // print(
-    //   uri.toString() == 'https://example.org/foo/bar#frag');
 
     var uri = Uri(
-        scheme: 'http', host: '192.168.23.8:8000', path: '/send-notification');
-    // var uri =
-    //     Uri(scheme: 'http', host: '58.69.10.198', path: '/send-notification');
-    // print(
-    //   uri.toString() == 'http://58.69.10.198/send-notification');
+        scheme: 'http',
+        host: '192.168.23.8',
+        path: '/send-notification');
+
 
     var body = json.encode(person);
 
