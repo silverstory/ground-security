@@ -247,9 +247,9 @@ class FakeWeatherRepository implements WeatherRepository {
           'completed': false,
         };
 
-        // dynamic _res = await _sendNotification(person);
+        dynamic _res = await _sendNotification(person);
 
-        // print(_res);
+        print(_res);
 
         // socketService.deliverSocketMessage('list:feed', person);
 
@@ -281,6 +281,7 @@ class FakeWeatherRepository implements WeatherRepository {
     var uri = Uri(
         scheme: 'http',
         host: '192.168.23.8',
+        port: 8000,
         path: '/send-notification');
 
 
