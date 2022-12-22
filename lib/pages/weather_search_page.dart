@@ -72,7 +72,8 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
         ScannerWidget(context: context),
         SizedBox(height: 30.0),
         Center(
-          child: CityInputField(),
+          // child: CityInputField(),
+          child: SizedBox(height: 5.0,),
         )
       ],
     );
@@ -181,7 +182,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
         ),
         ScannerWidget(context: context),
         SizedBox(height: 30.0),
-        CityInputField(),
+        // CityInputField(),
       ],
     );
   }

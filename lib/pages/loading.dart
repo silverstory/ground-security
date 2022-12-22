@@ -18,17 +18,23 @@ class _LoadingState extends State<Loading> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Future<String> _location;
   Future<String> _token;
+  Future<String> _time; // the person
 
   final asset = AssetFlare(
     bundle: rootBundle,
     name: "assets/flare/perfect_loading_eprel.flr",
   );
-  void setupWorldTime(String location) async {
+
+  void preSetupWorldTime(String location) async {
+    _time.then((value) => setupWorldTime(location, value));
+  }
+
+  void setupWorldTime(String location, String time) async {
     // fakeFetchWeather();
     WorldTime instance =
-        WorldTime(location: location, flag: 'ph.png', url: 'Asia/Manila');
+        WorldTime(location: location, time: time, flag: 'ph.png', url: 'Asia/Manila');
     // instance.initDio();
-    await instance.getTimeByIp();
+    // await instance.getTimeByIp(); // removed dec 21 2022
     Navigator.pushReplacementNamed(context, '/home', arguments: {
       'location': instance.location,
       'flag': instance.flag,
@@ -44,13 +50,23 @@ class _LoadingState extends State<Loading> {
     * read location from storage
     */
     _location = _prefs.then((SharedPreferences prefs) {
-      return (prefs.getString('location') ?? 'GATE 7');
+      return (prefs.getString('location') ?? 'OP');
     });
+
+    // added dec 21 2022
+    _time = _prefs.then((SharedPreferences prefs) {
+      return (prefs.getString('time') ?? 'Juan');
+    });
+
     /*
     * setup location
     */
     _createToken();
-    _location.then((value) => setupWorldTime(value));
+    // _location.then((value) => setupWorldTime(value)); // removed dec 21 2022
+
+    // added dec 21 2022
+    _location.then((value) => preSetupWorldTime(value));
+
   }
 
   // create user token

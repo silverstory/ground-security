@@ -58,6 +58,14 @@ class _HomeState extends State<Home> {
         );
   }
 
+  Future<void> _changeTime(String time) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    await prefs.setString("time", time).then(
+          (bool success) => success,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
@@ -138,6 +146,7 @@ class _HomeState extends State<Home> {
                             await Navigator.pushNamed(context, '/location');
                         if (result != null) {
                           await _changeLocation(result['location']);
+                          await _changeTime(result['time']);
                           setState(() {
                             data = {
                               'time': result['time'],

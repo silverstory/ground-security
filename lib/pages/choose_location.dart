@@ -19,6 +19,8 @@ class _ChooseLocationState extends State<ChooseLocation> {
   List<WorldTime> locations = Location().supported;
   bool isLoading;
 
+  String citiName = '';
+
   @override
   void initState() {
     super.initState();
@@ -31,12 +33,17 @@ class _ChooseLocationState extends State<ChooseLocation> {
     });
     var instance = locations[index];
     // instance.initDio();
-    await instance.getTimeByCity();
+
+    // await instance.getTimeByCity(); // removed dec 21 2022
+
+    // get person name from SharedPrefs
+
     setState(() {
       // navigate to home screen
       Navigator.pop(context, {
         'location': instance.location,
-        'time': instance.time,
+        // 'time': instance.time, // removed dec 21 2022
+        'time': citiName, // added dec 21 2022
         'isDaytime': instance.isDaytime,
       });
       isLoading = false;
@@ -75,11 +82,68 @@ class _ChooseLocationState extends State<ChooseLocation> {
         ),
       );
     else
-      return buildList();
+      // return buildList();
+
+      return SingleChildScrollView(
+        physics: ScrollPhysics(),
+        child: Column(
+          children: <Widget>[
+            citiInput(),
+            buildList(),
+          ],
+        ),
+      );
+
+
+      // return Column(
+      //   children: [
+      //     buildList(),
+      //     citiInput(),
+      //   ],
+      // );
   }
+
+  Widget citiInput() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: TextField(
+        onSubmitted: (value) => submitCitiName(value),
+        textInputAction: TextInputAction.search,
+        keyboardType: TextInputType.text,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.singleLineFormatter
+          // WhitelistingTextInputFormatter.digitsOnly
+        ], // Only numbers can be entered
+        textAlign: TextAlign.center,
+        style: new TextStyle(
+          color: Colors.orange,
+          fontWeight: FontWeight.bold,
+          fontSize: 18.0,
+          letterSpacing: 3.0,
+        ),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Color.fromARGB(255, 20, 20, 20),
+          hintText: "officer name",
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+          suffixIcon: Icon(Icons.arrow_forward_ios),
+        ),
+      ),
+    );
+  }
+
+  void submitCitiName(String _citiName) {
+    citiName = _citiName;
+  }
+
+
+
+
 
   Widget buildList() {
     return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
       itemCount: locations.length,
       itemBuilder: (context, index) {
         return Padding(

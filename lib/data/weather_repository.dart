@@ -62,6 +62,8 @@ class FakeWeatherRepository implements WeatherRepository {
         //   return (prefs.getString('token') ?? 'an invalid token');
         // });
         String _token = await _tokenRetriever();
+        String _gate = await _gateRetriever();
+        String _time = await _timeRetriever();
         List<String> urlArr = sCode.split('/');
         String hmac = urlArr.last;
         /*
@@ -229,10 +231,16 @@ class FakeWeatherRepository implements WeatherRepository {
         //   'completed': false,
         // };
 
-        String gate;
+        // String gate;
+        //
+        // SharedPreferences prefs = await SharedPreferences.getInstance();
+        // gate = prefs.getString('location') ?? 'GATE 6';
 
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        gate = prefs.getString('location') ?? 'GATE 6';
+        String gate;
+        gate = _gate;
+
+        String time;
+        time = _time;
 
         dynamic person = {
           'id': id,
@@ -241,7 +249,7 @@ class FakeWeatherRepository implements WeatherRepository {
           'gender': gender,
           'imagepath': facePic,
           'distinction': classGroup,
-          'gate': gate,
+          'gate': gate + ' - ' + time,
           'qrcode': qrcode,
           'datetime': datetime.toIso8601String(),
           'completed': false,
@@ -312,9 +320,16 @@ class FakeWeatherRepository implements WeatherRepository {
 
   Future<String> _gateRetriever() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final location = prefs.getString('location') ?? 'GATE 6';
+    final location = prefs.getString('location') ?? 'OP';
     print(location);
     return location;
+  }
+
+  Future<String> _timeRetriever() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final time = prefs.getString('time') ?? 'Juan';
+    print(time);
+    return time;
   }
 
   // @override

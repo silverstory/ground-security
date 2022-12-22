@@ -15,14 +15,16 @@ class WorldTime {
   String url; // location url for api endpoint
   bool isDaytime; // true or false if nighttime
 
-  WorldTime({this.location, this.flag, this.url});
+  WorldTime({this.location, this.time, this.flag, this.url});
   WorldTime.empty();
 
-  Future<void> getTimeByIp() async {
+  // renamed dec 21 2022
+  Future<void> _oldgetTimeByIp() async {
     await _parseData();
   }
 
-  Future<String> getTimeByCity() async {
+  // renamed dec 21 2022
+  Future<String> _oldgetTimeByCity() async {
     await _parseData();
     return await time;
   }
@@ -52,7 +54,7 @@ class WorldTime {
     time = DateFormat.jm().format(now);
     */
     // time = 'Ground Security 🛡️';
-    time = 'Ground Security';
+    time = 'Juan D.';
   }
 
   Future<String> _gateRetriever() async {
