@@ -55,60 +55,62 @@ class FakeWeatherRepository implements WeatherRepository {
     return Future.delayed(
       Duration(seconds: 1),
       () async {
-        /*
+
+      /*
         * read token from storage
         */
-        // _token = _prefs.then((SharedPreferences prefs) {
-        //   return (prefs.getString('token') ?? 'an invalid token');
-        // });
-        String _token = await _tokenRetriever();
-        String _gate = await _gateRetriever();
-        String _time = await _timeRetriever();
-        List<String> urlArr = sCode.split('/');
-        String hmac = urlArr.last;
-        /*
+      // _token = _prefs.then((SharedPreferences prefs) {
+      //   return (prefs.getString('token') ?? 'an invalid token');
+      // });
+      String _token = await _tokenRetriever ();
+      String _gate = await _gateRetriever();
+      String _time = await _timeRetriever();
+      List<String> urlArr = sCode.split('/');
+      String hmac = urlArr.last;
+      /*
         * start to get data from api
         */
-        String fullName;
-        String position;
-        String office;
-        String classGroup;
-        String facePic;
-        String placeHolder;
-        String gender;
-        /*
+      String fullName;
+      String position;
+      String office;
+      String classGroup;
+      String facePic;
+      String placeHolder;
+      String gender;
+      /*
         * use enum to transform colorN
         * to a color object below
         */
-        String color1;
-        String color2; // data coming from api
-        String color3; // as hex color value
-        String color4;
+      String color1;
+      String color2; // data coming from api
+      String color3; // as hex color value
+      String color4;
 
-        // for socket
-        String id;
-        String profileid;
-        String qrcode;
-        // String gate = await _gateRetriever();
+      Color one = Colors.green;
+      Color two = Colors.blue;
+      Color three = Color.fromRGBO(255, 255, 255, 0.87);
+      Color four = Colors.red;
 
-        // FormData formData = new FormData.fromMap({
-        //   "name": "wendux",
-        //   "age": 25,
-        // });
+      String gate;
 
-        // Response response = await dio.post(url, data: formData);
+      // for socket
+      String id;
+      String profileid;
+      String qrcode;
 
-        // response = await dio.post(
-        //   "http://www.dtworkroom.com/doris/1/2.0.0/test",
-        //   data: {"aa": "bb" * 22},
-        //   onSendProgress: (int sent, int total) {
-        //     print("$sent $total");
-        //   },
-        // );
+      // uncomment lines below for ciss API
 
-        // uncomment lines below for ciss API
+      dio = Dio();
 
-        dio = Dio();
+      dynamic person = {};
+
+      // if statement here for visitors
+
+      if ( sCode.contains(':22211')) {
+
+        FormData formData = new FormData.fromMap({
+          "code": hmac
+        });
 
         dio.interceptors.add(
           RetryOnConnectionChangeInterceptor(
@@ -119,20 +121,105 @@ class FakeWeatherRepository implements WeatherRepository {
           ),
         );
 
-        // String url = "http://210.213.193.149/api/profile/${hmac}";
+        dio.options.headers["Accept"] = "application/json";
+
+        Response response = await dio.post("http://192.168.64.151:364/api/v1/ciss/fetch", data: formData);
+
+        // handle not found
+        if (response.data == null) {
+          return Weather.notFound();
+        }
+
+        Map data = response.data;
+
+        if ( data['success'] == false ) {
+          return Weather.notFound();
+        }
+
+        // use visitor profile
+        // fullName = data['doc']['dept_to_visit'] +
+        //     ' : ' + data['doc']['time_start'] + ' - ' + data['doc']['time_end'];
+        fullName = data['doc']['dept_to_visit'] +
+            ' : ' + data['doc']['visit_date'].toString().substring(0, 10);
+        position = data['doc']['profile']['fullname'] + ' - ' + data['doc']['purpose'];
+        // office = data['doc']['visit_date'].toString().substring(0, 10) +
+        //     ' - ' + data['doc']['person_to_visit'] + ' - ' + data['doc']['profile']['company'];
+        office = 'From: ' + data['doc']['profile']['company'] + ' - Visiting: ' + data['doc']['person_to_visit'];
+        // end if clause
+        classGroup = 'GUEST';
+        String _facePic = 'http://192.168.23.145/vmsphoto.jpg'; // data['photothumbnailurl'];
+        facePic = _facePic;
+        // facePic = _facePic.replaceAll(
+        //     'http://192.168.23.60/', 'http://58.69.10.203/');
+        placeHolder = 'male.jpg';
+        if (data['gender'].toString().trim() == 'male') {
+          placeHolder = 'male.jpg';
+        } else {
+          placeHolder = 'female.jpg';
+        }
+        gender = 'male';
+        // for socket
+        id = data['doc']['_id'].toString();
+        profileid = data['doc']['profile']['_id'];
+        qrcode = data['doc']['qrcode'];
+
+        var feedFullname = data['doc']['profile']['fullname'] + ' - ' + data['doc']['dept_to_visit'];
+
+        var datetime = new DateTime.now();
+
+        /*
+        * colors values should come from
+        * colorN's equivalent enum value
+        */
+        /*
+        * create a function to convert colors
+        */
+        one = Colors.green;
+        two = Colors.blue;
+        three = Color.fromRGBO(255, 255, 255, 0.87);
+        four = Colors.red;
+
+        dio.interceptors.removeLast();
+        dio = null;
+
+        gate = _gate;
+
+        String time;
+        time = _time;
+
+        person = {
+          'id': id,
+          'profileid': profileid,
+          'name': feedFullname,
+          'gender': gender,
+          'imagepath': facePic,
+          'distinction': classGroup,
+          'gate': gate + ' - ' + time,
+          'qrcode': qrcode,
+          'datetime': datetime.toIso8601String(),
+          'completed': false,
+        };
+
+      } else {
+
+        dio.interceptors.add(
+          RetryOnConnectionChangeInterceptor(
+            requestRetrier: DioConnectivityRequestRetrier(
+              dio: Dio(),
+              connectivity: Connectivity(),
+            ),
+          ),
+        );
+
         String url = "http://192.168.23.8/api/profile/${hmac}";
 
         if (hmac.contains('VEHICLE')) {
-          // url = "http://210.213.193.149/api/vehicle/${hmac}";
           url = "http://192.168.23.8/api/vehicle/${hmac}";
         }
 
-        // Dio dio = new Dio();
         dio.options.headers["Authorization"] = "Bearer ${_token}";
 
         Response response = await dio.get(url);
-        
-        print(response);
 
         // handle not found
         if (response.data == null) {
@@ -189,54 +276,23 @@ class FakeWeatherRepository implements WeatherRepository {
           qrcode = data['cissinqtext'];
         }
 
-        // additional fields for socket io
-        // to add to Weather class
-        //
-        // id
-        // profileid
-        // gate
-        // qrcode
-        // datetime
         var datetime = new DateTime.now();
 
         /*
-        * colors values should come from
-        * colorN's equivalent enum value
-        */
+          * colors values should come from
+          * colorN's equivalent enum value
+          */
         /*
-        * create a function to convert colors
-        */
-        Color one = Colors.green;
-        Color two = Colors.blue;
-        Color three = Color.fromRGBO(255, 255, 255, 0.87);
-        Color four = Colors.red;
-
-        // uncomment lines below for ciss API
+          * create a function to convert colors
+          */
+        one = Colors.green;
+        two = Colors.blue;
+        three = Color.fromRGBO(255, 255, 255, 0.87);
+        four = Colors.red;
 
         dio.interceptors.removeLast();
         dio = null;
 
-        // end uncomment lines below for ciss API
-
-        // dynamic person = {
-        //   'id': sCode,
-        //   'profileid': 'replace-this-value' + sCode,
-        //   'name': fullName,
-        //   'gender': gender,
-        //   'imagepath': facePic,
-        //   'distinction': classGroup,
-        //   'gate': 'GATE-7',
-        //   'qrcode': 'replace-this-value',
-        //   'datetime': datetime.toIso8601String(),
-        //   'completed': false,
-        // };
-
-        // String gate;
-        //
-        // SharedPreferences prefs = await SharedPreferences.getInstance();
-        // gate = prefs.getString('location') ?? 'GATE 6';
-
-        String gate;
         gate = _gate;
 
         String time;
@@ -255,30 +311,60 @@ class FakeWeatherRepository implements WeatherRepository {
           'completed': false,
         };
 
-        dynamic _res = await _sendNotification(person);
+      }
 
-        print(_res);
 
-        // socketService.deliverSocketMessage('list:feed', person);
 
-        // // Return "fetched" weather
-        return Weather(
-            sCode: sCode,
-            fullName: fullName,
-            position: position,
-            office: office,
-            classGroup: classGroup,
-            facePic: facePic,
-            placeHolder: placeHolder,
-            gender: gender,
-            one: one,
-            two: two,
-            three: three,
-            four: four,
-            id: id,
-            profileid: profileid,
-            qrcode: qrcode,
-            gate: gate);
+      // VISITOR BS
+      // dynamic person = {
+      //   idnumber, // empno or other id number | string | not unique
+      //   fullName, string | not unique
+      //   gender, string | not unique
+      //   facePic, string | not unique
+      //   classGroup, // OP EMPLOYEE or VISITOR | string not unique
+      //   gate, string | not unique
+      //   qrcode, string | not unique
+      //   datetime, // date and time of reading | datetime
+      //   affiliation, // office if employee. Affiliation and destination office if visitor | string | not unique
+      //   appointment, // position if employee. Time range of visit and purpose if visitor | string | not unique
+      // };
+      
+      // VISITOR BS POST
+      // FormData formData = new FormData.fromMap({
+      //   "name": "wendux",
+      //   "age": 25,
+      // });
+
+      // Response response = await dio.post(url, data: formData);
+
+      // response = await dio.post(
+      //   "http://www.dtworkroom.com/doris/1/2.0.0/test",
+      //   data: {"aa": "bb" * 22},
+      //   onSendProgress: (int sent, int total) {
+      //     print("$sent $total");
+      //   },
+      // );
+
+      dynamic _res = await _sendNotification(person);
+      
+      return Weather(
+          sCode: sCode,
+          fullName: fullName,
+          position: position,
+          office: office,
+          classGroup: classGroup,
+          facePic: facePic,
+          placeHolder: placeHolder,
+          gender: gender,
+          one: one,
+          two: two,
+          three: three,
+          four: four,
+          id: id,
+          profileid: profileid,
+          qrcode: qrcode,
+          gate: gate);
+
       },
     );
   }
