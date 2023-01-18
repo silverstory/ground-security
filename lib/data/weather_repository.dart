@@ -1,6 +1,9 @@
 // import 'dart:html';
+import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 // import 'package:groundsecurity/main.dart';
 // import 'package:groundsecurity/services/socket_service.dart';
 
@@ -48,6 +51,9 @@ class FakeWeatherRepository implements WeatherRepository {
     3: 'https://images.pexels.com/photos/1727273/pexels-photo-1727273.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
     4: 'https://images.pexels.com/photos/247120/pexels-photo-247120.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
   };
+
+  // for vms picture
+  String thefilename;
 
   @override
   Future<Weather> fetchWeather(String sCode) {
@@ -147,10 +153,6 @@ class FakeWeatherRepository implements WeatherRepository {
         office = 'From: ' + data['doc']['profile']['company'] + ' - Visiting: ' + data['doc']['person_to_visit'];
         // end if clause
         classGroup = 'GUEST';
-        String _facePic = 'http://192.168.23.145/vmsphoto.jpg'; // data['photothumbnailurl'];
-        facePic = _facePic;
-        // facePic = _facePic.replaceAll(
-        //     'http://192.168.23.60/', 'http://58.69.10.203/');
         placeHolder = 'male.jpg';
         if (data['gender'].toString().trim() == 'male') {
           placeHolder = 'male.jpg';
@@ -162,6 +164,11 @@ class FakeWeatherRepository implements WeatherRepository {
         id = data['doc']['_id'].toString();
         profileid = data['doc']['profile']['_id'];
         qrcode = data['doc']['qrcode'];
+        // String _facePic = 'http://192.168.23.145/vmsphoto.jpg'; // data['photothumbnailurl'];
+        String _facePic = 'http://192.168.64.151:3100/' + profileid + '.jpg';
+        facePic = _facePic;
+        // facePic = _facePic.replaceAll(
+        //     'http://192.168.23.60/', 'http://58.69.10.203/');
 
         var feedFullname = data['doc']['profile']['fullname'] + ' - ' + data['doc']['dept_to_visit'];
 
@@ -186,6 +193,32 @@ class FakeWeatherRepository implements WeatherRepository {
 
         String time;
         time = _time;
+
+
+        // upload picture of visitor to 23.145
+        // String thePic = 'http://192.168.64.151:3100/' + profileid + '.jpg';
+
+        // get picture from api
+        // dio.interceptors.add(
+        //   RetryOnConnectionChangeInterceptor(
+        //     requestRetrier: DioConnectivityRequestRetrier(
+        //       dio: Dio(),
+        //       connectivity: Connectivity(),
+        //     ),
+        //   ),
+        // );
+        // Response<List<int>> rs = await Dio().get<List<int>>("http://192.168.64.151:364/api/v1/ciss/getPhoto", queryParameters: {'id': profileid},
+        //   options: Options(responseType: ResponseType.bytes), // set responseType to `bytes`
+        // );
+
+        // write to local storage
+        // await writeContent(rs.data);
+        // dio.interceptors.removeLast();
+        // dio = null;
+
+        // then upload the mother father
+        // final file = await _localFile;
+        // String thePic = await uploadImage(file);
 
         person = {
           'id': id,
@@ -367,6 +400,63 @@ class FakeWeatherRepository implements WeatherRepository {
 
       },
     );
+  }
+
+  Future<String> uploadImage(File file) async {
+    String fileName = file.path.split('/').last;
+    FormData formData = FormData.fromMap({
+      "file":
+      await MultipartFile.fromFile(file.path, filename:fileName),
+      "filename": thefilename,
+    });
+
+    dio.interceptors.add(
+      RetryOnConnectionChangeInterceptor(
+        requestRetrier: DioConnectivityRequestRetrier(
+          dio: Dio(),
+          connectivity: Connectivity(),
+        ),
+      ),
+    );
+
+    Response response = await dio.post("http://192.168.23.145:3000/upload", data: formData);
+
+    String path = response.data['path'];
+
+    dio.interceptors.removeLast();
+    dio = null;
+
+    return path;
+  }
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    // For your reference print the AppDoc directory
+    print(directory.path);
+    return directory.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/$thefilename');
+  }
+
+  Future<File> writeContent(bytes) async {
+    final file = await _localFile;
+    // Write the file
+    return file.writeAsBytes(bytes);
+  }
+
+  Future<Uint8List> readcontent() async {
+    try {
+      final file = await _localFile;
+      // Read the file
+      Uint8List contents = await file.readAsBytes();
+      return contents;
+    } catch (e) {
+      // If there is an error reading, return a default String
+      return null;
+    }
   }
 
   // send notification
