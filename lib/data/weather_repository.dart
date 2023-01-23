@@ -110,6 +110,8 @@ class FakeWeatherRepository implements WeatherRepository {
 
       dynamic person = {};
 
+      dynamic verifyPerson = {};
+
       // if statement here for visitors
 
       if ( sCode.contains(':22211')) {
@@ -129,7 +131,7 @@ class FakeWeatherRepository implements WeatherRepository {
 
         dio.options.headers["Accept"] = "application/json";
 
-        Response response = await dio.post("http://192.168.64.151:364/api/v1/ciss/fetch", data: formData);
+        Response response = await dio.post("http://192.168.64.150:364/api/v1/ciss/fetch", data: formData);
 
         // handle not found
         if (response.data == null) {
@@ -165,12 +167,16 @@ class FakeWeatherRepository implements WeatherRepository {
         profileid = data['doc']['profile']['_id'];
         qrcode = data['doc']['qrcode'];
         // String _facePic = 'http://192.168.23.145/vmsphoto.jpg'; // data['photothumbnailurl'];
-        String _facePic = 'http://192.168.64.151:3100/' + profileid + '.jpg';
+        String _facePic = 'http://192.168.64.150:3100/' + profileid + '.jpg';
         facePic = _facePic;
         // facePic = _facePic.replaceAll(
         //     'http://192.168.23.60/', 'http://58.69.10.203/');
 
         var feedFullname = data['doc']['profile']['fullname'] + ' - ' + data['doc']['dept_to_visit'];
+
+        var verifyFullname = data['doc']['profile']['fullname'] + ' - ' + data['doc']['profile']['company'];
+        var verifyAffiliation = 'Visiting: ' + data['doc']['dept_to_visit'] + ' - ' + data['doc']['person_to_visit'];
+        var verifyAppointment = 'Visit Date: ' + data['doc']['visit_date'].toString().substring(0, 10) + ' - Purpose: ' + data['doc']['purpose'];
 
         var datetime = new DateTime.now();
 
@@ -186,8 +192,8 @@ class FakeWeatherRepository implements WeatherRepository {
         three = Color.fromRGBO(255, 255, 255, 0.87);
         four = Colors.red;
 
-        dio.interceptors.removeLast();
-        dio = null;
+        dio.interceptors.removeLast(); // kinomment jan 19 2023 11.48 am
+        dio = null; // kinomment jan 19 2023 11.09 am
 
         gate = _gate;
 
@@ -196,7 +202,7 @@ class FakeWeatherRepository implements WeatherRepository {
 
 
         // upload picture of visitor to 23.145
-        // String thePic = 'http://192.168.64.151:3100/' + profileid + '.jpg';
+        // String thePic = 'http://192.168.64.150:3100/' + profileid + '.jpg';
 
         // get picture from api
         // dio.interceptors.add(
@@ -207,7 +213,7 @@ class FakeWeatherRepository implements WeatherRepository {
         //     ),
         //   ),
         // );
-        // Response<List<int>> rs = await Dio().get<List<int>>("http://192.168.64.151:364/api/v1/ciss/getPhoto", queryParameters: {'id': profileid},
+        // Response<List<int>> rs = await Dio().get<List<int>>("http://192.168.64.150:364/api/v1/ciss/getPhoto", queryParameters: {'id': profileid},
         //   options: Options(responseType: ResponseType.bytes), // set responseType to `bytes`
         // );
 
@@ -232,6 +238,37 @@ class FakeWeatherRepository implements WeatherRepository {
           'datetime': datetime.toIso8601String(),
           'completed': false,
         };
+
+        // format to use
+        // verifyPerson = {
+        //   "idnumber": id,
+        //   "fullName": verifyFullname,
+        //   "gender": "male",
+        //   "facePic": facePic,
+        //   "classGroup": "GUEST",
+        //   "gate": gate + ' - ' + time,
+        //   "qrcode": qrcode,
+        //   "datetime": datetime.toIso8601String().toString().substring(0, 10),
+        //   "affiliation": verifyAffiliation,
+        //   "appointment": verifyAppointment
+        // };
+
+        // post verifications
+
+        verifyPerson = {
+          'idnumber': id,
+          'fullName': verifyFullname,
+          'gender': 'male',
+          'facePic': facePic,
+          'classGroup': 'VISITOR',
+          'gate': gate + ' - ' + time,
+          'qrcode': qrcode,
+          'datetime': datetime.toIso8601String().toString().substring(0, 10),
+          'affiliation': verifyAffiliation,
+          'appointment': verifyAppointment
+        };
+
+        // end post verifications
 
       } else {
 
@@ -323,8 +360,8 @@ class FakeWeatherRepository implements WeatherRepository {
         three = Color.fromRGBO(255, 255, 255, 0.87);
         four = Colors.red;
 
-        dio.interceptors.removeLast();
-        dio = null;
+        dio.interceptors.removeLast(); // kinomment jan 19 2023 11.48 am
+        dio = null; // kinomment jan 19 2023 11.10 am
 
         gate = _gate;
 
@@ -343,6 +380,23 @@ class FakeWeatherRepository implements WeatherRepository {
           'datetime': datetime.toIso8601String(),
           'completed': false,
         };
+
+        // post verifications
+
+        verifyPerson = {
+          'idnumber': id,
+          'fullName': fullName,
+          'gender': gender,
+          'facePic': facePic,
+          'classGroup': 'EMPLOYEE',
+          'gate': gate + ' - ' + time,
+          'qrcode': qrcode,
+          'datetime': datetime.toIso8601String().toString().substring(0, 10),
+          'affiliation': office,
+          'appointment': position
+        };
+
+        // end post verifications
 
       }
 
@@ -377,6 +431,8 @@ class FakeWeatherRepository implements WeatherRepository {
       //     print("$sent $total");
       //   },
       // );
+
+      dynamic _resp = await _sendVerification(verifyPerson);
 
       dynamic _res = await _sendNotification(person);
       
@@ -458,6 +514,33 @@ class FakeWeatherRepository implements WeatherRepository {
       return null;
     }
   }
+
+  // send verification
+  Future<dynamic> _sendVerification(dynamic person) async {
+
+    var uri = Uri(
+        scheme: 'http',
+        host: '192.168.23.8',
+        port: 3001,
+        path: '/api/gateaccess/entry');
+
+    var body = json.encode(person);
+
+    Map<String, String> headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    var response = await http.post(uri, body: body, headers: headers);
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    var _res = json.decode(response.body);
+
+    return _res;
+  }
+  // end send verification
 
   // send notification
   Future<dynamic> _sendNotification(dynamic person) async {
