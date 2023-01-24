@@ -114,10 +114,144 @@ class FakeWeatherRepository implements WeatherRepository {
 
       // if statement here for visitors
 
-      if ( sCode.contains(':22211')) {
+      if ( sCode.contains('op-proper.gov.ph')) {
+
+        // employee section
+
+        dio.interceptors.add(
+          RetryOnConnectionChangeInterceptor(
+            requestRetrier: DioConnectivityRequestRetrier(
+              dio: Dio(),
+              connectivity: Connectivity(),
+            ),
+          ),
+        );
+
+        String url = "http://192.168.23.8/api/profile/${hmac}";
+
+        if (hmac.contains('VEHICLE')) {
+          url = "http://192.168.23.8/api/vehicle/${hmac}";
+        }
+
+        dio.options.headers["Authorization"] = "Bearer ${_token}";
+
+        Response response = await dio.get(url);
+
+        // handle not found
+        if (response.data == null) {
+          return Weather.notFound();
+        }
+
+        Map data = response.data;
+
+        // end uncomment lines below for ciss API
+        if (hmac.contains('VEHICLE')) {
+          // use vehicle profile
+          fullName = data['platenumber'];
+          position =
+              data['make'] + ' ' + data['series'] + ' [' + data['color'] + ']';
+          office = data['vehicleowner'];
+          classGroup = data['parkingslot'];
+          String _facePic = data['vehiclephoto'];
+          // facePic = _facePic.replaceAll(
+          //     'http://192.168.23.60/', 'http://58.69.10.203/');
+          facePic = _facePic;
+          placeHolder = 'female.jpg';
+          gender = 'female';
+          // for socket
+          id = data['_id'].toString();
+          profileid = data['controlnumber'];
+          qrcode = data['qrcode'];
+        } else {
+          // use human profile
+          fullName = data['name']['first'] + ' ' + data['name']['last'];
+          // if clause here on what field to
+          // display depending on distinction
+          position = data['employee']['position'];
+          office = data['employee']['office'] +
+              ' [' +
+              data['recordstatus'].toString().toUpperCase() +
+              ']';
+          // end if clause
+          classGroup = data['distinction'];
+          String _facePic = data['photothumbnailurl'];
+          facePic = _facePic;
+          // facePic = _facePic.replaceAll(
+          //     'http://192.168.23.60/', 'http://58.69.10.203/');
+          placeHolder = 'male.jpg';
+          print(data['gender'].toString().trim());
+          if (data['gender'].toString().trim() == 'male') {
+            placeHolder = 'male.jpg';
+          } else {
+            placeHolder = 'female.jpg';
+          }
+          gender = data['gender'].toString().trim();
+          // for socket
+          id = data['_id'].toString();
+          profileid = data['profileid'];
+          qrcode = data['cissinqtext'];
+        }
+
+        var datetime = new DateTime.now();
+
+        /*
+          * colors values should come from
+          * colorN's equivalent enum value
+          */
+        /*
+          * create a function to convert colors
+          */
+        one = Colors.green;
+        two = Colors.blue;
+        three = Color.fromRGBO(255, 255, 255, 0.87);
+        four = Colors.red;
+
+        dio.interceptors.removeLast(); // kinomment jan 19 2023 11.48 am
+        dio = null; // kinomment jan 19 2023 11.10 am
+
+        gate = _gate;
+
+        String time;
+        time = _time;
+
+        dynamic person = {
+          'id': id,
+          'profileid': profileid,
+          'name': fullName,
+          'gender': gender,
+          'imagepath': facePic,
+          'distinction': classGroup,
+          'gate': gate + ' - ' + time,
+          'qrcode': qrcode,
+          'datetime': datetime.toIso8601String(),
+          'completed': false,
+        };
+
+        // post verifications
+
+        verifyPerson = {
+          'idnumber': id,
+          'fullName': fullName,
+          'gender': gender,
+          'facePic': facePic,
+          'classGroup': 'EMPLOYEE',
+          'gate': gate + ' - ' + time,
+          'qrcode': qrcode,
+          'datetime': datetime.toIso8601String().toString().substring(0, 10),
+          'affiliation': office,
+          'appointment': position
+        };
+
+        // end post verifications
+
+        // end employee section
+
+      } else {
+
+        // visitor section
 
         FormData formData = new FormData.fromMap({
-          "code": hmac
+          "code": sCode // hmac
         });
 
         dio.interceptors.add(
@@ -270,133 +404,7 @@ class FakeWeatherRepository implements WeatherRepository {
 
         // end post verifications
 
-      } else {
-
-        dio.interceptors.add(
-          RetryOnConnectionChangeInterceptor(
-            requestRetrier: DioConnectivityRequestRetrier(
-              dio: Dio(),
-              connectivity: Connectivity(),
-            ),
-          ),
-        );
-
-        String url = "http://192.168.23.8/api/profile/${hmac}";
-
-        if (hmac.contains('VEHICLE')) {
-          url = "http://192.168.23.8/api/vehicle/${hmac}";
-        }
-
-        dio.options.headers["Authorization"] = "Bearer ${_token}";
-
-        Response response = await dio.get(url);
-
-        // handle not found
-        if (response.data == null) {
-          return Weather.notFound();
-        }
-
-        Map data = response.data;
-
-        // end uncomment lines below for ciss API
-        if (hmac.contains('VEHICLE')) {
-          // use vehicle profile
-          fullName = data['platenumber'];
-          position =
-              data['make'] + ' ' + data['series'] + ' [' + data['color'] + ']';
-          office = data['vehicleowner'];
-          classGroup = data['parkingslot'];
-          String _facePic = data['vehiclephoto'];
-          // facePic = _facePic.replaceAll(
-          //     'http://192.168.23.60/', 'http://58.69.10.203/');
-          facePic = _facePic;
-          placeHolder = 'female.jpg';
-          gender = 'female';
-          // for socket
-          id = data['_id'].toString();
-          profileid = data['controlnumber'];
-          qrcode = data['qrcode'];
-        } else {
-          // use human profile
-          fullName = data['name']['first'] + ' ' + data['name']['last'];
-          // if clause here on what field to
-          // display depending on distinction
-          position = data['employee']['position'];
-          office = data['employee']['office'] +
-              ' [' +
-              data['recordstatus'].toString().toUpperCase() +
-              ']';
-          // end if clause
-          classGroup = data['distinction'];
-          String _facePic = data['photothumbnailurl'];
-          facePic = _facePic;
-          // facePic = _facePic.replaceAll(
-          //     'http://192.168.23.60/', 'http://58.69.10.203/');
-          placeHolder = 'male.jpg';
-          print(data['gender'].toString().trim());
-          if (data['gender'].toString().trim() == 'male') {
-            placeHolder = 'male.jpg';
-          } else {
-            placeHolder = 'female.jpg';
-          }
-          gender = data['gender'].toString().trim();
-          // for socket
-          id = data['_id'].toString();
-          profileid = data['profileid'];
-          qrcode = data['cissinqtext'];
-        }
-
-        var datetime = new DateTime.now();
-
-        /*
-          * colors values should come from
-          * colorN's equivalent enum value
-          */
-        /*
-          * create a function to convert colors
-          */
-        one = Colors.green;
-        two = Colors.blue;
-        three = Color.fromRGBO(255, 255, 255, 0.87);
-        four = Colors.red;
-
-        dio.interceptors.removeLast(); // kinomment jan 19 2023 11.48 am
-        dio = null; // kinomment jan 19 2023 11.10 am
-
-        gate = _gate;
-
-        String time;
-        time = _time;
-
-        dynamic person = {
-          'id': id,
-          'profileid': profileid,
-          'name': fullName,
-          'gender': gender,
-          'imagepath': facePic,
-          'distinction': classGroup,
-          'gate': gate + ' - ' + time,
-          'qrcode': qrcode,
-          'datetime': datetime.toIso8601String(),
-          'completed': false,
-        };
-
-        // post verifications
-
-        verifyPerson = {
-          'idnumber': id,
-          'fullName': fullName,
-          'gender': gender,
-          'facePic': facePic,
-          'classGroup': 'EMPLOYEE',
-          'gate': gate + ' - ' + time,
-          'qrcode': qrcode,
-          'datetime': datetime.toIso8601String().toString().substring(0, 10),
-          'affiliation': office,
-          'appointment': position
-        };
-
-        // end post verifications
+        // end visitor section
 
       }
 
