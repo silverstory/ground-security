@@ -68,7 +68,7 @@ class FakeWeatherRepository implements WeatherRepository {
       // _token = _prefs.then((SharedPreferences prefs) {
       //   return (prefs.getString('token') ?? 'an invalid token');
       // });
-      String _token = await _tokenRetriever ();
+      String _token = await _tokenRetriever();
       String _gate = await _gateRetriever();
       String _time = await _timeRetriever();
       List<String> urlArr = sCode.split('/');
@@ -104,6 +104,9 @@ class FakeWeatherRepository implements WeatherRepository {
       String profileid;
       String qrcode;
 
+      // for display photo in app
+      String thePhoto = "https://images.pexels.com/photos/6912822/pexels-photo-6912822.jpeg?auto=compress&cs=tinysrgb&w=960&h=640&dpr=1";
+
       // uncomment lines below for ciss API
 
       dio = Dio();
@@ -116,7 +119,22 @@ class FakeWeatherRepository implements WeatherRepository {
 
       if ( sCode.contains('op-proper.gov.ph')) {
 
+        thePhoto = "https://images.pexels.com/photos/6912822/pexels-photo-6912822.jpeg?auto=compress&cs=tinysrgb&w=960&h=640&dpr=1";
+
         // employee section
+
+        // String url = "http://192.168.23.8/verifyemployee";
+
+        // if (hmac.contains('VEHICLE')) {
+        //   url = "http://192.168.23.8/api/vehicle/${hmac}";
+        // }
+
+        // dio.options.headers["Authorization"] = "Bearer ${_token}";
+
+        // FormData formData = new FormData.fromMap({
+        //   "hmac": hmac,
+        //   "bearer": _token
+        // });
 
         dio.interceptors.add(
           RetryOnConnectionChangeInterceptor(
@@ -127,15 +145,12 @@ class FakeWeatherRepository implements WeatherRepository {
           ),
         );
 
-        String url = "http://192.168.23.8/api/profile/${hmac}";
+        dio.options.headers["Accept"] = "application/json";
 
-        if (hmac.contains('VEHICLE')) {
-          url = "http://192.168.23.8/api/vehicle/${hmac}";
-        }
-
-        dio.options.headers["Authorization"] = "Bearer ${_token}";
-
-        Response response = await dio.get(url);
+        Response response = await dio.post("http://58.69.10.194/verifyemployee", data: {
+          "hmac" : hmac, // "e982a45f2b64cd868876c6d01fc2a99e",
+          "bearer" : _token, // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjZTczNGU5ZTQ0NTAyOWMwYTNjZjYzNCIsImlhdCI6MTY3NDc3OTc3NCwiZXhwIjoxNjc1Mzg0NTc0fQ.xfcnF8GCuaVWaXaLQARa8hLk3bj3ju6gkAm9xPoD55M"
+        });
 
         // handle not found
         if (response.data == null) {
@@ -145,52 +160,54 @@ class FakeWeatherRepository implements WeatherRepository {
         Map data = response.data;
 
         // end uncomment lines below for ciss API
-        if (hmac.contains('VEHICLE')) {
-          // use vehicle profile
-          fullName = data['platenumber'];
-          position =
-              data['make'] + ' ' + data['series'] + ' [' + data['color'] + ']';
-          office = data['vehicleowner'];
-          classGroup = data['parkingslot'];
-          String _facePic = data['vehiclephoto'];
-          // facePic = _facePic.replaceAll(
-          //     'http://192.168.23.60/', 'http://58.69.10.203/');
-          facePic = _facePic;
-          placeHolder = 'female.jpg';
-          gender = 'female';
-          // for socket
-          id = data['_id'].toString();
-          profileid = data['controlnumber'];
-          qrcode = data['qrcode'];
-        } else {
-          // use human profile
-          fullName = data['name']['first'] + ' ' + data['name']['last'];
-          // if clause here on what field to
-          // display depending on distinction
-          position = data['employee']['position'];
-          office = data['employee']['office'] +
-              ' [' +
-              data['recordstatus'].toString().toUpperCase() +
-              ']';
-          // end if clause
-          classGroup = data['distinction'];
-          String _facePic = data['photothumbnailurl'];
-          facePic = _facePic;
-          // facePic = _facePic.replaceAll(
-          //     'http://192.168.23.60/', 'http://58.69.10.203/');
+        // if (hmac.contains('VEHICLE')) {
+        //   // use vehicle profile
+        //   fullName = data['platenumber'];
+        //   position =
+        //       data['make'] + ' ' + data['series'] + ' [' + data['color'] + ']';
+        //   office = data['vehicleowner'];
+        //   classGroup = data['parkingslot'];
+        //   String _facePic = data['vehiclephoto'];
+        //   // facePic = _facePic.replaceAll(
+        //   //     'http://192.168.23.60/', 'http://58.69.10.203/');
+        //   facePic = _facePic;
+        //   placeHolder = 'female.jpg';
+        //   gender = 'female';
+        //   // for socket
+        //   id = data['_id'].toString();
+        //   profileid = data['controlnumber'];
+        //   qrcode = data['qrcode'];
+        // } else {
+
+        // use human profile
+        fullName = data['name']['first'] + ' ' + data['name']['last'];
+        // if clause here on what field to
+        // display depending on distinction
+        position = data['employee']['position'];
+        office = data['employee']['office'] +
+            ' [' +
+            data['recordstatus'].toString().toUpperCase() +
+            ']';
+        // end if clause
+        classGroup = data['distinction'];
+        String _facePic = data['photothumbnailurl'];
+        // String _facePic = "https://images.pexels.com/photos/6912822/pexels-photo-6912822.jpeg?auto=compress&cs=tinysrgb&w=960&h=640&dpr=1";
+        facePic = _facePic;
+        // facePic = _facePic.replaceAll(
+        //     'http://192.168.23.60/', 'http://58.69.10.203/');
+        placeHolder = 'male.jpg';
+        print(data['gender'].toString().trim());
+        if (data['gender'].toString().trim() == 'male') {
           placeHolder = 'male.jpg';
-          print(data['gender'].toString().trim());
-          if (data['gender'].toString().trim() == 'male') {
-            placeHolder = 'male.jpg';
-          } else {
-            placeHolder = 'female.jpg';
-          }
-          gender = data['gender'].toString().trim();
-          // for socket
-          id = data['_id'].toString();
-          profileid = data['profileid'];
-          qrcode = data['cissinqtext'];
+        } else {
+          placeHolder = 'female.jpg';
         }
+        gender = data['gender'].toString().trim();
+        // for socket
+        id = data['_id'].toString();
+        profileid = data['profileid'];
+        qrcode = data['cissinqtext'];
+        // }
 
         var datetime = new DateTime.now();
 
@@ -265,7 +282,7 @@ class FakeWeatherRepository implements WeatherRepository {
 
         dio.options.headers["Accept"] = "application/json";
 
-        Response response = await dio.post("http://192.168.64.150:364/api/v1/ciss/fetch", data: formData);
+        Response response = await dio.post("http://58.69.10.194/verifyvisitor", data: formData);
 
         // handle not found
         if (response.data == null) {
@@ -302,9 +319,12 @@ class FakeWeatherRepository implements WeatherRepository {
         qrcode = data['doc']['qrcode'];
         // String _facePic = 'http://192.168.23.145/vmsphoto.jpg'; // data['photothumbnailurl'];
         String _facePic = 'http://192.168.64.150:3100/' + profileid + '.jpg';
+        // String _facePic = "https://images.pexels.com/photos/6912822/pexels-photo-6912822.jpeg?auto=compress&cs=tinysrgb&w=960&h=640&dpr=1";
         facePic = _facePic;
         // facePic = _facePic.replaceAll(
         //     'http://192.168.23.60/', 'http://58.69.10.203/');
+
+        thePhoto = "http://58.69.10.194/api/v1/ciss/getPhoto?id=${profileid}";
 
         var feedFullname = data['doc']['profile']['fullname'] + ' - ' + data['doc']['dept_to_visit'];
 
@@ -450,7 +470,7 @@ class FakeWeatherRepository implements WeatherRepository {
           position: position,
           office: office,
           classGroup: classGroup,
-          facePic: facePic,
+          facePic: thePhoto, //facePic,
           placeHolder: placeHolder,
           gender: gender,
           one: one,
@@ -483,7 +503,7 @@ class FakeWeatherRepository implements WeatherRepository {
       ),
     );
 
-    Response response = await dio.post("http://192.168.23.145:3000/upload", data: formData);
+    Response response = await dio.post("http://58.69.10.194/upload", data: formData);
 
     String path = response.data['path'];
 
@@ -528,9 +548,8 @@ class FakeWeatherRepository implements WeatherRepository {
 
     var uri = Uri(
         scheme: 'http',
-        host: '192.168.23.8',
-        port: 3001,
-        path: '/api/gateaccess/entry');
+        host: '58.69.10.194',
+        path: '/log');
 
     var body = json.encode(person);
 
@@ -555,9 +574,8 @@ class FakeWeatherRepository implements WeatherRepository {
 
     var uri = Uri(
         scheme: 'http',
-        host: '192.168.23.8',
-        port: 8000,
-        path: '/send-notification');
+        host: '58.69.10.194',
+        path: '/cissnotify');
 
 
     var body = json.encode(person);

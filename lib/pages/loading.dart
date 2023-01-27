@@ -77,11 +77,11 @@ class _LoadingState extends State<Loading> {
 
     var uri = Uri(
         scheme: 'http',
-        host: '192.168.23.8',
-        path: '/users/authenticate');
+        host: '58.69.10.194',
+        path: '/cissauth');
 
     var response =
-        await http.post(uri, body: {'userName': 'h', 'password': 'h'});
+        await http.post(uri, body: {"userName": "h", "password": "h"});
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
 
