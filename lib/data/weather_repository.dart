@@ -267,9 +267,9 @@ class FakeWeatherRepository implements WeatherRepository {
 
         // visitor section
 
-        FormData formData = new FormData.fromMap({
-          "code": sCode // hmac
-        });
+        // FormData formData = new FormData.fromMap({
+        //   "code": sCode // hmac
+        // });
 
         dio.interceptors.add(
           RetryOnConnectionChangeInterceptor(
@@ -282,7 +282,9 @@ class FakeWeatherRepository implements WeatherRepository {
 
         dio.options.headers["Accept"] = "application/json";
 
-        Response response = await dio.post("http://58.69.10.194/verifyvisitor", data: formData);
+        Response response = await dio.post("http://58.69.10.194/verifyvisitor", data: {
+          "code": hmac
+        });
 
         // handle not found
         if (response.data == null) {
