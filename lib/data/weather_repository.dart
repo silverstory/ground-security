@@ -562,18 +562,14 @@ class FakeWeatherRepository implements WeatherRepository {
   Future<dynamic> _sendVerification(dynamic person) async {
     var uri = Uri(scheme: 'http', host: '58.69.10.194', path: '/log');
 
-    // var body = json.encode(person);
-
-    // Map<String, String> headers = {
-    //   'Content-type': 'application/json',
-    //   'Accept': 'application/json',
-    // };
+    var body = json.encode(person);
 
     Map<String, String> headers = {
+      'Content-type': 'application/json',
       'Accept': 'application/json',
     };
 
-    var response = await http.post(uri, headers: headers, body: person);
+    var response = await http.post(uri, headers: headers, body: body);
 
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
@@ -588,18 +584,14 @@ class FakeWeatherRepository implements WeatherRepository {
   Future<dynamic> _sendNotification(dynamic person) async {
     var uri = Uri(scheme: 'http', host: '58.69.10.194', path: '/cissnotify');
 
-    // var body = json.encode(person);
-
-    // Map<String, String> headers = {
-    //   'Content-type': 'application/json',
-    //   'Accept': 'application/json',
-    // };
+    var body = json.encode(person);
 
     Map<String, String> headers = {
+      'Content-type': 'application/json',
       'Accept': 'application/json',
     };
 
-    var response = await http.post(uri, headers: headers, body: person);
+    var response = await http.post(uri, headers: headers, body: body);
 
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
