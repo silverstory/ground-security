@@ -61,407 +61,422 @@ class FakeWeatherRepository implements WeatherRepository {
     return Future.delayed(
       Duration(seconds: 1),
       () async {
-
-      /*
+        /*
         * read token from storage
         */
-      // _token = _prefs.then((SharedPreferences prefs) {
-      //   return (prefs.getString('token') ?? 'an invalid token');
-      // });
-      String _token = await _tokenRetriever ();
-      String _gate = await _gateRetriever();
-      String _time = await _timeRetriever();
-      List<String> urlArr = sCode.split('/');
-      String hmac = urlArr.last;
-      /*
+        // _token = _prefs.then((SharedPreferences prefs) {
+        //   return (prefs.getString('token') ?? 'an invalid token');
+        // });
+        String _token = await _tokenRetriever();
+        String _gate = await _gateRetriever();
+        String _time = await _timeRetriever();
+        List<String> urlArr = sCode.split('/');
+        String hmac = urlArr.last;
+        /*
         * start to get data from api
         */
-      String fullName;
-      String position;
-      String office;
-      String classGroup;
-      String facePic;
-      String placeHolder;
-      String gender;
-      /*
+        String fullName;
+        String position;
+        String office;
+        String classGroup;
+        String facePic;
+        String placeHolder;
+        String gender;
+        /*
         * use enum to transform colorN
         * to a color object below
         */
-      String color1;
-      String color2; // data coming from api
-      String color3; // as hex color value
-      String color4;
+        String color1;
+        String color2; // data coming from api
+        String color3; // as hex color value
+        String color4;
 
-      Color one = Colors.green;
-      Color two = Colors.blue;
-      Color three = Color.fromRGBO(255, 255, 255, 0.87);
-      Color four = Colors.red;
+        Color one = Colors.green;
+        Color two = Colors.blue;
+        Color three = Color.fromRGBO(255, 255, 255, 0.87);
+        Color four = Colors.red;
 
-      String gate;
+        String gate;
 
-      // for socket
-      String id;
-      String profileid;
-      String qrcode;
+        // for socket
+        String id;
+        String profileid;
+        String qrcode;
 
-      // uncomment lines below for ciss API
+        // uncomment lines below for ciss API
 
-      dio = Dio();
+        dio = Dio();
 
-      dynamic person = {};
+        // if statement here for visitors
 
-      dynamic verifyPerson = {};
+        if (sCode.contains('op-proper.gov.ph')) {
+          // employee section
 
-      // if statement here for visitors
-
-      if ( sCode.contains('op-proper.gov.ph')) {
-
-        // employee section
-
-        dio.interceptors.add(
-          RetryOnConnectionChangeInterceptor(
-            requestRetrier: DioConnectivityRequestRetrier(
-              dio: Dio(),
-              connectivity: Connectivity(),
+          dio.interceptors.add(
+            RetryOnConnectionChangeInterceptor(
+              requestRetrier: DioConnectivityRequestRetrier(
+                dio: Dio(),
+                connectivity: Connectivity(),
+              ),
             ),
-          ),
-        );
+          );
 
-        String url = "http://192.168.23.8/api/profile/${hmac}";
+          String url = "http://192.168.23.8/api/profile/${hmac}";
 
-        if (hmac.contains('VEHICLE')) {
-          url = "http://192.168.23.8/api/vehicle/${hmac}";
-        }
+          if (hmac.contains('VEHICLE')) {
+            url = "http://192.168.23.8/api/vehicle/${hmac}";
+          }
 
-        dio.options.headers["Authorization"] = "Bearer ${_token}";
+          dio.options.headers["Authorization"] = "Bearer ${_token}";
 
-        Response response = await dio.get(url);
+          Response response = await dio.get(url);
 
-        // handle not found
-        if (response.data == null) {
-          return Weather.notFound();
-        }
+          // handle not found
+          if (response.data == null) {
+            return Weather.notFound();
+          }
 
-        Map data = response.data;
+          Map data = response.data;
 
-        // end uncomment lines below for ciss API
-        if (hmac.contains('VEHICLE')) {
-          // use vehicle profile
-          fullName = data['platenumber'];
-          position =
-              data['make'] + ' ' + data['series'] + ' [' + data['color'] + ']';
-          office = data['vehicleowner'];
-          classGroup = data['parkingslot'];
-          String _facePic = data['vehiclephoto'];
-          // facePic = _facePic.replaceAll(
-          //     'http://192.168.23.60/', 'http://58.69.10.203/');
-          facePic = _facePic;
-          placeHolder = 'female.jpg';
-          gender = 'female';
-          // for socket
-          id = data['_id'].toString();
-          profileid = data['controlnumber'];
-          qrcode = data['qrcode'];
+          // end uncomment lines below for ciss API
+          if (hmac.contains('VEHICLE')) {
+            // use vehicle profile
+            fullName = data['platenumber'];
+            position = data['make'] +
+                ' ' +
+                data['series'] +
+                ' [' +
+                data['color'] +
+                ']';
+            office = data['vehicleowner'];
+            classGroup = data['parkingslot'];
+            String _facePic = data['vehiclephoto'];
+            // facePic = _facePic.replaceAll(
+            //     'http://192.168.23.60/', 'http://58.69.10.203/');
+            facePic = _facePic;
+            placeHolder = 'female.jpg';
+            gender = 'female';
+            // for socket
+            id = data['_id'].toString();
+            profileid = data['controlnumber'];
+            qrcode = data['qrcode'];
+          } else {
+            // use human profile
+            fullName = data['name']['first'] + ' ' + data['name']['last'];
+            // if clause here on what field to
+            // display depending on distinction
+            position = data['employee']['position'];
+            office = data['employee']['office'] +
+                ' [' +
+                data['recordstatus'].toString().toUpperCase() +
+                ']';
+            // end if clause
+            classGroup = data['distinction'];
+            String _facePic = data['photothumbnailurl'];
+            facePic = _facePic;
+            // facePic = _facePic.replaceAll(
+            //     'http://192.168.23.60/', 'http://58.69.10.203/');
+            placeHolder = 'male.jpg';
+            print(data['gender'].toString().trim());
+            if (data['gender'].toString().trim() == 'male') {
+              placeHolder = 'male.jpg';
+            } else {
+              placeHolder = 'female.jpg';
+            }
+            gender = data['gender'].toString().trim();
+            // for socket
+            id = data['_id'].toString();
+            profileid = data['profileid'];
+            qrcode = data['cissinqtext'];
+          }
+
+          var datetime = new DateTime.now();
+
+          /*
+          * colors values should come from
+          * colorN's equivalent enum value
+          */
+          /*
+          * create a function to convert colors
+          */
+          one = Colors.green;
+          two = Colors.blue;
+          three = Color.fromRGBO(255, 255, 255, 0.87);
+          four = Colors.red;
+
+          dio.interceptors.removeLast(); // kinomment jan 19 2023 11.48 am
+          dio = null; // kinomment jan 19 2023 11.10 am
+
+          gate = _gate;
+
+          String time;
+          time = _time;
+
+          dynamic personA = {
+            'id': id,
+            'profileid': profileid,
+            'name': fullName,
+            'gender': gender,
+            'imagepath': facePic,
+            'distinction': classGroup,
+            'gate': gate + ' - ' + time,
+            'qrcode': qrcode,
+            'datetime': datetime.toIso8601String(),
+            'completed': false,
+          };
+
+          // post verifications
+
+          dynamic verifyPersonA = {
+            'idnumber': id,
+            'fullName': fullName,
+            'gender': gender,
+            'facePic': facePic,
+            'classGroup': 'EMPLOYEE',
+            'gate': gate + ' - ' + time,
+            'qrcode': qrcode,
+            'datetime': datetime.toIso8601String().toString().substring(0, 10),
+            'affiliation': office,
+            'appointment': position
+          };
+
+          dynamic _res = await _sendNotification(personA);
+
+          dynamic _resp = await _sendVerification(verifyPersonA);
+
+          // end post verifications
+
+          // end employee section
+
         } else {
-          // use human profile
-          fullName = data['name']['first'] + ' ' + data['name']['last'];
-          // if clause here on what field to
-          // display depending on distinction
-          position = data['employee']['position'];
-          office = data['employee']['office'] +
-              ' [' +
-              data['recordstatus'].toString().toUpperCase() +
-              ']';
+          // visitor section
+
+          // FormData formData = new FormData.fromMap({
+          //   "code": sCode // hmac
+          // });
+
+          dio.interceptors.add(
+            RetryOnConnectionChangeInterceptor(
+              requestRetrier: DioConnectivityRequestRetrier(
+                dio: Dio(),
+                connectivity: Connectivity(),
+              ),
+            ),
+          );
+
+          dio.options.headers["Accept"] = "application/json";
+
+          Response response = await dio.post(
+              "http://192.168.64.150:364/api/v1/ciss/fetch",
+              data: {"code": hmac}); // formData
+
+          // handle not found
+          if (response.data == null) {
+            return Weather.notFound();
+          }
+
+          Map data = response.data;
+
+          if (data['success'] == false) {
+            return Weather.notFound();
+          }
+
+          // use visitor profile
+          // fullName = data['doc']['dept_to_visit'] +
+          //     ' : ' + data['doc']['time_start'] + ' - ' + data['doc']['time_end'];
+          fullName = data['doc']['dept_to_visit'] +
+              ' : ' +
+              data['doc']['visit_date'].toString().substring(0, 10);
+          position = data['doc']['profile']['fullname'] +
+              ' - ' +
+              data['doc']['purpose'];
+          // office = data['doc']['visit_date'].toString().substring(0, 10) +
+          //     ' - ' + data['doc']['person_to_visit'] + ' - ' + data['doc']['profile']['company'];
+          office = 'From: ' +
+              data['doc']['profile']['company'] +
+              ' - Visiting: ' +
+              data['doc']['person_to_visit'];
           // end if clause
-          classGroup = data['distinction'];
-          String _facePic = data['photothumbnailurl'];
-          facePic = _facePic;
-          // facePic = _facePic.replaceAll(
-          //     'http://192.168.23.60/', 'http://58.69.10.203/');
+          classGroup = 'GUEST';
           placeHolder = 'male.jpg';
-          print(data['gender'].toString().trim());
           if (data['gender'].toString().trim() == 'male') {
             placeHolder = 'male.jpg';
           } else {
             placeHolder = 'female.jpg';
           }
-          gender = data['gender'].toString().trim();
+          gender = 'male';
           // for socket
-          id = data['_id'].toString();
-          profileid = data['profileid'];
-          qrcode = data['cissinqtext'];
-        }
+          id = data['doc']['_id'].toString();
+          profileid = data['doc']['profile']['_id'];
+          qrcode = data['doc']['qrcode'];
+          // String _facePic = 'http://192.168.23.145/vmsphoto.jpg'; // data['photothumbnailurl'];
+          String _facePic = 'http://192.168.64.150:3100/' + profileid + '.jpg';
+          facePic = _facePic;
+          // facePic = _facePic.replaceAll(
+          //     'http://192.168.23.60/', 'http://58.69.10.203/');
 
-        var datetime = new DateTime.now();
+          var feedFullname = data['doc']['profile']['fullname'] +
+              ' - ' +
+              data['doc']['dept_to_visit'];
 
-        /*
-          * colors values should come from
-          * colorN's equivalent enum value
-          */
-        /*
-          * create a function to convert colors
-          */
-        one = Colors.green;
-        two = Colors.blue;
-        three = Color.fromRGBO(255, 255, 255, 0.87);
-        four = Colors.red;
+          var verifyFullname = data['doc']['profile']['fullname'] +
+              ' - ' +
+              data['doc']['profile']['company'];
+          var verifyAffiliation = 'Visiting: ' +
+              data['doc']['dept_to_visit'] +
+              ' - ' +
+              data['doc']['person_to_visit'];
+          var verifyAppointment = 'Visit Date: ' +
+              data['doc']['visit_date'].toString().substring(0, 10) +
+              ' - Purpose: ' +
+              data['doc']['purpose'];
 
-        dio.interceptors.removeLast(); // kinomment jan 19 2023 11.48 am
-        dio = null; // kinomment jan 19 2023 11.10 am
+          var datetime = new DateTime.now();
 
-        gate = _gate;
-
-        String time;
-        time = _time;
-
-        dynamic person = {
-          'id': id,
-          'profileid': profileid,
-          'name': fullName,
-          'gender': gender,
-          'imagepath': facePic,
-          'distinction': classGroup,
-          'gate': gate + ' - ' + time,
-          'qrcode': qrcode,
-          'datetime': datetime.toIso8601String(),
-          'completed': false,
-        };
-
-        // post verifications
-
-        verifyPerson = {
-          'idnumber': id,
-          'fullName': fullName,
-          'gender': gender,
-          'facePic': facePic,
-          'classGroup': 'EMPLOYEE',
-          'gate': gate + ' - ' + time,
-          'qrcode': qrcode,
-          'datetime': datetime.toIso8601String().toString().substring(0, 10),
-          'affiliation': office,
-          'appointment': position
-        };
-
-        // end post verifications
-
-        // end employee section
-
-      } else {
-
-        // visitor section
-
-        FormData formData = new FormData.fromMap({
-          "code": sCode // hmac
-        });
-
-        dio.interceptors.add(
-          RetryOnConnectionChangeInterceptor(
-            requestRetrier: DioConnectivityRequestRetrier(
-              dio: Dio(),
-              connectivity: Connectivity(),
-            ),
-          ),
-        );
-
-        dio.options.headers["Accept"] = "application/json";
-
-        Response response = await dio.post("http://192.168.64.150:364/api/v1/ciss/fetch", data: formData);
-
-        // handle not found
-        if (response.data == null) {
-          return Weather.notFound();
-        }
-
-        Map data = response.data;
-
-        if ( data['success'] == false ) {
-          return Weather.notFound();
-        }
-
-        // use visitor profile
-        // fullName = data['doc']['dept_to_visit'] +
-        //     ' : ' + data['doc']['time_start'] + ' - ' + data['doc']['time_end'];
-        fullName = data['doc']['dept_to_visit'] +
-            ' : ' + data['doc']['visit_date'].toString().substring(0, 10);
-        position = data['doc']['profile']['fullname'] + ' - ' + data['doc']['purpose'];
-        // office = data['doc']['visit_date'].toString().substring(0, 10) +
-        //     ' - ' + data['doc']['person_to_visit'] + ' - ' + data['doc']['profile']['company'];
-        office = 'From: ' + data['doc']['profile']['company'] + ' - Visiting: ' + data['doc']['person_to_visit'];
-        // end if clause
-        classGroup = 'GUEST';
-        placeHolder = 'male.jpg';
-        if (data['gender'].toString().trim() == 'male') {
-          placeHolder = 'male.jpg';
-        } else {
-          placeHolder = 'female.jpg';
-        }
-        gender = 'male';
-        // for socket
-        id = data['doc']['_id'].toString();
-        profileid = data['doc']['profile']['_id'];
-        qrcode = data['doc']['qrcode'];
-        // String _facePic = 'http://192.168.23.145/vmsphoto.jpg'; // data['photothumbnailurl'];
-        String _facePic = 'http://192.168.64.150:3100/' + profileid + '.jpg';
-        facePic = _facePic;
-        // facePic = _facePic.replaceAll(
-        //     'http://192.168.23.60/', 'http://58.69.10.203/');
-
-        var feedFullname = data['doc']['profile']['fullname'] + ' - ' + data['doc']['dept_to_visit'];
-
-        var verifyFullname = data['doc']['profile']['fullname'] + ' - ' + data['doc']['profile']['company'];
-        var verifyAffiliation = 'Visiting: ' + data['doc']['dept_to_visit'] + ' - ' + data['doc']['person_to_visit'];
-        var verifyAppointment = 'Visit Date: ' + data['doc']['visit_date'].toString().substring(0, 10) + ' - Purpose: ' + data['doc']['purpose'];
-
-        var datetime = new DateTime.now();
-
-        /*
+          /*
         * colors values should come from
         * colorN's equivalent enum value
         */
-        /*
+          /*
         * create a function to convert colors
         */
-        one = Colors.green;
-        two = Colors.blue;
-        three = Color.fromRGBO(255, 255, 255, 0.87);
-        four = Colors.red;
+          one = Colors.green;
+          two = Colors.blue;
+          three = Color.fromRGBO(255, 255, 255, 0.87);
+          four = Colors.red;
 
-        dio.interceptors.removeLast(); // kinomment jan 19 2023 11.48 am
-        dio = null; // kinomment jan 19 2023 11.09 am
+          dio.interceptors.removeLast(); // kinomment jan 19 2023 11.48 am
+          dio = null; // kinomment jan 19 2023 11.09 am
 
-        gate = _gate;
+          gate = _gate;
 
-        String time;
-        time = _time;
+          String time;
+          time = _time;
 
+          // upload picture of visitor to 23.145
+          // String thePic = 'http://192.168.64.150:3100/' + profileid + '.jpg';
 
-        // upload picture of visitor to 23.145
-        // String thePic = 'http://192.168.64.150:3100/' + profileid + '.jpg';
+          // get picture from api
+          // dio.interceptors.add(
+          //   RetryOnConnectionChangeInterceptor(
+          //     requestRetrier: DioConnectivityRequestRetrier(
+          //       dio: Dio(),
+          //       connectivity: Connectivity(),
+          //     ),
+          //   ),
+          // );
+          // Response<List<int>> rs = await Dio().get<List<int>>("http://192.168.64.150:364/api/v1/ciss/getPhoto", queryParameters: {'id': profileid},
+          //   options: Options(responseType: ResponseType.bytes), // set responseType to `bytes`
+          // );
 
-        // get picture from api
-        // dio.interceptors.add(
-        //   RetryOnConnectionChangeInterceptor(
-        //     requestRetrier: DioConnectivityRequestRetrier(
-        //       dio: Dio(),
-        //       connectivity: Connectivity(),
-        //     ),
-        //   ),
-        // );
-        // Response<List<int>> rs = await Dio().get<List<int>>("http://192.168.64.150:364/api/v1/ciss/getPhoto", queryParameters: {'id': profileid},
-        //   options: Options(responseType: ResponseType.bytes), // set responseType to `bytes`
-        // );
+          // write to local storage
+          // await writeContent(rs.data);
+          // dio.interceptors.removeLast();
+          // dio = null;
 
-        // write to local storage
-        // await writeContent(rs.data);
-        // dio.interceptors.removeLast();
-        // dio = null;
+          // then upload the mother father
+          // final file = await _localFile;
+          // String thePic = await uploadImage(file);
 
-        // then upload the mother father
-        // final file = await _localFile;
-        // String thePic = await uploadImage(file);
+          dynamic personS = {
+            'id': id,
+            'profileid': profileid,
+            'name': feedFullname,
+            'gender': gender,
+            'imagepath': facePic,
+            'distinction': classGroup,
+            'gate': gate + ' - ' + time,
+            'qrcode': qrcode,
+            'datetime': datetime.toIso8601String(),
+            'completed': false,
+          };
 
-        person = {
-          'id': id,
-          'profileid': profileid,
-          'name': feedFullname,
-          'gender': gender,
-          'imagepath': facePic,
-          'distinction': classGroup,
-          'gate': gate + ' - ' + time,
-          'qrcode': qrcode,
-          'datetime': datetime.toIso8601String(),
-          'completed': false,
-        };
+          // format to use
+          // verifyPerson = {
+          //   "idnumber": id,
+          //   "fullName": verifyFullname,
+          //   "gender": "male",
+          //   "facePic": facePic,
+          //   "classGroup": "GUEST",
+          //   "gate": gate + ' - ' + time,
+          //   "qrcode": qrcode,
+          //   "datetime": datetime.toIso8601String().toString().substring(0, 10),
+          //   "affiliation": verifyAffiliation,
+          //   "appointment": verifyAppointment
+          // };
 
-        // format to use
-        // verifyPerson = {
-        //   "idnumber": id,
-        //   "fullName": verifyFullname,
-        //   "gender": "male",
-        //   "facePic": facePic,
-        //   "classGroup": "GUEST",
-        //   "gate": gate + ' - ' + time,
-        //   "qrcode": qrcode,
-        //   "datetime": datetime.toIso8601String().toString().substring(0, 10),
-        //   "affiliation": verifyAffiliation,
-        //   "appointment": verifyAppointment
+          // post verifications
+
+          dynamic verifyPersonS = {
+            'idnumber': id,
+            'fullName': verifyFullname,
+            'gender': 'male',
+            'facePic': facePic,
+            'classGroup': 'VISITOR',
+            'gate': gate + ' - ' + time,
+            'qrcode': qrcode,
+            'datetime': datetime.toIso8601String().toString().substring(0, 10),
+            'affiliation': verifyAffiliation,
+            'appointment': verifyAppointment
+          };
+
+          dynamic _res = await _sendNotification(personS);
+
+          dynamic _resp = await _sendVerification(verifyPersonS);
+
+          // end post verifications
+
+          // end visitor section
+
+        }
+
+        // VISITOR BS
+        // dynamic person = {
+        //   idnumber, // empno or other id number | string | not unique
+        //   fullName, string | not unique
+        //   gender, string | not unique
+        //   facePic, string | not unique
+        //   classGroup, // OP EMPLOYEE or VISITOR | string not unique
+        //   gate, string | not unique
+        //   qrcode, string | not unique
+        //   datetime, // date and time of reading | datetime
+        //   affiliation, // office if employee. Affiliation and destination office if visitor | string | not unique
+        //   appointment, // position if employee. Time range of visit and purpose if visitor | string | not unique
         // };
 
-        // post verifications
+        // VISITOR BS POST
+        // FormData formData = new FormData.fromMap({
+        //   "name": "wendux",
+        //   "age": 25,
+        // });
 
-        verifyPerson = {
-          'idnumber': id,
-          'fullName': verifyFullname,
-          'gender': 'male',
-          'facePic': facePic,
-          'classGroup': 'VISITOR',
-          'gate': gate + ' - ' + time,
-          'qrcode': qrcode,
-          'datetime': datetime.toIso8601String().toString().substring(0, 10),
-          'affiliation': verifyAffiliation,
-          'appointment': verifyAppointment
-        };
+        // Response response = await dio.post(url, data: formData);
 
-        // end post verifications
+        // response = await dio.post(
+        //   "http://www.dtworkroom.com/doris/1/2.0.0/test",
+        //   data: {"aa": "bb" * 22},
+        //   onSendProgress: (int sent, int total) {
+        //     print("$sent $total");
+        //   },
+        // );
 
-        // end visitor section
-
-      }
-
-
-
-      // VISITOR BS
-      // dynamic person = {
-      //   idnumber, // empno or other id number | string | not unique
-      //   fullName, string | not unique
-      //   gender, string | not unique
-      //   facePic, string | not unique
-      //   classGroup, // OP EMPLOYEE or VISITOR | string not unique
-      //   gate, string | not unique
-      //   qrcode, string | not unique
-      //   datetime, // date and time of reading | datetime
-      //   affiliation, // office if employee. Affiliation and destination office if visitor | string | not unique
-      //   appointment, // position if employee. Time range of visit and purpose if visitor | string | not unique
-      // };
-      
-      // VISITOR BS POST
-      // FormData formData = new FormData.fromMap({
-      //   "name": "wendux",
-      //   "age": 25,
-      // });
-
-      // Response response = await dio.post(url, data: formData);
-
-      // response = await dio.post(
-      //   "http://www.dtworkroom.com/doris/1/2.0.0/test",
-      //   data: {"aa": "bb" * 22},
-      //   onSendProgress: (int sent, int total) {
-      //     print("$sent $total");
-      //   },
-      // );
-
-      dynamic _resp = await _sendVerification(verifyPerson);
-
-      dynamic _res = await _sendNotification(person);
-      
-      return Weather(
-          sCode: sCode,
-          fullName: fullName,
-          position: position,
-          office: office,
-          classGroup: classGroup,
-          facePic: facePic,
-          placeHolder: placeHolder,
-          gender: gender,
-          one: one,
-          two: two,
-          three: three,
-          four: four,
-          id: id,
-          profileid: profileid,
-          qrcode: qrcode,
-          gate: gate);
-
+        return Weather(
+            sCode: sCode,
+            fullName: fullName,
+            position: position,
+            office: office,
+            classGroup: classGroup,
+            facePic: facePic,
+            placeHolder: placeHolder,
+            gender: gender,
+            one: one,
+            two: two,
+            three: three,
+            four: four,
+            id: id,
+            profileid: profileid,
+            qrcode: qrcode,
+            gate: gate);
       },
     );
   }
@@ -469,8 +484,7 @@ class FakeWeatherRepository implements WeatherRepository {
   Future<String> uploadImage(File file) async {
     String fileName = file.path.split('/').last;
     FormData formData = FormData.fromMap({
-      "file":
-      await MultipartFile.fromFile(file.path, filename:fileName),
+      "file": await MultipartFile.fromFile(file.path, filename: fileName),
       "filename": thefilename,
     });
 
@@ -483,7 +497,8 @@ class FakeWeatherRepository implements WeatherRepository {
       ),
     );
 
-    Response response = await dio.post("http://192.168.23.145:3000/upload", data: formData);
+    Response response =
+        await dio.post("http://192.168.23.145:3000/upload", data: formData);
 
     String path = response.data['path'];
 
@@ -525,7 +540,6 @@ class FakeWeatherRepository implements WeatherRepository {
 
   // send verification
   Future<dynamic> _sendVerification(dynamic person) async {
-
     var uri = Uri(
         scheme: 'http',
         host: '192.168.23.8',
@@ -539,7 +553,7 @@ class FakeWeatherRepository implements WeatherRepository {
       'Accept': 'application/json',
     };
 
-    var response = await http.post(uri, body: body, headers: headers);
+    var response = await http.post(uri, headers: headers, body: body);
 
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
@@ -552,13 +566,11 @@ class FakeWeatherRepository implements WeatherRepository {
 
   // send notification
   Future<dynamic> _sendNotification(dynamic person) async {
-
     var uri = Uri(
         scheme: 'http',
         host: '192.168.23.8',
         port: 8000,
         path: '/send-notification');
-
 
     var body = json.encode(person);
 
@@ -567,7 +579,7 @@ class FakeWeatherRepository implements WeatherRepository {
       'Accept': 'application/json',
     };
 
-    var response = await http.post(uri, body: body, headers: headers);
+    var response = await http.post(uri, headers: headers, body: body);
 
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
