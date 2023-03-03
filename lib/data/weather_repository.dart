@@ -143,11 +143,10 @@ class FakeWeatherRepository implements WeatherRepository {
 
           dio.options.headers["Accept"] = "application/json";
 
-          Response response =
-              await dio.post("http://58.69.10.194/verifyemployee", data: {
-            "hmac": hmac, // "e982a45f2b64cd868876c6d01fc2a99e",
-            "bearer":
-                _token, // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjZTczNGU5ZTQ0NTAyOWMwYTNjZjYzNCIsImlhdCI6MTY3NDc3OTc3NCwiZXhwIjoxNjc1Mzg0NTc0fQ.xfcnF8GCuaVWaXaLQARa8hLk3bj3ju6gkAm9xPoD55M"
+          Response response = await dio
+              .post("https://verify.op-vms.gov.ph/verifyemployee", data: {
+            "hmac": hmac,
+            "bearer": _token,
           });
 
           // handle not found
@@ -265,12 +264,8 @@ class FakeWeatherRepository implements WeatherRepository {
 
           // end employee section
 
-        } else {
-          // visitor section
-
-          // FormData formData = new FormData.fromMap({
-          //   "code": sCode // hmac
-          // });
+        } else if (sCode.contains(':22211')) {
+          // internet visitor section
 
           dio.interceptors.add(
             RetryOnConnectionChangeInterceptor(
@@ -283,8 +278,9 @@ class FakeWeatherRepository implements WeatherRepository {
 
           dio.options.headers["Accept"] = "application/json";
 
-          Response response = await dio
-              .post("http://58.69.10.194/verifyvisitor", data: {"code": hmac});
+          Response response = await dio.post(
+              "https://verify.op-vms.gov.ph/api/v1/ciss/findQrcode",
+              data: {"qrcode": sCode});
 
           // handle not found
           if (response.data == null) {
@@ -333,7 +329,161 @@ class FakeWeatherRepository implements WeatherRepository {
           // facePic = _facePic.replaceAll(
           //     'http://192.168.23.60/', 'http://58.69.10.203/');
 
-          thePhoto = "http://58.69.10.194/api/v1/ciss/getPhoto?id=${profileid}";
+          // thePhoto = "http://58.69.10.194/api/v1/ciss/getPhoto?id=${profileid}";
+
+          thePhoto =
+              "https://verify.op-vms.gov.ph/api/v1/ciss/getPhoto?id=${profileid}";
+
+          var feedFullname = data['doc']['profile']['fullname'] +
+              ' - ' +
+              data['doc']['dept_to_visit'];
+
+          var verifyFullname = data['doc']['profile']['fullname'] +
+              ' - ' +
+              data['doc']['profile']['company'];
+          var verifyAffiliation = 'Visiting: ' +
+              data['doc']['dept_to_visit'] +
+              ' - ' +
+              data['doc']['person_to_visit'];
+          var verifyAppointment = 'Visit Date: ' +
+              data['doc']['visit_date'].toString().substring(0, 10) +
+              ' - Purpose: ' +
+              data['doc']['purpose'];
+
+          var datetime = new DateTime.now();
+
+          /*
+        * colors values should come from
+        * colorN's equivalent enum value
+        */
+          /*
+        * create a function to convert colors
+        */
+          one = Colors.green;
+          two = Colors.blue;
+          three = Color.fromRGBO(255, 255, 255, 0.87);
+          four = Colors.red;
+
+          dio.interceptors.removeLast(); // kinomment jan 19 2023 11.48 am
+          dio = null; // kinomment jan 19 2023 11.09 am
+
+          gate = _gate;
+
+          String time;
+          time = _time;
+
+          dynamic personS = {
+            "id": id,
+            "profileid": profileid,
+            "name": feedFullname,
+            "gender": gender,
+            "imagepath": facePic,
+            "distinction": "GUEST",
+            "gate": gate + " - " + time,
+            "qrcode": qrcode,
+            "datetime": datetime.toIso8601String(),
+            "completed": false
+          };
+
+          // post verifications
+
+          dynamic verifyPersonS = {
+            "idnumber": id,
+            "fullName": verifyFullname,
+            "gender": "male",
+            "facePic": facePic,
+            "classGroup": "VISITOR",
+            "gate": gate + " - " + time,
+            "qrcode": qrcode,
+            "datetime": datetime.toIso8601String().toString().substring(0, 10),
+            "affiliation": verifyAffiliation,
+            "appointment": verifyAppointment
+          };
+
+          dynamic _res = await _sendNotification(personS);
+
+          dynamic _resp = await _sendVerification(verifyPersonS);
+
+          // end post verifications
+
+          // end internet visitor section
+
+        } else {
+          // visitor section
+
+          // FormData formData = new FormData.fromMap({
+          //   "code": sCode // hmac
+          // });
+
+          dio.interceptors.add(
+            RetryOnConnectionChangeInterceptor(
+              requestRetrier: DioConnectivityRequestRetrier(
+                dio: Dio(),
+                connectivity: Connectivity(),
+              ),
+            ),
+          );
+
+          dio.options.headers["Accept"] = "application/json";
+
+          // Response response = await dio
+          //     .post("http://58.69.10.194/verifyvisitor", data: {"code": hmac});
+
+          Response response = await dio.post(
+              "https://verify.op-vms.gov.ph/verifyvisitor",
+              data: {"code": hmac});
+
+          // handle not found
+          if (response.data == null) {
+            return Weather.notFound();
+          }
+
+          Map data = response.data;
+
+          if (data['success'] == false) {
+            return Weather.notFound();
+          }
+
+          // use visitor profile
+          // fullName = data['doc']['dept_to_visit'] +
+          //     ' : ' + data['doc']['time_start'] + ' - ' + data['doc']['time_end'];
+          fullName = data['doc']['dept_to_visit'] +
+              ' : ' +
+              data['doc']['visit_date'].toString().substring(0, 10);
+          position = data['doc']['profile']['fullname'] +
+              ' - ' +
+              data['doc']['purpose'];
+          // office = data['doc']['visit_date'].toString().substring(0, 10) +
+          //     ' - ' + data['doc']['person_to_visit'] + ' - ' + data['doc']['profile']['company'];
+          office = 'From: ' +
+              data['doc']['profile']['company'] +
+              ' - Visiting: ' +
+              data['doc']['person_to_visit'];
+          // end if clause
+          classGroup = 'GUEST';
+          placeHolder = 'male.jpg';
+          if (data['gender'].toString().trim() == 'male') {
+            placeHolder = 'male.jpg';
+          } else {
+            placeHolder = 'female.jpg';
+          }
+          gender = 'male';
+          // for socket
+          id = data['doc']['_id'].toString();
+          profileid = data['doc']['profile']['_id'];
+          qrcode = data['doc']['qrcode'];
+          // String _facePic = 'http://192.168.23.145/vmsphoto.jpg'; // data['photothumbnailurl'];
+          String _facePic =
+              "http://192.168.64.150:364/api/v1/ciss/getPhoto?id=${profileid}"; //'http://192.168.64.150:3100/' + profileid + '.jpg';
+          // String _facePic = "https://images.pexels.com/photos/6912822/pexels-photo-6912822.jpeg?auto=compress&cs=tinysrgb&w=960&h=640&dpr=1";
+          facePic = _facePic;
+          // facePic = _facePic.replaceAll(
+          //     'http://192.168.23.60/', 'http://58.69.10.203/');
+
+          // thePhoto = "http://58.69.10.194/api/v1/ciss/getPhoto?id=${profileid}";
+
+          thePhoto =
+              "https://verify.op-vms.gov.ph/api/v1/ciss/getPhoto?id=${profileid}";
 
           var feedFullname = data['doc']['profile']['fullname'] +
               ' - ' +
@@ -518,7 +668,7 @@ class FakeWeatherRepository implements WeatherRepository {
     );
 
     Response response =
-        await dio.post("http://58.69.10.194/upload", data: formData);
+        await dio.post("https://verify.op-vms.gov.ph/upload", data: formData);
 
     String path = response.data['path'];
 
@@ -560,7 +710,7 @@ class FakeWeatherRepository implements WeatherRepository {
 
   // send verification
   Future<dynamic> _sendVerification(dynamic person) async {
-    var uri = Uri(scheme: 'http', host: '58.69.10.194', path: '/log');
+    var uri = Uri(scheme: 'https', host: 'verify.op-vms.gov.ph', path: '/log');
 
     var body = json.encode(person);
 
@@ -582,7 +732,8 @@ class FakeWeatherRepository implements WeatherRepository {
 
   // send notification
   Future<dynamic> _sendNotification(dynamic person) async {
-    var uri = Uri(scheme: 'http', host: '58.69.10.194', path: '/cissnotify');
+    var uri =
+        Uri(scheme: 'https', host: 'verify.op-vms.gov.ph', path: '/cissnotify');
 
     var body = json.encode(person);
 

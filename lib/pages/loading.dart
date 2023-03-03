@@ -31,8 +31,8 @@ class _LoadingState extends State<Loading> {
 
   void setupWorldTime(String location, String time) async {
     // fakeFetchWeather();
-    WorldTime instance =
-        WorldTime(location: location, time: time, flag: 'ph.png', url: 'Asia/Manila');
+    WorldTime instance = WorldTime(
+        location: location, time: time, flag: 'ph.png', url: 'Asia/Manila');
     // instance.initDio();
     // await instance.getTimeByIp(); // removed dec 21 2022
     Navigator.pushReplacementNamed(context, '/home', arguments: {
@@ -66,7 +66,6 @@ class _LoadingState extends State<Loading> {
 
     // added dec 21 2022
     _location.then((value) => preSetupWorldTime(value));
-
   }
 
   // create user token
@@ -75,10 +74,8 @@ class _LoadingState extends State<Loading> {
     // fetch token here
     String token;
 
-    var uri = Uri(
-        scheme: 'http',
-        host: '58.69.10.194',
-        path: '/cissauth');
+    var uri =
+        Uri(scheme: 'https', host: 'verify.op-vms.gov.ph', path: '/cissauth');
 
     var response =
         await http.post(uri, body: {"userName": "h", "password": "h"});
