@@ -9,9 +9,12 @@ class Location {
     // WorldTime(url: 'America/Vancouver', location: 'Vancouver', flag: 'canada.png'),
     // WorldTime(url: 'America/Detroit', location: 'Detroit', flag: 'usa.png'),
     // WorldTime(url: 'America/Chicago', location: 'Chicago', flag: 'usa.png'),
-    // WorldTime(url: 'America/New_York', location: 'New York', flag: 'usa.png'),
     WorldTime(url: 'America/Sao_Paulo', location: 'PALACE - BONIFACIO HALL', flag: 'brazil.png'),
     WorldTime(url: 'Asia/Tokyo', location: 'PALACE - BACK DOOR', flag: 'japan.png'),
+    WorldTime(url: 'Asia/Taipei', location: 'Palace Roving Guard 1', flag: 'taiwan.png'),
+    WorldTime(url: 'Asia/Shanghai', location: 'Palace Roving Guard 2', flag: 'china.png'),
+    WorldTime(url: 'Europe/Berlin', location: 'Palace Roving Guard 3', flag: 'germany.png'),
+    WorldTime(url: 'America/New_York', location: 'Palace Roving Guard 4', flag: 'usa.png'),
     WorldTime(
         url: 'America/Argentina/Buenos_Aires',
         location: 'PGH',
@@ -21,9 +24,6 @@ class Location {
         url: 'Europe/Athens', location: 'MABINI 2nd Floor', flag: 'greece.png'),
     WorldTime(url: 'Africa/Cairo', location: 'MABINI 3rd Floor', flag: 'egypt.png'),
     WorldTime(url: 'Africa/Nairobi', location: 'Mabini 4th Floor', flag: 'kenya.png'),
-    WorldTime(url: 'Asia/Taipei', location: 'AMO 1st Floor', flag: 'taiwan.png'),
-    WorldTime(url: 'Asia/Shanghai', location: 'AMO 2nd Floor', flag: 'china.png'),
-    WorldTime(url: 'Europe/Berlin', location: 'AMO 3rd Floor', flag: 'germany.png'),
   ];
 
   /*
