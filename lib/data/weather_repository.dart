@@ -144,7 +144,7 @@ class FakeWeatherRepository implements WeatherRepository {
           dio.options.headers["Accept"] = "application/json";
 
           Response response = await dio
-              .post("https://verify.op-vms.gov.ph/verifyemployee", data: {
+              .post("https://events.op-vms.gov.ph/verifyemployee", data: {
             "hmac": hmac,
             "bearer": _token,
           });
@@ -279,7 +279,7 @@ class FakeWeatherRepository implements WeatherRepository {
           dio.options.headers["Accept"] = "application/json";
 
           Response response = await dio.post(
-              "https://verify.op-vms.gov.ph/api/v1/ciss/findQrcode",
+              "https://events.op-vms.gov.ph/verifyvisitorv2",
               data: {"qrcode": sCode});
 
           // handle not found
@@ -332,7 +332,7 @@ class FakeWeatherRepository implements WeatherRepository {
           // thePhoto = "http://58.69.10.194/api/v1/ciss/getPhoto?id=${profileid}";
 
           thePhoto =
-              "https://verify.op-vms.gov.ph/api/v1/ciss/getPhoto?id=${profileid}";
+              "https://events.op-vms.gov.ph/api/visitorphoto?id=${profileid}";
 
           var feedFullname = data['doc']['profile']['fullname'] +
               ' - ' +
@@ -430,7 +430,7 @@ class FakeWeatherRepository implements WeatherRepository {
           //     .post("http://58.69.10.194/verifyvisitor", data: {"code": hmac});
 
           Response response = await dio.post(
-              "https://verify.op-vms.gov.ph/verifyvisitor",
+              "https://events.op-vms.gov.ph/verifyvisitor",
               data: {"code": hmac});
 
           // handle not found
@@ -483,7 +483,7 @@ class FakeWeatherRepository implements WeatherRepository {
           // thePhoto = "http://58.69.10.194/api/v1/ciss/getPhoto?id=${profileid}";
 
           thePhoto =
-              "https://verify.op-vms.gov.ph/api/v1/ciss/getPhoto?id=${profileid}";
+              "https://events.op-vms.gov.ph/api/visitorphoto?id=${profileid}";
 
           var feedFullname = data['doc']['profile']['fullname'] +
               ' - ' +
@@ -668,7 +668,7 @@ class FakeWeatherRepository implements WeatherRepository {
     );
 
     Response response =
-        await dio.post("https://verify.op-vms.gov.ph/upload", data: formData);
+        await dio.post("https://events.op-vms.gov.ph/upload", data: formData);
 
     String path = response.data['path'];
 
@@ -710,7 +710,7 @@ class FakeWeatherRepository implements WeatherRepository {
 
   // send verification
   Future<dynamic> _sendVerification(dynamic person) async {
-    var uri = Uri(scheme: 'https', host: 'verify.op-vms.gov.ph', path: '/log');
+    var uri = Uri(scheme: 'https', host: 'events.op-vms.gov.ph', path: '/log');
 
     var body = json.encode(person);
 
@@ -733,7 +733,7 @@ class FakeWeatherRepository implements WeatherRepository {
   // send notification
   Future<dynamic> _sendNotification(dynamic person) async {
     var uri =
-        Uri(scheme: 'https', host: 'verify.op-vms.gov.ph', path: '/cissnotify');
+        Uri(scheme: 'https', host: 'events.op-vms.gov.ph', path: '/cissnotify');
 
     var body = json.encode(person);
 

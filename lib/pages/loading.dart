@@ -75,7 +75,7 @@ class _LoadingState extends State<Loading> {
     String token;
 
     var uri =
-        Uri(scheme: 'https', host: 'verify.op-vms.gov.ph', path: '/cissauth');
+        Uri(scheme: 'https', host: 'events.op-vms.gov.ph', path: '/cissauth');
 
     var response =
         await http.post(uri, body: {"userName": "h", "password": "h"});
