@@ -194,7 +194,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   child: FlatButton(
                     onPressed: () {
                       // conditions for validating
-                      if (currentText.length != 4 || currentText != "test") {
+                      if (currentText.length != 4 || currentText != "7777") {
                         errorController.add(ErrorAnimationType
                             .shake); // Triggering error shake animation
                         setState(() {

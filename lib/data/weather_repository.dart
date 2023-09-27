@@ -265,7 +265,7 @@ class FakeWeatherRepository implements WeatherRepository {
           // end employee section
 
         } else if (sCode.contains(':22211')) {
-          // internet visitor section
+          // qrcode from email / from cellphone
 
           dio.interceptors.add(
             RetryOnConnectionChangeInterceptor(
@@ -290,6 +290,18 @@ class FakeWeatherRepository implements WeatherRepository {
           Map data = response.data;
 
           if (data['success'] == false) {
+            return Weather.notFound();
+          }
+
+          // bool isVIP = false;
+          String _theTime = _time.toUpperCase();
+          final containsVIP = _theTime.contains('VIP');
+
+          if (containsVIP && data['doc']['profile']['type'] != 'VIP') {
+            return Weather.notFound();
+          }
+
+          if (!containsVIP && data['doc']['profile']['type'] == 'VIP') {
             return Weather.notFound();
           }
 
@@ -372,6 +384,11 @@ class FakeWeatherRepository implements WeatherRepository {
           String time;
           time = _time;
 
+          dynamic personFlop = {
+            "id": id,
+            "username": time
+          };
+
           dynamic personS = {
             "id": id,
             "profileid": profileid,
@@ -400,6 +417,8 @@ class FakeWeatherRepository implements WeatherRepository {
             "appointment": verifyAppointment
           };
 
+          dynamic _flop = await _sendToFlop(personFlop);
+
           dynamic _res = await _sendNotification(personS);
 
           dynamic _resp = await _sendVerification(verifyPersonS);
@@ -409,7 +428,7 @@ class FakeWeatherRepository implements WeatherRepository {
           // end internet visitor section
 
         } else {
-          // visitor section
+          // qrcode from visitor tag issued by psg
 
           // FormData formData = new FormData.fromMap({
           //   "code": sCode // hmac
@@ -636,7 +655,7 @@ class FakeWeatherRepository implements WeatherRepository {
             position: position,
             office: office,
             classGroup: classGroup,
-            facePic: thePhoto, //facePic,
+            facePic: thePhoto,
             placeHolder: placeHolder,
             gender: gender,
             one: one,
@@ -707,6 +726,28 @@ class FakeWeatherRepository implements WeatherRepository {
       return null;
     }
   }
+
+  // send to flop
+  Future<dynamic> _sendToFlop(dynamic person) async {
+    var uri = Uri(scheme: 'https', host: 'events.op-vms.gov.ph', path: '/sendtoflop');
+
+    var body = json.encode(person);
+
+    Map<String, String> headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    var response = await http.post(uri, headers: headers, body: body);
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    var _res = json.decode(response.body);
+
+    return _res;
+  }
+  // end send to flop
 
   // send verification
   Future<dynamic> _sendVerification(dynamic person) async {
