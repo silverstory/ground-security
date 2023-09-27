@@ -265,6 +265,7 @@ class FakeWeatherRepository implements WeatherRepository {
           // end employee section
 
         } else if (sCode.contains(':22211')) {
+
           // qrcode from email / from cellphone
 
           dio.interceptors.add(
@@ -313,13 +314,15 @@ class FakeWeatherRepository implements WeatherRepository {
               data['doc']['visit_date'].toString().substring(0, 10);
           position = data['doc']['profile']['fullname'] +
               ' - ' +
-              data['doc']['purpose'];
+              data['doc']['profile']['type'];
+              // data['doc']['purpose'];
           // office = data['doc']['visit_date'].toString().substring(0, 10) +
           //     ' - ' + data['doc']['person_to_visit'] + ' - ' + data['doc']['profile']['company'];
           office = 'From: ' +
               data['doc']['profile']['company'] +
-              ' - Visiting: ' +
-              data['doc']['person_to_visit'];
+              ' - ' + data['doc']['purpose'];
+              // ' - Visiting: ' +
+              // data['doc']['person_to_visit'];
           // end if clause
           classGroup = 'GUEST';
           placeHolder = 'male.jpg';
