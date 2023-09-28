@@ -2,6 +2,8 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:groundsecurity/data/model/weather.dart';
 import 'package:progressive_image/progressive_image.dart';
+import 'dart:convert';
+// import 'dart:io';
 
 class FaceImage extends StatelessWidget {
   const FaceImage({
@@ -10,6 +12,11 @@ class FaceImage extends StatelessWidget {
   }) : super(key: key);
 
   final Weather weather;
+
+  dynamic decodeBase64(String encoded) {
+    String decoded = utf8.decode(base64Url.decode(encoded));
+    return decoded;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +45,8 @@ class FaceImage extends StatelessWidget {
                 placeholder: AssetImage('assets/placeholder/placeholder.gif'),
                 thumbnail: AssetImage(
                     'assets/placeholder/${weather.placeHolder}'), // 64x43 recommended
-                image: NetworkImage('${weather.facePic}'),
+                // image: NetworkImage('${weather.facePic}'),
+                image: NetworkImage(decodeBase64('${weather.facePic}')),
                 height: 200.0,
                 width: 200.0,
                 fit: BoxFit.cover,

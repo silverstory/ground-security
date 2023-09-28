@@ -265,7 +265,6 @@ class FakeWeatherRepository implements WeatherRepository {
           // end employee section
 
         } else if (sCode.contains(':22211')) {
-
           // qrcode from email / from cellphone
 
           dio.interceptors.add(
@@ -294,16 +293,22 @@ class FakeWeatherRepository implements WeatherRepository {
             return Weather.notFound();
           }
 
-          // bool isVIP = false;
-          String _theTime = _time.toUpperCase();
-          final containsVIP = _theTime.contains('VIP');
+          String _dTime = _time.toUpperCase();
+          final containsADMIN = _dTime.contains('ADMIN');
 
-          if (containsVIP && data['doc']['profile']['type'] != 'VIP') {
-            return Weather.notFound();
-          }
+          if (containsADMIN) {
+            //
+          } else {
+            String _theTime = _time.toUpperCase();
+            final containsVIP = _theTime.contains('VIP');
 
-          if (!containsVIP && data['doc']['profile']['type'] == 'VIP') {
-            return Weather.notFound();
+            if (containsVIP && data['doc']['profile']['type'] != 'VIP') {
+              return Weather.notFound();
+            }
+
+            if (!containsVIP && data['doc']['profile']['type'] == 'VIP') {
+              return Weather.notFound();
+            }
           }
 
           // use visitor profile
@@ -315,16 +320,23 @@ class FakeWeatherRepository implements WeatherRepository {
           position = data['doc']['profile']['fullname'] +
               ' - ' +
               data['doc']['profile']['type'];
-              // data['doc']['purpose'];
+          // data['doc']['purpose'];
           // office = data['doc']['visit_date'].toString().substring(0, 10) +
           //     ' - ' + data['doc']['person_to_visit'] + ' - ' + data['doc']['profile']['company'];
+
+          var vGate = data['doc']['gate'] ?? 'OP';
+          String visitGate = 'GATE $vGate';
+
           office = 'From: ' +
               data['doc']['profile']['company'] +
-              ' - ' + data['doc']['purpose'];
-              // ' - Visiting: ' +
-              // data['doc']['person_to_visit'];
+              ' - ' +
+              data['doc']['purpose'] +
+              ' - ' +
+              vGate;
+          // ' - Visiting: ' +
+          // data['doc']['person_to_visit'];
           // end if clause
-          classGroup = 'GUEST';
+          classGroup = data['doc']['profile']['type']; // 'GUEST';
           placeHolder = 'male.jpg';
           if (data['gender'].toString().trim() == 'male') {
             placeHolder = 'male.jpg';
@@ -338,7 +350,8 @@ class FakeWeatherRepository implements WeatherRepository {
           qrcode = data['doc']['qrcode'];
           // String _facePic = 'http://192.168.23.145/vmsphoto.jpg'; // data['photothumbnailurl'];
           String _facePic =
-              "http://192.168.64.150:364/api/v1/ciss/getPhoto?id=${profileid}"; //'http://192.168.64.150:3100/' + profileid + '.jpg';
+              "http://192.168.64.150:364/api/v1/ciss/getPhoto?id=${profileid}";
+          //'http://192.168.64.150:3100/' + profileid + '.jpg';
           // String _facePic = "https://images.pexels.com/photos/6912822/pexels-photo-6912822.jpeg?auto=compress&cs=tinysrgb&w=960&h=640&dpr=1";
           facePic = _facePic;
           // facePic = _facePic.replaceAll(
@@ -347,7 +360,7 @@ class FakeWeatherRepository implements WeatherRepository {
           // thePhoto = "http://58.69.10.194/api/v1/ciss/getPhoto?id=${profileid}";
 
           thePhoto =
-              "https://events.op-vms.gov.ph/api/visitorphoto?id=${profileid}";
+              "https://events.op-vms.gov.ph/visitorphoto?id=${profileid}";
 
           var feedFullname = data['doc']['profile']['fullname'] +
               ' - ' +
@@ -366,6 +379,8 @@ class FakeWeatherRepository implements WeatherRepository {
               data['doc']['purpose'];
 
           var datetime = new DateTime.now();
+
+          var visitStatus = data['doc']['status'];
 
           /*
         * colors values should come from
@@ -387,10 +402,7 @@ class FakeWeatherRepository implements WeatherRepository {
           String time;
           time = _time;
 
-          dynamic personFlop = {
-            "id": id,
-            "username": time
-          };
+          dynamic personFlop = {"id": id, "username": time};
 
           dynamic personS = {
             "id": id,
@@ -420,7 +432,16 @@ class FakeWeatherRepository implements WeatherRepository {
             "appointment": verifyAppointment
           };
 
-          dynamic _flop = await _sendToFlop(personFlop);
+          /*
+          if visitStatus
+          "status": "Approved",
+          tsaka lang tatawagin
+          ang sendtoflop
+          */
+
+          if (visitStatus == 'Approved') {
+            dynamic _flop = await _sendToFlop(personFlop);
+          }
 
           dynamic _res = await _sendNotification(personS);
 
@@ -505,7 +526,7 @@ class FakeWeatherRepository implements WeatherRepository {
           // thePhoto = "http://58.69.10.194/api/v1/ciss/getPhoto?id=${profileid}";
 
           thePhoto =
-              "https://events.op-vms.gov.ph/api/visitorphoto?id=${profileid}";
+              "https://events.op-vms.gov.ph/visitorphoto?id=${profileid}";
 
           var feedFullname = data['doc']['profile']['fullname'] +
               ' - ' +
@@ -732,7 +753,8 @@ class FakeWeatherRepository implements WeatherRepository {
 
   // send to flop
   Future<dynamic> _sendToFlop(dynamic person) async {
-    var uri = Uri(scheme: 'https', host: 'events.op-vms.gov.ph', path: '/sendtoflop');
+    var uri =
+        Uri(scheme: 'https', host: 'events.op-vms.gov.ph', path: '/sendtoflop');
 
     var body = json.encode(person);
 
@@ -813,7 +835,7 @@ class FakeWeatherRepository implements WeatherRepository {
 
   Future<String> _timeRetriever() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final time = prefs.getString('time') ?? 'Juan';
+    final time = prefs.getString('time') ?? 'Admin';
     print(time);
     return time;
   }

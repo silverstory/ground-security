@@ -30,7 +30,6 @@ class WorldTime {
   }
 
   void _parseData() async {
-
     // datetime.toIso8601String();
     // flag: 'ph.png', url: 'Asia/Manila'
     // {"abbreviation":"PST","client_ip":"175.176.46.143","datetime":"2021-01-20T11:53:14.059717+08:00","day_of_week":3,"day_of_year":20,"dst":false,"dst_from":null,"dst_offset":0,"dst_until":null,"raw_offset":28800,"timezone":"Asia/Manila","unixtime":1611114794,"utc_datetime":"2021-01-20T03:53:14.059717+00:00","utc_offset":"+08:00","week_number":3}
@@ -54,7 +53,7 @@ class WorldTime {
     time = DateFormat.jm().format(now);
     */
     // time = 'Ground Security 🛡️';
-    time = 'Juan D.';
+    time = 'Admin';
   }
 
   Future<String> _gateRetriever() async {

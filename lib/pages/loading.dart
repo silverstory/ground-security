@@ -55,7 +55,7 @@ class _LoadingState extends State<Loading> {
 
     // added dec 21 2022
     _time = _prefs.then((SharedPreferences prefs) {
-      return (prefs.getString('time') ?? 'Juan');
+      return (prefs.getString('time') ?? 'Admin');
     });
 
     /*
