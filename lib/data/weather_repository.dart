@@ -324,19 +324,19 @@ class FakeWeatherRepository implements WeatherRepository {
           // office = data['doc']['visit_date'].toString().substring(0, 10) +
           //     ' - ' + data['doc']['person_to_visit'] + ' - ' + data['doc']['profile']['company'];
 
-          var vGate = data['doc']['gate'] ?? 'OP';
-          String visitGate = 'GATE $vGate';
+          // var vGate = data['doc']['gate'] ?? 'OP';
+          // String visitGate = 'GATE $vGate';
 
           office = 'From: ' +
               data['doc']['profile']['company'] +
               ' - ' +
-              data['doc']['purpose'] +
-              ' - ' +
-              vGate;
+              data['doc']['purpose'];
+              // ' - ' +
+              // vGate;
           // ' - Visiting: ' +
           // data['doc']['person_to_visit'];
           // end if clause
-          classGroup = data['doc']['profile']['type']; // 'GUEST';
+          classGroup = 'GUEST'; // data['doc']['profile']['type'];
           placeHolder = 'male.jpg';
           if (data['gender'].toString().trim() == 'male') {
             placeHolder = 'male.jpg';
@@ -431,13 +431,6 @@ class FakeWeatherRepository implements WeatherRepository {
             "affiliation": verifyAffiliation,
             "appointment": verifyAppointment
           };
-
-          /*
-          if visitStatus
-          "status": "Approved",
-          tsaka lang tatawagin
-          ang sendtoflop
-          */
 
           if (visitStatus == 'Approved') {
             dynamic _flop = await _sendToFlop(personFlop);

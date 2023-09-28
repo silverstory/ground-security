@@ -45,8 +45,7 @@ class FaceImage extends StatelessWidget {
                 placeholder: AssetImage('assets/placeholder/placeholder.gif'),
                 thumbnail: AssetImage(
                     'assets/placeholder/${weather.placeHolder}'), // 64x43 recommended
-                // image: NetworkImage('${weather.facePic}'),
-                image: NetworkImage(decodeBase64('${weather.facePic}')),
+                image: NetworkImage('${weather.facePic}'),
                 height: 200.0,
                 width: 200.0,
                 fit: BoxFit.cover,
