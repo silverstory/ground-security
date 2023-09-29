@@ -317,15 +317,20 @@ class FakeWeatherRepository implements WeatherRepository {
           fullName = data['doc']['dept_to_visit'] +
               ' : ' +
               data['doc']['visit_date'].toString().substring(0, 10);
-          position = data['doc']['profile']['fullname'] +
-              ' - ' +
-              data['doc']['profile']['type'];
+          position = data['doc']['profile']['fullname'];
+          //           ' - ' +
+          // data['doc']['profile']['type'];
           // data['doc']['purpose'];
           // office = data['doc']['visit_date'].toString().substring(0, 10) +
           //     ' - ' + data['doc']['person_to_visit'] + ' - ' + data['doc']['profile']['company'];
 
           // var vGate = data['doc']['gate'] ?? 500;
           // String visitGate = 'GATE $vGate';
+
+          // if encoded is 'events'
+          // office = event name
+
+          var encoded = data['doc']['encoded'];
 
           office = 'From: ' +
               data['doc']['profile']['company'] +
@@ -336,7 +341,13 @@ class FakeWeatherRepository implements WeatherRepository {
           // ' - Visiting: ' +
           // data['doc']['person_to_visit'];
           // end if clause
-          classGroup = 'GUEST'; // data['doc']['profile']['type'];
+
+          if (encoded == "events") {
+            office = data['doc']['person_to_visit'];
+          }
+
+          // classGroup = 'GUEST'; // data['doc']['profile']['type'];
+          classGroup = data['doc']['profile']['type'];
           placeHolder = 'male.jpg';
           if (data['gender'].toString().trim() == 'male') {
             placeHolder = 'male.jpg';
