@@ -314,9 +314,13 @@ class FakeWeatherRepository implements WeatherRepository {
           // use visitor profile
           // fullName = data['doc']['dept_to_visit'] +
           //     ' : ' + data['doc']['time_start'] + ' - ' + data['doc']['time_end'];
+
+          final dateTAIPEI =
+              DateTime.parse(data['doc']['visit_date'].toString()).toLocal();
+
           fullName = data['doc']['dept_to_visit'] +
               ' : ' +
-              data['doc']['visit_date'].toString().substring(0, 10);
+              dateTAIPEI.toString().substring(0, 10);
           position = data['doc']['profile']['fullname'];
           //           ' - ' +
           // data['doc']['profile']['type'];
@@ -384,8 +388,12 @@ class FakeWeatherRepository implements WeatherRepository {
               data['doc']['dept_to_visit'] +
               ' - ' +
               data['doc']['person_to_visit'];
+
+          final dateTAIPEI1 =
+              DateTime.parse(data['doc']['visit_date'].toString()).toLocal();
+
           var verifyAppointment = 'Visit Date: ' +
-              data['doc']['visit_date'].toString().substring(0, 10) +
+              dateTAIPEI1.toString().substring(0, 10) +
               ' - Purpose: ' +
               data['doc']['purpose'];
 
@@ -494,9 +502,14 @@ class FakeWeatherRepository implements WeatherRepository {
           // use visitor profile
           // fullName = data['doc']['dept_to_visit'] +
           //     ' : ' + data['doc']['time_start'] + ' - ' + data['doc']['time_end'];
+
+          final dateTAIPEI2 =
+              DateTime.parse(data['doc']['visit_date'].toString()).toLocal();
+
           fullName = data['doc']['dept_to_visit'] +
               ' : ' +
-              data['doc']['visit_date'].toString().substring(0, 10);
+              dateTAIPEI2.toString().substring(0, 10);
+
           position = data['doc']['profile']['fullname'] +
               ' - ' +
               data['doc']['purpose'];
@@ -543,8 +556,12 @@ class FakeWeatherRepository implements WeatherRepository {
               data['doc']['dept_to_visit'] +
               ' - ' +
               data['doc']['person_to_visit'];
+
+          final dateTAIPEI3 =
+              DateTime.parse(data['doc']['visit_date'].toString()).toLocal();
+
           var verifyAppointment = 'Visit Date: ' +
-              data['doc']['visit_date'].toString().substring(0, 10) +
+              dateTAIPEI3.toString().substring(0, 10) +
               ' - Purpose: ' +
               data['doc']['purpose'];
 
